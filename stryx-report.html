@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRYX Security Report - http://127.0.0.1:8000</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+        .header h1 { color: #58a6ff; font-size: 24px; margin-bottom: 8px; }
+        .header .meta { color: #8b949e; font-size: 14px; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .summary-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; text-align: center; }
+        .summary-card .count { font-size: 32px; font-weight: bold; }
+        .summary-card .label { color: #8b949e; font-size: 12px; text-transform: uppercase; }
+        .critical { color: #f85149; }
+        .high { color: #f0883e; }
+        .medium { color: #d29922; }
+        .low { color: #58a6ff; }
+        .info { color: #8b949e; }
+        .finding { background: #161b22; border: 1px solid #30363d; border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+        .finding-header { padding: 16px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .finding-title { font-size: 16px; font-weight: 600; }
+        .severity-badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
+        .severity-critical { background: #f85149; color: #fff; }
+        .severity-high { background: #f0883e; color: #fff; }
+        .severity-medium { background: #d29922; color: #fff; }
+        .severity-low { background: #58a6ff; color: #fff; }
+        .severity-info { background: #8b949e; color: #fff; }
+        .finding-body { padding: 16px; }
+        .finding-section { margin-bottom: 12px; }
+        .finding-section h3 { color: #8b949e; font-size: 12px; text-transform: uppercase; margin-bottom: 4px; }
+        .evidence-block { background: #0d1117; border: 1px solid #30363d; border-radius: 4px; padding: 12px; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 13px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+        .chain { background: #161b22; border: 1px solid #30363d; border-radius: 8px; margin-bottom: 16px; padding: 16px; }
+        .chain h2 { color: #f0883e; margin-bottom: 12px; }
+        .chain-step { padding: 8px 0; border-bottom: 1px solid #21262d; }
+        .chain-step:last-child { border-bottom: none; }
+        .footer { text-align: center; color: #8b949e; padding: 24px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>STRYX Security Report</h1>
+            <div class="meta">
+                <p>Target: http://127.0.0.1:8000</p>
+                <p>Generated: 2026-07-08T12:00:52.474966Z</p>
+                <p>Tool: STRYX v0.1.0</p>
+            </div>
+        </div>
+
+        <div class="summary">
+            <div class="summary-card">
+                <div class="count">21</div>
+                <div class="label">Total Findings</div>
+            </div>
+            <div class="summary-card">
+                <div class="count critical">11</div>
+                <div class="label">Critical</div>
+            </div>
+            <div class="summary-card">
+                <div class="count high">9</div>
+                <div class="label">High</div>
+            </div>
+            <div class="summary-card">
+                <div class="count medium">1</div>
+                <div class="label">Medium</div>
+            </div>
+            <div class="summary-card">
+                <div class="count low">0</div>
+                <div class="label">Low</div>
+            </div>
+        </div>
+
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Unauthenticated access to /admin</span>
+                <span class="severity-badge severity-high">high</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/admin</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint /admin is accessible without any authentication. This may expose sensitive data or administrative functions.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement authentication middleware to protect this endpoint.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/admin
+Status: 200
+
+Confidence: 70%
+
+Response:
+
+        <html>
+        <body>
+            <h1>Admin Panel</h1>
+            <p>Welcome, Administrator</p>
+            <ul>
+                <li><a href="/api/admin/users">Manage Users</a></li>
+                <li><a href="/api/admin/config">System Config</a></li>
+                <li><a href="/api/admin/logs">System Logs</a></li>
+            </ul>
+        </body>
+        </html>
+        </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Unauthenticated access to /admin/</span>
+                <span class="severity-badge severity-high">high</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/admin/</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint /admin/ is accessible without any authentication. This may expose sensitive data or administrative functions.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement authentication middleware to protect this endpoint.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/admin/
+Status: 200
+
+Confidence: 70%
+
+Response:
+
+        <html>
+        <body>
+            <h1>Admin Panel</h1>
+            <p>Welcome, Administrator</p>
+            <ul>
+                <li><a href="/api/admin/users">Manage Users</a></li>
+                <li><a href="/api/admin/config">System Config</a></li>
+                <li><a href="/api/admin/logs">System Logs</a></li>
+            </ul>
+        </body>
+        </html>
+        </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Unauthenticated access to /api/users</span>
+                <span class="severity-badge severity-high">high</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/users</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint /api/users is accessible without any authentication. This may expose sensitive data or administrative functions.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement authentication middleware to protect this endpoint.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/api/users
+Status: 200
+
+Confidence: 70%
+
+Response:
+[{"id":"1","name":"Alice","email":"alice@example.com","password":"secret123","role":"user"},{"id":"2","name":"Bob","email":"bob@example.com","password":"password456","role":"user"},{"id":"3","name":"Admin","email":"admin@example.com","password":"admin","role":"admin"}]</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Unauthenticated access to /api/internal</span>
+                <span class="severity-badge severity-high">high</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/internal</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint /api/internal is accessible without any authentication. This may expose sensitive data or administrative functions.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement authentication middleware to protect this endpoint.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/api/internal
+Status: 200
+
+Confidence: 70%
+
+Response:
+{"secret":"internal-data","version":"1.0.0"}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Unauthenticated access to /debug</span>
+                <span class="severity-badge severity-high">high</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/debug</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint /debug is accessible without any authentication. This may expose sensitive data or administrative functions.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement authentication middleware to protect this endpoint.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/debug
+Status: 200
+
+Confidence: 70%
+
+Response:
+{"debug":true,"env":"development","database_url":"postgresql://admin:password@localhost:5432/mydb"}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Weak JWT accepted at http://127.0.0.1:8000/</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint accepted a malformed or unsigned JWT. This indicates weak token validation.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Validate JWT signatures, algorithm, and expiration.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/
+Status: 200
+
+Confidence: 80%
+
+Response:
+
+    <html>
+    <head><title>STRYX Test App</title></head>
+    <body>
+        <h1>STRYX Mock Vulnerable Application</h1>
+        <p>This app is for testing STRYX DAST scanner.</p>
+        <ul>
+            <li><a href="/api/users/1">User API (IDOR vulnerable)</a></li>
+            <li><a href="/api/orders/1">Orders API (IDOR vulnerable)</a></li>
+            <li><a href="/admin">Admin Panel (no auth)</a></li>
+            <li><a href="/search?q=test">Search (reflected input)</a></li>
+            <li</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Weak JWT accepted at http://127.0.0.1:8000/</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint accepted a malformed or unsigned JWT. This indicates weak token validation.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Validate JWT signatures, algorithm, and expiration.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/
+Status: 200
+
+Confidence: 80%
+
+Response:
+
+    <html>
+    <head><title>STRYX Test App</title></head>
+    <body>
+        <h1>STRYX Mock Vulnerable Application</h1>
+        <p>This app is for testing STRYX DAST scanner.</p>
+        <ul>
+            <li><a href="/api/users/1">User API (IDOR vulnerable)</a></li>
+            <li><a href="/api/orders/1">Orders API (IDOR vulnerable)</a></li>
+            <li><a href="/admin">Admin Panel (no auth)</a></li>
+            <li><a href="/search?q=test">Search (reflected input)</a></li>
+            <li</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Weak JWT accepted at http://127.0.0.1:8000/</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint accepted a malformed or unsigned JWT. This indicates weak token validation.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Validate JWT signatures, algorithm, and expiration.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/
+Status: 200
+
+Confidence: 80%
+
+Response:
+
+    <html>
+    <head><title>STRYX Test App</title></head>
+    <body>
+        <h1>STRYX Mock Vulnerable Application</h1>
+        <p>This app is for testing STRYX DAST scanner.</p>
+        <ul>
+            <li><a href="/api/users/1">User API (IDOR vulnerable)</a></li>
+            <li><a href="/api/orders/1">Orders API (IDOR vulnerable)</a></li>
+            <li><a href="/admin">Admin Panel (no auth)</a></li>
+            <li><a href="/search?q=test">Search (reflected input)</a></li>
+            <li</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Potential IDOR at /api/users/1</span>
+                <span class="severity-badge severity-high">high</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/users/1</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint /api/users/1 returns user data. Changing the ID parameter may allow accessing other users' data.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement proper authorization checks. Verify the authenticated user owns the requested resource.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/api/users/1
+Status: 200
+
+Confidence: 75%
+
+Response:
+{"id":"1","name":"Alice","email":"alice@example.com","password":"secret123","role":"user"}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Potential IDOR at /api/users/2</span>
+                <span class="severity-badge severity-high">high</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/users/2</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint /api/users/2 returns user data. Changing the ID parameter may allow accessing other users' data.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement proper authorization checks. Verify the authenticated user owns the requested resource.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/api/users/2
+Status: 200
+
+Confidence: 75%
+
+Response:
+{"id":"2","name":"Bob","email":"bob@example.com","password":"password456","role":"user"}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Potential IDOR at /api/users/3</span>
+                <span class="severity-badge severity-high">high</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/users/3</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint /api/users/3 returns user data. Changing the ID parameter may allow accessing other users' data.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement proper authorization checks. Verify the authenticated user owns the requested resource.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/api/users/3
+Status: 200
+
+Confidence: 75%
+
+Response:
+{"id":"3","name":"Admin","email":"admin@example.com","password":"admin","role":"admin"}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Potential IDOR at /api/orders/2</span>
+                <span class="severity-badge severity-high">high</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/orders/2</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The endpoint /api/orders/2 returns user data. Changing the ID parameter may allow accessing other users' data.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement proper authorization checks. Verify the authenticated user owns the requested resource.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/api/orders/2
+Status: 200
+
+Confidence: 75%
+
+Response:
+{"id":"2","user_id":"2","item":"Phone","amount":599.99}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Admin endpoint accessible: /admin</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/admin</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The admin endpoint /admin is accessible. This may allow privilege escalation.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Restrict admin endpoints to authorized administrators.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/admin
+Status: 200
+
+Confidence: 70%
+
+Response:
+
+        <html>
+        <body>
+            <h1>Admin Panel</h1>
+            <p>Welcome, Administrator</p>
+            <ul>
+                <li><a href="/api/admin/users">Manage Users</a></li>
+                <li><a href="/api/admin/config">System Config</a></li>
+                <li><a href="/api/admin/logs">System Logs</a></li>
+            </ul>
+        </body>
+        </html>
+        </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Admin endpoint accessible: /admin/</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/admin/</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The admin endpoint /admin/ is accessible. This may allow privilege escalation.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Restrict admin endpoints to authorized administrators.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/admin/
+Status: 200
+
+Confidence: 70%
+
+Response:
+
+        <html>
+        <body>
+            <h1>Admin Panel</h1>
+            <p>Welcome, Administrator</p>
+            <ul>
+                <li><a href="/api/admin/users">Manage Users</a></li>
+                <li><a href="/api/admin/config">System Config</a></li>
+                <li><a href="/api/admin/logs">System Logs</a></li>
+            </ul>
+        </body>
+        </html>
+        </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Admin endpoint accessible: /api/admin/users</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/admin/users</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The admin endpoint /api/admin/users is accessible. This may allow privilege escalation.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Restrict admin endpoints to authorized administrators.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/api/admin/users
+Status: 200
+
+Confidence: 70%
+
+Response:
+[{"id":"1","name":"Alice","email":"alice@example.com","password":"secret123","role":"user"},{"id":"2","name":"Bob","email":"bob@example.com","password":"password456","role":"user"},{"id":"3","name":"Admin","email":"admin@example.com","password":"admin","role":"admin"}]</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Admin endpoint accessible: /api/admin/config</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/admin/config</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The admin endpoint /api/admin/config is accessible. This may allow privilege escalation.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Restrict admin endpoints to authorized administrators.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/api/admin/config
+Status: 200
+
+Confidence: 70%
+
+Response:
+{"database_host":"localhost","database_port":5432,"database_password":"super_secret_password","api_key":"sk-1234567890abcdef","jwt_secret":"my-super-secret-jwt-key"}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Admin endpoint accessible: /api/admin/logs</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/admin/logs</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The admin endpoint /api/admin/logs is accessible. This may allow privilege escalation.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Restrict admin endpoints to authorized administrators.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/api/admin/logs
+Status: 200
+
+Confidence: 70%
+
+Response:
+{"logs":["2026-01-01: User admin logged in from 192.168.1.100","2026-01-02: Failed login attempt from 10.0.0.5","2026-01-03: Database backup completed"]}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Admin panel accessible without auth: /admin</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/admin</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>The admin panel at /admin is accessible without authentication. This is a critical security issue.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Implement authentication and authorization for admin interfaces.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">GET http://127.0.0.1:8000/admin
+Status: 200
+
+Confidence: 80%
+
+Response:
+
+        <html>
+        <body>
+            <h1>Admin Panel</h1>
+            <p>Welcome, Administrator</p>
+            <ul>
+                <li><a href="/api/admin/users">Manage Users</a></li>
+                <li><a href="/api/admin/config">System Config</a></li>
+                <li><a href="/api/admin/logs">System Logs</a></li>
+            </ul>
+        </body>
+        </html>
+        </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">NoSQL Injection in request body</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/users</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>Injectable payload in request body caused a detectable response indicating NoSQL Injection.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Sanitize and validate all user input. Use parameterized queries.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">POST http://127.0.0.1:8000/api/users
+Status: 201
+Payload: {"$gt": ""}
+Confidence: 70%
+
+Response:
+{"message":"User created","data":{"$gt":""}}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">NoSQL Injection in request body</span>
+                <span class="severity-badge severity-critical">critical</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/api/users</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>Injectable payload in request body caused a detectable response indicating NoSQL Injection.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Sanitize and validate all user input. Use parameterized queries.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">POST http://127.0.0.1:8000/api/users
+Status: 201
+Payload: {"$gt": ""}
+Confidence: 70%
+
+Response:
+{"message":"User created","data":{"$gt":""}}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">Potential prototype pollution or nested JSON issue</span>
+                <span class="severity-badge severity-medium">medium</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p>http://127.0.0.1:8000/login</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>Deeply nested or prototype-polluting JSON payload caused an unexpected response.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>Validate JSON structure depth and reject prototype-polluting keys.</p>
+                </div>
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block">POST http://127.0.0.1:8000/login
+Status: 401
+Payload: {"a": {"b": {"c": {"d": {"e": "f"}}}}}
+Confidence: 50%
+
+Response:
+{"error":"Invalid credentials"}</div>
+                </div>
+            </div>
+        </div>
+        
+
+        
+        <h2 style="color: #f0883e; margin: 24px 0 16px;">Attack Chains</h2>
+        
+        <div class="chain">
+            <h2>Injection to Remote Code Execution</h2>
+            <p><strong>Impact:</strong> Remote code execution on the server</p>
+            <p><strong>Severity:</strong> critical</p>
+            
+            <div class="chain-step">
+                <strong>NoSQL Injection in request body</strong> - NoSQL Injection in request body
+            </div>
+            
+            <div class="chain-step">
+                <strong>NoSQL Injection in request body</strong> - NoSQL Injection in request body
+            </div>
+            
+        </div>
+        
+        <div class="chain">
+            <h2>Privilege Escalation via Unauthenticated Admin and Weak JWT</h2>
+            <p><strong>Impact:</strong> Full administrative control and exfiltration of all user data, enabling system compromise.</p>
+            <p><strong>Severity:</strong> critical</p>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Access the /admin endpoint without authentication to view administrative functions.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Craft a malformed or unsigned JWT to impersonate an admin user.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Use the /api/admin/users endpoint to list all users in the system.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Access /api/users/1 and modify the ID parameter to retrieve other users' data.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Inject a NoSQL payload into /api/users to retrieve all user records.
+            </div>
+            
+        </div>
+        
+        <div class="chain">
+            <h2>Data Exfiltration via IDOR and NoSQL Injection</h2>
+            <p><strong>Impact:</strong> Exfiltration of all user data and system logs, compromising confidentiality.</p>
+            <p><strong>Severity:</strong> critical</p>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Retrieve user data from /api/users/1 without authentication.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Change the ID parameter to access /api/users/2 and other user records.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Inject a NoSQL payload into /api/users to retrieve all user records.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Access /debug to retrieve system logs containing sensitive information.
+            </div>
+            
+        </div>
+        
+        <div class="chain">
+            <h2>Privilege Escalation via Admin Config Modification</h2>
+            <p><strong>Impact:</strong> Persistent admin access, ability to modify system configuration and data.</p>
+            <p><strong>Severity:</strong> critical</p>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Retrieve the configuration via /api/admin/config without authentication.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Inject a NoSQL payload into /api/admin/config to grant admin privileges to an arbitrary user.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Create a JWT with the elevated admin role.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Use the forged JWT to access /admin and perform privileged actions.
+            </div>
+            
+        </div>
+        
+        <div class="chain">
+            <h2>Denial of Service via Debug Endpoint and NoSQL Injection</h2>
+            <p><strong>Impact:</strong> Service disruption, impacting availability.</p>
+            <p><strong>Severity:</strong> high</p>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Access /debug to discover internal API endpoints.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - Inject a NoSQL payload into /api/users to cause a resource-intensive query.
+            </div>
+            
+            <div class="chain-step">
+                <strong>Unauthenticated access to /admin</strong> - The heavy query overloads the server, leading to a denial of service.
+            </div>
+            
+        </div>
+        
+        
+
+        <div class="footer">
+            <p>STRYX v0.1.0 - AI-Powered Dynamic Application Security Testing</p>
+            <p>Built by Akhilesh Varma under Medusa Security</p>
+        </div>
+    </div>
+</body>
+</html>

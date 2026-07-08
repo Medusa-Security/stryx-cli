@@ -1,0 +1,3563 @@
+{
+  "report": {
+    "tool": "stryx",
+    "version": "0.1.0",
+    "generated_at": "2026-07-08T12:48:05.777997+00:00",
+    "target": "http://127.0.0.1:8001"
+  },
+  "summary": {
+    "total_findings": 109,
+    "by_severity": {
+      "high": 7,
+      "critical": 14,
+      "medium": 88
+    },
+    "critical": 14,
+    "high": 7,
+    "medium": 88,
+    "low": 0,
+    "info": 0
+  },
+  "findings": [
+    {
+      "title": "Unauthenticated access to /admin",
+      "severity": "high",
+      "description": "The endpoint /admin is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/admin",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/admin",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Unauthenticated access to /admin/",
+      "severity": "high",
+      "description": "The endpoint /admin/ is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/admin/",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/admin/",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Unauthenticated access to /api/users",
+      "severity": "high",
+      "description": "The endpoint /api/users is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/api/users",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "269",
+          "content-type": "application/json"
+        },
+        "response_body": "[{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"},{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"},{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}]",
+        "response_snippet": "[{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"},{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"},{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}]",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Unauthenticated access to /api/internal",
+      "severity": "high",
+      "description": "The endpoint /api/internal is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/api/internal",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/internal",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "44",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"secret\":\"internal-data\",\"version\":\"1.0.0\"}",
+        "response_snippet": "{\"secret\":\"internal-data\",\"version\":\"1.0.0\"}",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Unauthenticated access to /debug",
+      "severity": "high",
+      "description": "The endpoint /debug is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Weak JWT accepted: unsigned JWT (alg: none) at http://127.0.0.1:8001/",
+      "severity": "critical",
+      "description": "The endpoint accepted unsigned JWT (alg: none). This indicates weak token validation that could allow authentication bypass.",
+      "remediation": "Validate JWT signatures, algorithm, expiration. Reject 'none' algorithm. Enforce signature verification.",
+      "cwe": "CWE-347",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/",
+      "scanner": "auth",
+      "tags": [
+        "jwt",
+        "weak-auth",
+        "jwt-weakness"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/",
+        "request_headers": {
+          "Authorization": "Bearer eyJhbGciOiAibm9uZSIsICJ0eXAiOiAiSldUIn0.eyJzdWIiOiAiMSIsICJuYW1lIjogImFkbWluIiwgInJvbGUiOiAiYWRtaW4ifQ."
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "622",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li><a href=\"/login\">Login</a></li>\n        </ul>\n        <script src=\"/static/app.js\"></script>\n    </body>\n    </html>\n    ",
+        "response_snippet": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "Weak JWT accepted: JWT with None algorithm (mixed case) at http://127.0.0.1:8001/",
+      "severity": "critical",
+      "description": "The endpoint accepted JWT with None algorithm (mixed case). This indicates weak token validation that could allow authentication bypass.",
+      "remediation": "Validate JWT signatures, algorithm, expiration. Reject 'none' algorithm. Enforce signature verification.",
+      "cwe": "CWE-347",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/",
+      "scanner": "auth",
+      "tags": [
+        "jwt",
+        "weak-auth",
+        "jwt-weakness"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/",
+        "request_headers": {
+          "Authorization": "Bearer eyJhbGciOiAiTm9uZSIsICJ0eXAiOiAiSldUIn0.eyJzdWIiOiAiMSIsICJuYW1lIjogImFkbWluIiwgInJvbGUiOiAiYWRtaW4ifQ."
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "622",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li><a href=\"/login\">Login</a></li>\n        </ul>\n        <script src=\"/static/app.js\"></script>\n    </body>\n    </html>\n    ",
+        "response_snippet": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "Weak JWT accepted: expired JWT at http://127.0.0.1:8001/",
+      "severity": "critical",
+      "description": "The endpoint accepted expired JWT. This indicates weak token validation that could allow authentication bypass.",
+      "remediation": "Validate JWT signatures, algorithm, expiration. Reject 'none' algorithm. Enforce signature verification.",
+      "cwe": "CWE-347",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/",
+      "scanner": "auth",
+      "tags": [
+        "jwt",
+        "weak-auth",
+        "jwt-weakness"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/",
+        "request_headers": {
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiMSIsICJleHAiOiAxNzgzNTExMjcyLCAiaWF0IjogMTc4MzUwNzY3Mn0.fake_signature"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "622",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li><a href=\"/login\">Login</a></li>\n        </ul>\n        <script src=\"/static/app.js\"></script>\n    </body>\n    </html>\n    ",
+        "response_snippet": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "Weak JWT accepted: JWT with missing signature at http://127.0.0.1:8001/",
+      "severity": "critical",
+      "description": "The endpoint accepted JWT with missing signature. This indicates weak token validation that could allow authentication bypass.",
+      "remediation": "Validate JWT signatures, algorithm, expiration. Reject 'none' algorithm. Enforce signature verification.",
+      "cwe": "CWE-347",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/",
+      "scanner": "auth",
+      "tags": [
+        "jwt",
+        "weak-auth",
+        "jwt-weakness"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/",
+        "request_headers": {
+          "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJzdWIiOiAiMSIsICJuYW1lIjogImFkbWluIiwgInJvbGUiOiAiYWRtaW4ifQ"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "622",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li><a href=\"/login\">Login</a></li>\n        </ul>\n        <script src=\"/static/app.js\"></script>\n    </body>\n    </html>\n    ",
+        "response_snippet": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "Weak JWT accepted: malformed JWT token at http://127.0.0.1:8001/",
+      "severity": "critical",
+      "description": "The endpoint accepted malformed JWT token. This indicates weak token validation that could allow authentication bypass.",
+      "remediation": "Validate JWT signatures, algorithm, expiration. Reject 'none' algorithm. Enforce signature verification.",
+      "cwe": "CWE-347",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/",
+      "scanner": "auth",
+      "tags": [
+        "jwt",
+        "weak-auth",
+        "jwt-weakness"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/",
+        "request_headers": {
+          "Authorization": "Bearer not.a.valid.jwt.token"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "622",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li><a href=\"/login\">Login</a></li>\n        </ul>\n        <script src=\"/static/app.js\"></script>\n    </body>\n    </html>\n    ",
+        "response_snippet": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "Weak JWT accepted: Bearer keyword with no token at http://127.0.0.1:8001/",
+      "severity": "critical",
+      "description": "The endpoint accepted Bearer keyword with no token. This indicates weak token validation that could allow authentication bypass.",
+      "remediation": "Validate JWT signatures, algorithm, expiration. Reject 'none' algorithm. Enforce signature verification.",
+      "cwe": "CWE-347",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8001/",
+      "scanner": "auth",
+      "tags": [
+        "jwt",
+        "weak-auth",
+        "jwt-weakness"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/",
+        "request_headers": {
+          "Authorization": "Bearer Bearer"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "622",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li><a href=\"/login\">Login</a></li>\n        </ul>\n        <script src=\"/static/app.js\"></script>\n    </body>\n    </html>\n    ",
+        "response_snippet": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "IDOR: ID substitution 1 -> 2",
+      "severity": "high",
+      "description": "Changing the resource ID from 1 to 2 returned the same response, indicating Insecure Direct Object Reference.",
+      "remediation": "Implement proper authorization checks for resource access.",
+      "cwe": "CWE-639",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8001/api/users/2",
+      "scanner": "authorization",
+      "tags": [
+        "idor",
+        "replay"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/2",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "88",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"}",
+        "response_snippet": "{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"}",
+        "payload": "ID substitution: 1 -> 2",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /admin",
+      "severity": "critical",
+      "description": "The admin endpoint /admin is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8001/admin",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/admin",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /admin/",
+      "severity": "critical",
+      "description": "The admin endpoint /admin/ is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8001/admin/",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/admin/",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /api/admin/users",
+      "severity": "critical",
+      "description": "The admin endpoint /api/admin/users is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8001/api/admin/users",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/admin/users",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "269",
+          "content-type": "application/json"
+        },
+        "response_body": "[{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"},{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"},{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}]",
+        "response_snippet": "[{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"},{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"},{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}]",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /api/admin/config",
+      "severity": "critical",
+      "description": "The admin endpoint /api/admin/config is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8001/api/admin/config",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/admin/config",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "165",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"database_host\":\"localhost\",\"database_port\":5432,\"database_password\":\"super_secret_password\",\"api_key\":\"sk-1234567890abcdef\",\"jwt_secret\":\"my-super-secret-jwt-key\"}",
+        "response_snippet": "{\"database_host\":\"localhost\",\"database_port\":5432,\"database_password\":\"super_secret_password\",\"api_key\":\"sk-1234567890abcdef\",\"jwt_secret\":\"my-super-secret-jwt-key\"}",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /api/admin/logs",
+      "severity": "critical",
+      "description": "The admin endpoint /api/admin/logs is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8001/api/admin/logs",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/admin/logs",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "153",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"logs\":[\"2026-01-01: User admin logged in from 192.168.1.100\",\"2026-01-02: Failed login attempt from 10.0.0.5\",\"2026-01-03: Database backup completed\"]}",
+        "response_snippet": "{\"logs\":[\"2026-01-01: User admin logged in from 192.168.1.100\",\"2026-01-02: Failed login attempt from 10.0.0.5\",\"2026-01-03: Database backup completed\"]}",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin panel accessible without auth: /admin",
+      "severity": "critical",
+      "description": "The admin panel at /admin is accessible without authentication. This is a critical security issue.",
+      "remediation": "Implement authentication and authorization for admin interfaces.",
+      "cwe": "CWE-284",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8001/admin",
+      "scanner": "authorization",
+      "tags": [
+        "admin-panel",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/admin",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "Horizontal privilege escalation: user 2 accessed user 1's resource",
+      "severity": "high",
+      "description": "User 2 was able to access resources belonging to user 1.",
+      "remediation": "Verify resource ownership before granting access.",
+      "cwe": "CWE-639",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8001/api/users/2",
+      "scanner": "authorization",
+      "tags": [
+        "horizontal-escalation",
+        "replay"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/2",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "88",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"}",
+        "response_snippet": "{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"}",
+        "payload": "User 2 accessing 1's resource",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "NoSQL Injection in request body",
+      "severity": "critical",
+      "description": "Injectable payload in request body caused a detectable response indicating NoSQL Injection.",
+      "remediation": "Sanitize and validate all user input. Use parameterized queries.",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users",
+      "scanner": "injection",
+      "tags": [
+        "nosqli",
+        "injection"
+      ],
+      "evidence": {
+        "request_method": "POST",
+        "request_url": "http://127.0.0.1:8001/api/users",
+        "request_headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "request_body": "{\"$gt\": \"\"}",
+        "response_status": 201,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "44",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"message\":\"User created\",\"data\":{\"$gt\":\"\"}}",
+        "response_snippet": "{\"message\":\"User created\",\"data\":{\"$gt\":\"\"}}",
+        "payload": "{\"$gt\": \"\"}",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "NoSQL Injection in request body",
+      "severity": "critical",
+      "description": "Injectable payload in request body caused a detectable response indicating NoSQL Injection.",
+      "remediation": "Sanitize and validate all user input. Use parameterized queries.",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users",
+      "scanner": "injection",
+      "tags": [
+        "nosqli",
+        "injection"
+      ],
+      "evidence": {
+        "request_method": "POST",
+        "request_url": "http://127.0.0.1:8001/api/users",
+        "request_headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "request_body": "{\"$gt\": \"\"}",
+        "response_status": 201,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:51 GMT",
+          "server": "uvicorn",
+          "content-length": "44",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"message\":\"User created\",\"data\":{\"$gt\":\"\"}}",
+        "response_snippet": "{\"message\":\"User created\",\"data\":{\"$gt\":\"\"}}",
+        "payload": "{\"$gt\": \"\"}",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'User-Agent'",
+      "severity": "medium",
+      "description": "Fuzzing header 'User-Agent' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "User-Agent": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Forwarded-For'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Forwarded-For' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "X-Forwarded-For": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Real-IP'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Real-IP' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "X-Real-IP": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Original-URL'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Original-URL' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "X-Original-URL": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Rewrite-URL'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Rewrite-URL' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "X-Rewrite-URL": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Custom-IP-Authorization'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Custom-IP-Authorization' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "X-Custom-IP-Authorization": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Forwarded-Host'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Forwarded-Host' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "X-Forwarded-Host": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Host'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Host' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "X-Host": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Remote-Addr'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Remote-Addr' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "X-Remote-Addr": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Content-Type'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Content-Type' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "Content-Type": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Accept'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Accept' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "Accept": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Authorization'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Authorization' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {
+          "Authorization": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'session_id'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'session_id' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "session_id=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'token'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'token' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "token=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'user_id'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'user_id' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "user_id=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'role'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'role' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "role=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'admin'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'admin' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "admin=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'debug'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'debug' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "debug=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'test'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'test' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "test=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'language'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'language' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "language=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'theme'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'theme' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/robots.txt",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/robots.txt",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "71",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "response_snippet": "User-agent: *\nDisallow: /admin\nDisallow: /api/internal\nDisallow: /debug",
+        "payload": "theme=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'User-Agent'",
+      "severity": "medium",
+      "description": "Fuzzing header 'User-Agent' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "User-Agent": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Forwarded-For'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Forwarded-For' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "X-Forwarded-For": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Real-IP'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Real-IP' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "X-Real-IP": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Original-URL'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Original-URL' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "X-Original-URL": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Rewrite-URL'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Rewrite-URL' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "X-Rewrite-URL": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Custom-IP-Authorization'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Custom-IP-Authorization' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "X-Custom-IP-Authorization": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Forwarded-Host'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Forwarded-Host' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "X-Forwarded-Host": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Host'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Host' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "X-Host": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Remote-Addr'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Remote-Addr' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "X-Remote-Addr": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Content-Type'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Content-Type' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "Content-Type": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Accept'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Accept' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "Accept": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Authorization'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Authorization' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {
+          "Authorization": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'session_id'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'session_id' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "session_id=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'token'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'token' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "token=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'user_id'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'user_id' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "user_id=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'role'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'role' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "role=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'admin'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'admin' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "admin=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'debug'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'debug' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "debug=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'test'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'test' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "test=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'language'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'language' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "language=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'theme'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'theme' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users/{user_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/users/{user_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "26",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"User not found\"}",
+        "response_snippet": "{\"error\":\"User not found\"}",
+        "payload": "theme=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'User-Agent'",
+      "severity": "medium",
+      "description": "Fuzzing header 'User-Agent' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "User-Agent": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Forwarded-For'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Forwarded-For' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "X-Forwarded-For": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Real-IP'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Real-IP' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "X-Real-IP": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Original-URL'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Original-URL' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "X-Original-URL": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Rewrite-URL'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Rewrite-URL' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "X-Rewrite-URL": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Custom-IP-Authorization'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Custom-IP-Authorization' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "X-Custom-IP-Authorization": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Forwarded-Host'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Forwarded-Host' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "X-Forwarded-Host": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Host'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Host' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "X-Host": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Remote-Addr'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Remote-Addr' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "X-Remote-Addr": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:57 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Content-Type'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Content-Type' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "Content-Type": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Accept'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Accept' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "Accept": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Authorization'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Authorization' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {
+          "Authorization": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'session_id'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'session_id' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "session_id=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'token'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'token' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "token=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'user_id'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'user_id' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "user_id=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'role'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'role' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "role=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'admin'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'admin' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "admin=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'debug'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'debug' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "debug=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'test'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'test' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "test=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'language'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'language' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "language=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'theme'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'theme' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/orders/{order_id}",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/api/orders/{order_id}",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 404,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Order not found\"}",
+        "response_snippet": "{\"error\":\"Order not found\"}",
+        "payload": "theme=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in multipart upload: test.txt",
+      "severity": "medium",
+      "description": "Multipart upload with filename 'test.txt' caused an unexpected response.",
+      "remediation": "Validate and sanitize file uploads.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "multipart",
+        "file-upload"
+      ],
+      "evidence": {
+        "request_method": "POST",
+        "request_url": "http://127.0.0.1:8001/api/users",
+        "request_headers": {
+          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"
+        },
+        "request_body": "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n\r\n<script>alert(1)</script>\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n",
+        "response_status": 500,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:58 GMT",
+          "server": "uvicorn",
+          "content-length": "21",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "Internal Server Error",
+        "response_snippet": "Internal Server Error",
+        "payload": "filename=test.txt",
+        "confidence": 0.5
+      }
+    },
+    {
+      "title": "Fuzzing issue in multipart upload: test.txt",
+      "severity": "medium",
+      "description": "Multipart upload with filename 'test.txt' caused an unexpected response.",
+      "remediation": "Validate and sanitize file uploads.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/api/users",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "multipart",
+        "file-upload"
+      ],
+      "evidence": {
+        "request_method": "POST",
+        "request_url": "http://127.0.0.1:8001/api/users",
+        "request_headers": {
+          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"
+        },
+        "request_body": "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n\r\n<script>alert(1)</script>\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n",
+        "response_status": 500,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:47:59 GMT",
+          "server": "uvicorn",
+          "content-length": "21",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "response_body": "Internal Server Error",
+        "response_snippet": "Internal Server Error",
+        "payload": "filename=test.txt",
+        "confidence": 0.5
+      }
+    },
+    {
+      "title": "Potential prototype pollution or nested JSON issue",
+      "severity": "medium",
+      "description": "Deeply nested or prototype-polluting JSON payload caused an unexpected response.",
+      "remediation": "Validate JSON structure depth and reject prototype-polluting keys.",
+      "cwe": "CWE-1321",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/login",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "prototype-pollution"
+      ],
+      "evidence": {
+        "request_method": "POST",
+        "request_url": "http://127.0.0.1:8001/login",
+        "request_headers": {
+          "Content-Type": "application/json"
+        },
+        "request_body": "{\"a\": {\"b\": {\"c\": {\"d\": {\"e\": \"f\"}}}}}",
+        "response_status": 401,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:02 GMT",
+          "server": "uvicorn",
+          "content-length": "31",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Invalid credentials\"}",
+        "response_snippet": "{\"error\":\"Invalid credentials\"}",
+        "payload": "{\"a\": {\"b\": {\"c\": {\"d\": {\"e\": \"f\"}}}}}",
+        "confidence": 0.5
+      }
+    },
+    {
+      "title": "Fuzzing issue in multipart upload: test.txt",
+      "severity": "medium",
+      "description": "Multipart upload with filename 'test.txt' caused an unexpected response.",
+      "remediation": "Validate and sanitize file uploads.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/login",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "multipart",
+        "file-upload"
+      ],
+      "evidence": {
+        "request_method": "POST",
+        "request_url": "http://127.0.0.1:8001/login",
+        "request_headers": {
+          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"
+        },
+        "request_body": "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n\r\n<script>alert(1)</script>\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n",
+        "response_status": 400,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:02 GMT",
+          "server": "uvicorn",
+          "content-length": "27",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Invalid request\"}",
+        "response_snippet": "{\"error\":\"Invalid request\"}",
+        "payload": "filename=test.txt",
+        "confidence": 0.5
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'User-Agent'",
+      "severity": "medium",
+      "description": "Fuzzing header 'User-Agent' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "User-Agent": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Forwarded-For'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Forwarded-For' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "X-Forwarded-For": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Real-IP'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Real-IP' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "X-Real-IP": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Original-URL'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Original-URL' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "X-Original-URL": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Rewrite-URL'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Rewrite-URL' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "X-Rewrite-URL": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Custom-IP-Authorization'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Custom-IP-Authorization' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "X-Custom-IP-Authorization": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Forwarded-Host'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Forwarded-Host' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "X-Forwarded-Host": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Host'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Host' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "X-Host": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'X-Remote-Addr'",
+      "severity": "medium",
+      "description": "Fuzzing header 'X-Remote-Addr' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "X-Remote-Addr": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Content-Type'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Content-Type' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "Content-Type": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Accept'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Accept' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "Accept": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in header 'Authorization'",
+      "severity": "medium",
+      "description": "Fuzzing header 'Authorization' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all header values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "header-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {
+          "Authorization": "<script>alert(1)</script>"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "<script>alert(1)</script>",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'session_id'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'session_id' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "session_id=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'token'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'token' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "token=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'user_id'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'user_id' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "user_id=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'role'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'role' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "role=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'admin'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'admin' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "admin=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'debug'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'debug' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "debug=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'test'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'test' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "test=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'language'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'language' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "language=admin",
+        "confidence": 0.6
+      }
+    },
+    {
+      "title": "Fuzzing issue in cookie 'theme'",
+      "severity": "medium",
+      "description": "Fuzzing cookie 'theme' with payload caused an unexpected response.",
+      "remediation": "Validate and sanitize all cookie values.",
+      "cwe": "CWE-20",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8001/debug",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "cookie-injection"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8001/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:48:03 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "theme=admin",
+        "confidence": 0.6
+      }
+    }
+  ],
+  "attack_chains": [
+    {
+      "name": "Injection to Remote Code Execution",
+      "steps": [
+        {
+          "title": "NoSQL Injection in request body",
+          "description": "NoSQL Injection in request body",
+          "severity": "critical",
+          "impact": "Potential code execution",
+          "endpoint": "http://127.0.0.1:8001/api/users"
+        },
+        {
+          "title": "NoSQL Injection in request body",
+          "description": "NoSQL Injection in request body",
+          "severity": "critical",
+          "impact": "Potential code execution",
+          "endpoint": "http://127.0.0.1:8001/api/users"
+        }
+      ],
+      "total_impact": "Remote code execution on the server",
+      "estimated_severity": "critical"
+    }
+  ],
+  "metadata": {
+    "scanners_used": [
+      "auth",
+      "fuzz",
+      "authorization",
+      "injection"
+    ],
+    "total_endpoints_tested": 14
+  }
+}

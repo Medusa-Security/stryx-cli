@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRYX Security Report - {{ target }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+        .header h1 { color: #58a6ff; font-size: 24px; margin-bottom: 8px; }
+        .header .meta { color: #8b949e; font-size: 14px; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .summary-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; text-align: center; }
+        .summary-card .count { font-size: 32px; font-weight: bold; }
+        .summary-card .label { color: #8b949e; font-size: 12px; text-transform: uppercase; }
+        .critical { color: #f85149; }
+        .high { color: #f0883e; }
+        .medium { color: #d29922; }
+        .low { color: #58a6ff; }
+        .info { color: #8b949e; }
+        .finding { background: #161b22; border: 1px solid #30363d; border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+        .finding-header { padding: 16px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .finding-title { font-size: 16px; font-weight: 600; }
+        .severity-badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
+        .severity-critical { background: #f85149; color: #fff; }
+        .severity-high { background: #f0883e; color: #fff; }
+        .severity-medium { background: #d29922; color: #fff; }
+        .severity-low { background: #58a6ff; color: #fff; }
+        .severity-info { background: #8b949e; color: #fff; }
+        .finding-body { padding: 16px; }
+        .finding-section { margin-bottom: 12px; }
+        .finding-section h3 { color: #8b949e; font-size: 12px; text-transform: uppercase; margin-bottom: 4px; }
+        .finding-section p { margin: 0; }
+        .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+        .tag { background: #21262d; color: #8b949e; padding: 2px 8px; border-radius: 12px; font-size: 11px; }
+        .evidence-block { background: #0d1117; border: 1px solid #30363d; border-radius: 4px; padding: 12px; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 13px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+        .evidence-header { color: #58a6ff; margin-bottom: 8px; }
+        .evidence-label { color: #8b949e; }
+        .chain { background: #161b22; border: 1px solid #30363d; border-radius: 8px; margin-bottom: 16px; padding: 16px; }
+        .chain h2 { color: #f0883e; margin-bottom: 12px; font-size: 18px; }
+        .chain-meta { color: #8b949e; margin-bottom: 12px; }
+        .chain-step { padding: 8px 12px; border-left: 3px solid #30363d; margin-bottom: 8px; background: #0d1117; border-radius: 0 4px 4px 0; }
+        .chain-step-title { font-weight: 600; color: #c9d1d9; }
+        .chain-step-desc { color: #8b949e; font-size: 13px; margin-top: 4px; }
+        .footer { text-align: center; color: #8b949e; padding: 24px; font-size: 12px; border-top: 1px solid #30363d; margin-top: 24px; }
+        .no-findings { text-align: center; padding: 40px; color: #3fb950; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ STRYX Security Report</h1>
+            <div class="meta">
+                <p><strong>Target:</strong> {{ target }}</p>
+                <p><strong>Generated:</strong> {{ generated_at }}</p>
+                <p><strong>Tool:</strong> STRYX v0.1.0 - AI-Powered DAST</p>
+            </div>
+        </div>
+
+        <div class="summary">
+            <div class="summary-card">
+                <div class="count">{{ total_findings }}</div>
+                <div class="label">Total Findings</div>
+            </div>
+            <div class="summary-card">
+                <div class="count critical">{{ critical_count }}</div>
+                <div class="label">Critical</div>
+            </div>
+            <div class="summary-card">
+                <div class="count high">{{ high_count }}</div>
+                <div class="label">High</div>
+            </div>
+            <div class="summary-card">
+                <div class="count medium">{{ medium_count }}</div>
+                <div class="label">Medium</div>
+            </div>
+            <div class="summary-card">
+                <div class="count low">{{ low_count }}</div>
+                <div class="label">Low</div>
+            </div>
+        </div>
+
+        {% if findings %}
+        <h2 style="color: #c9d1d9; margin-bottom: 16px;">Findings ({{ findings|length }})</h2>
+
+        {% for finding in findings %}
+        <div class="finding">
+            <div class="finding-header">
+                <span class="finding-title">{{ finding.title }}</span>
+                <span class="severity-badge severity-{{ finding.severity }}">{{ finding.severity }}</span>
+            </div>
+            <div class="finding-body">
+                <div class="finding-section">
+                    <h3>Endpoint</h3>
+                    <p><code>{{ finding.endpoint }}</code></p>
+                </div>
+                <div class="finding-section">
+                    <h3>Description</h3>
+                    <p>{{ finding.description }}</p>
+                </div>
+                {% if finding.remediation %}
+                <div class="finding-section">
+                    <h3>Remediation</h3>
+                    <p>{{ finding.remediation }}</p>
+                </div>
+                {% endif %}
+                {% if finding.cwe or finding.owasp %}
+                <div class="finding-section">
+                    <h3>References</h3>
+                    <p>
+                        {% if finding.cwe %}<strong>CWE:</strong> {{ finding.cwe }}{% endif %}
+                        {% if finding.cwe and finding.owasp %} | {% endif %}
+                        {% if finding.owasp %}<strong>OWASP:</strong> {{ finding.owasp }}{% endif %}
+                    </p>
+                </div>
+                {% endif %}
+                <div class="finding-section">
+                    <h3>Evidence</h3>
+                    <div class="evidence-block"><span class="evidence-header">{{ finding.evidence.request_method }} {{ finding.evidence.request_url }}</span>
+<span class="evidence-label">Status:</span> {{ finding.evidence.response_status }}
+<span class="evidence-label">Confidence:</span> {{ "%.0f"|format(finding.evidence.confidence * 100) }}%
+{% if finding.evidence.payload %}<span class="evidence-label">Payload:</span> {{ finding.evidence.payload }}{% endif %}
+
+<span class="evidence-label">Response Snippet:</span>
+{{ finding.evidence.response_snippet[:500] }}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="no-findings">✅ No security findings detected</div>
+        {% endif %}
+
+        {% if attack_chains %}
+        <h2 style="color: #f0883e; margin: 24px 0 16px;">⚔️ Attack Chains ({{ attack_chains|length }})</h2>
+
+        {% for chain in attack_chains %}
+        <div class="chain">
+            <h2>{{ chain.name }}</h2>
+            <div class="chain-meta">
+                <p><strong>Impact:</strong> {{ chain.total_impact }}</p>
+                <p><strong>Estimated Severity:</strong> {{ chain.estimated_severity }}</p>
+            </div>
+            {% for step in chain.steps %}
+            <div class="chain-step">
+                <div class="chain-step-title">Step {{ loop.index }}: {{ step.title }}</div>
+                <div class="chain-step-desc">{{ step.description }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="footer">
+            <p>STRYX v0.1.0 - AI-Powered Dynamic Application Security Testing</p>
+            <p>Built by Akhilesh Varma under Medusa Security</p>
+            <p>Generated {{ generated_at }}</p>
+        </div>
+    </div>
+</body>
+</html>

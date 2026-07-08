@@ -1,0 +1,858 @@
+{
+  "report": {
+    "tool": "stryx",
+    "version": "0.1.0",
+    "generated_at": "2026-07-08T12:00:52.389178+00:00",
+    "target": "http://127.0.0.1:8000"
+  },
+  "summary": {
+    "total_findings": 21,
+    "by_severity": {
+      "high": 9,
+      "critical": 11,
+      "medium": 1
+    },
+    "critical": 11,
+    "high": 9,
+    "medium": 1,
+    "low": 0,
+    "info": 0
+  },
+  "findings": [
+    {
+      "title": "Unauthenticated access to /admin",
+      "severity": "high",
+      "description": "The endpoint /admin is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8000/admin",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/admin",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Unauthenticated access to /admin/",
+      "severity": "high",
+      "description": "The endpoint /admin/ is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8000/admin/",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/admin/",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Unauthenticated access to /api/users",
+      "severity": "high",
+      "description": "The endpoint /api/users is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8000/api/users",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/api/users",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "269",
+          "content-type": "application/json"
+        },
+        "response_body": "[{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"},{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"},{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}]",
+        "response_snippet": "[{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"},{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"},{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}]",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Unauthenticated access to /api/internal",
+      "severity": "high",
+      "description": "The endpoint /api/internal is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8000/api/internal",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/api/internal",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "44",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"secret\":\"internal-data\",\"version\":\"1.0.0\"}",
+        "response_snippet": "{\"secret\":\"internal-data\",\"version\":\"1.0.0\"}",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Unauthenticated access to /debug",
+      "severity": "high",
+      "description": "The endpoint /debug is accessible without any authentication. This may expose sensitive data or administrative functions.",
+      "remediation": "Implement authentication middleware to protect this endpoint.",
+      "cwe": "CWE-306",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8000/debug",
+      "scanner": "auth",
+      "tags": [
+        "missing-auth",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/debug",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "99",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "response_snippet": "{\"debug\":true,\"env\":\"development\",\"database_url\":\"postgresql://admin:password@localhost:5432/mydb\"}",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Weak JWT accepted at http://127.0.0.1:8000/",
+      "severity": "critical",
+      "description": "The endpoint accepted a malformed or unsigned JWT. This indicates weak token validation.",
+      "remediation": "Validate JWT signatures, algorithm, and expiration.",
+      "cwe": "CWE-347",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8000/",
+      "scanner": "auth",
+      "tags": [
+        "jwt",
+        "weak-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/",
+        "request_headers": {
+          "Authorization": "Bearer invalid"
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "622",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li><a href=\"/login\">Login</a></li>\n        </ul>\n        <script src=\"/static/app.js\"></script>\n    </body>\n    </html>\n    ",
+        "response_snippet": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "Weak JWT accepted at http://127.0.0.1:8000/",
+      "severity": "critical",
+      "description": "The endpoint accepted a malformed or unsigned JWT. This indicates weak token validation.",
+      "remediation": "Validate JWT signatures, algorithm, and expiration.",
+      "cwe": "CWE-347",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8000/",
+      "scanner": "auth",
+      "tags": [
+        "jwt",
+        "weak-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/",
+        "request_headers": {
+          "Authorization": "Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIn0."
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "622",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li><a href=\"/login\">Login</a></li>\n        </ul>\n        <script src=\"/static/app.js\"></script>\n    </body>\n    </html>\n    ",
+        "response_snippet": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "Weak JWT accepted at http://127.0.0.1:8000/",
+      "severity": "critical",
+      "description": "The endpoint accepted a malformed or unsigned JWT. This indicates weak token validation.",
+      "remediation": "Validate JWT signatures, algorithm, and expiration.",
+      "cwe": "CWE-347",
+      "owasp": "A07:2021 - Identification and Authentication Failures",
+      "endpoint": "http://127.0.0.1:8000/",
+      "scanner": "auth",
+      "tags": [
+        "jwt",
+        "weak-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/",
+        "request_headers": {
+          "Authorization": "Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0."
+        },
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "622",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li><a href=\"/login\">Login</a></li>\n        </ul>\n        <script src=\"/static/app.js\"></script>\n    </body>\n    </html>\n    ",
+        "response_snippet": "\n    <html>\n    <head><title>STRYX Test App</title></head>\n    <body>\n        <h1>STRYX Mock Vulnerable Application</h1>\n        <p>This app is for testing STRYX DAST scanner.</p>\n        <ul>\n            <li><a href=\"/api/users/1\">User API (IDOR vulnerable)</a></li>\n            <li><a href=\"/api/orders/1\">Orders API (IDOR vulnerable)</a></li>\n            <li><a href=\"/admin\">Admin Panel (no auth)</a></li>\n            <li><a href=\"/search?q=test\">Search (reflected input)</a></li>\n            <li",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "Potential IDOR at /api/users/1",
+      "severity": "high",
+      "description": "The endpoint /api/users/1 returns user data. Changing the ID parameter may allow accessing other users' data.",
+      "remediation": "Implement proper authorization checks. Verify the authenticated user owns the requested resource.",
+      "cwe": "CWE-639",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/api/users/1",
+      "scanner": "authorization",
+      "tags": [
+        "idor",
+        "broken-access-control"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/api/users/1",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "90",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"}",
+        "response_snippet": "{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"}",
+        "payload": "",
+        "confidence": 0.75
+      }
+    },
+    {
+      "title": "Potential IDOR at /api/users/2",
+      "severity": "high",
+      "description": "The endpoint /api/users/2 returns user data. Changing the ID parameter may allow accessing other users' data.",
+      "remediation": "Implement proper authorization checks. Verify the authenticated user owns the requested resource.",
+      "cwe": "CWE-639",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/api/users/2",
+      "scanner": "authorization",
+      "tags": [
+        "idor",
+        "broken-access-control"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/api/users/2",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "88",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"}",
+        "response_snippet": "{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"}",
+        "payload": "",
+        "confidence": 0.75
+      }
+    },
+    {
+      "title": "Potential IDOR at /api/users/3",
+      "severity": "high",
+      "description": "The endpoint /api/users/3 returns user data. Changing the ID parameter may allow accessing other users' data.",
+      "remediation": "Implement proper authorization checks. Verify the authenticated user owns the requested resource.",
+      "cwe": "CWE-639",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/api/users/3",
+      "scanner": "authorization",
+      "tags": [
+        "idor",
+        "broken-access-control"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/api/users/3",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "87",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}",
+        "response_snippet": "{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}",
+        "payload": "",
+        "confidence": 0.75
+      }
+    },
+    {
+      "title": "Potential IDOR at /api/orders/2",
+      "severity": "high",
+      "description": "The endpoint /api/orders/2 returns user data. Changing the ID parameter may allow accessing other users' data.",
+      "remediation": "Implement proper authorization checks. Verify the authenticated user owns the requested resource.",
+      "cwe": "CWE-639",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/api/orders/2",
+      "scanner": "authorization",
+      "tags": [
+        "idor",
+        "broken-access-control"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/api/orders/2",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "55",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"id\":\"2\",\"user_id\":\"2\",\"item\":\"Phone\",\"amount\":599.99}",
+        "response_snippet": "{\"id\":\"2\",\"user_id\":\"2\",\"item\":\"Phone\",\"amount\":599.99}",
+        "payload": "",
+        "confidence": 0.75
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /admin",
+      "severity": "critical",
+      "description": "The admin endpoint /admin is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/admin",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/admin",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /admin/",
+      "severity": "critical",
+      "description": "The admin endpoint /admin/ is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/admin/",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/admin/",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /api/admin/users",
+      "severity": "critical",
+      "description": "The admin endpoint /api/admin/users is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/api/admin/users",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/api/admin/users",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "269",
+          "content-type": "application/json"
+        },
+        "response_body": "[{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"},{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"},{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}]",
+        "response_snippet": "[{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"secret123\",\"role\":\"user\"},{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\",\"password\":\"password456\",\"role\":\"user\"},{\"id\":\"3\",\"name\":\"Admin\",\"email\":\"admin@example.com\",\"password\":\"admin\",\"role\":\"admin\"}]",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /api/admin/config",
+      "severity": "critical",
+      "description": "The admin endpoint /api/admin/config is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/api/admin/config",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/api/admin/config",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "165",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"database_host\":\"localhost\",\"database_port\":5432,\"database_password\":\"super_secret_password\",\"api_key\":\"sk-1234567890abcdef\",\"jwt_secret\":\"my-super-secret-jwt-key\"}",
+        "response_snippet": "{\"database_host\":\"localhost\",\"database_port\":5432,\"database_password\":\"super_secret_password\",\"api_key\":\"sk-1234567890abcdef\",\"jwt_secret\":\"my-super-secret-jwt-key\"}",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin endpoint accessible: /api/admin/logs",
+      "severity": "critical",
+      "description": "The admin endpoint /api/admin/logs is accessible. This may allow privilege escalation.",
+      "remediation": "Restrict admin endpoints to authorized administrators.",
+      "cwe": "CWE-269",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/api/admin/logs",
+      "scanner": "authorization",
+      "tags": [
+        "privilege-escalation",
+        "admin-access"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/api/admin/logs",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "153",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"logs\":[\"2026-01-01: User admin logged in from 192.168.1.100\",\"2026-01-02: Failed login attempt from 10.0.0.5\",\"2026-01-03: Database backup completed\"]}",
+        "response_snippet": "{\"logs\":[\"2026-01-01: User admin logged in from 192.168.1.100\",\"2026-01-02: Failed login attempt from 10.0.0.5\",\"2026-01-03: Database backup completed\"]}",
+        "payload": "",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Admin panel accessible without auth: /admin",
+      "severity": "critical",
+      "description": "The admin panel at /admin is accessible without authentication. This is a critical security issue.",
+      "remediation": "Implement authentication and authorization for admin interfaces.",
+      "cwe": "CWE-284",
+      "owasp": "A01:2021 - Broken Access Control",
+      "endpoint": "http://127.0.0.1:8000/admin",
+      "scanner": "authorization",
+      "tags": [
+        "admin-panel",
+        "no-auth"
+      ],
+      "evidence": {
+        "request_method": "GET",
+        "request_url": "http://127.0.0.1:8000/admin",
+        "request_headers": {},
+        "request_body": null,
+        "response_status": 200,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "388",
+          "content-type": "text/html; charset=utf-8"
+        },
+        "response_body": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "response_snippet": "\n        <html>\n        <body>\n            <h1>Admin Panel</h1>\n            <p>Welcome, Administrator</p>\n            <ul>\n                <li><a href=\"/api/admin/users\">Manage Users</a></li>\n                <li><a href=\"/api/admin/config\">System Config</a></li>\n                <li><a href=\"/api/admin/logs\">System Logs</a></li>\n            </ul>\n        </body>\n        </html>\n        ",
+        "payload": "",
+        "confidence": 0.8
+      }
+    },
+    {
+      "title": "NoSQL Injection in request body",
+      "severity": "critical",
+      "description": "Injectable payload in request body caused a detectable response indicating NoSQL Injection.",
+      "remediation": "Sanitize and validate all user input. Use parameterized queries.",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8000/api/users",
+      "scanner": "injection",
+      "tags": [
+        "nosqli",
+        "injection"
+      ],
+      "evidence": {
+        "request_method": "POST",
+        "request_url": "http://127.0.0.1:8000/api/users",
+        "request_headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "request_body": "{\"$gt\": \"\"}",
+        "response_status": 201,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "44",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"message\":\"User created\",\"data\":{\"$gt\":\"\"}}",
+        "response_snippet": "{\"message\":\"User created\",\"data\":{\"$gt\":\"\"}}",
+        "payload": "{\"$gt\": \"\"}",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "NoSQL Injection in request body",
+      "severity": "critical",
+      "description": "Injectable payload in request body caused a detectable response indicating NoSQL Injection.",
+      "remediation": "Sanitize and validate all user input. Use parameterized queries.",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8000/api/users",
+      "scanner": "injection",
+      "tags": [
+        "nosqli",
+        "injection"
+      ],
+      "evidence": {
+        "request_method": "POST",
+        "request_url": "http://127.0.0.1:8000/api/users",
+        "request_headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "request_body": "{\"$gt\": \"\"}",
+        "response_status": 201,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:44 GMT",
+          "server": "uvicorn",
+          "content-length": "44",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"message\":\"User created\",\"data\":{\"$gt\":\"\"}}",
+        "response_snippet": "{\"message\":\"User created\",\"data\":{\"$gt\":\"\"}}",
+        "payload": "{\"$gt\": \"\"}",
+        "confidence": 0.7
+      }
+    },
+    {
+      "title": "Potential prototype pollution or nested JSON issue",
+      "severity": "medium",
+      "description": "Deeply nested or prototype-polluting JSON payload caused an unexpected response.",
+      "remediation": "Validate JSON structure depth and reject prototype-polluting keys.",
+      "cwe": "CWE-1321",
+      "owasp": "A03:2021 - Injection",
+      "endpoint": "http://127.0.0.1:8000/login",
+      "scanner": "fuzz",
+      "tags": [
+        "fuzzing",
+        "prototype-pollution"
+      ],
+      "evidence": {
+        "request_method": "POST",
+        "request_url": "http://127.0.0.1:8000/login",
+        "request_headers": {
+          "Content-Type": "application/json"
+        },
+        "request_body": "{\"a\": {\"b\": {\"c\": {\"d\": {\"e\": \"f\"}}}}}",
+        "response_status": 401,
+        "response_headers": {
+          "date": "Wed, 08 Jul 2026 12:00:47 GMT",
+          "server": "uvicorn",
+          "content-length": "31",
+          "content-type": "application/json"
+        },
+        "response_body": "{\"error\":\"Invalid credentials\"}",
+        "response_snippet": "{\"error\":\"Invalid credentials\"}",
+        "payload": "{\"a\": {\"b\": {\"c\": {\"d\": {\"e\": \"f\"}}}}}",
+        "confidence": 0.5
+      }
+    }
+  ],
+  "attack_chains": [
+    {
+      "name": "Injection to Remote Code Execution",
+      "steps": [
+        {
+          "title": "NoSQL Injection in request body",
+          "description": "NoSQL Injection in request body",
+          "severity": "critical",
+          "impact": "Potential code execution",
+          "endpoint": "http://127.0.0.1:8000/api/users"
+        },
+        {
+          "title": "NoSQL Injection in request body",
+          "description": "NoSQL Injection in request body",
+          "severity": "critical",
+          "impact": "Potential code execution",
+          "endpoint": "http://127.0.0.1:8000/api/users"
+        }
+      ],
+      "total_impact": "Remote code execution on the server",
+      "estimated_severity": "critical"
+    },
+    {
+      "name": "Privilege Escalation via Unauthenticated Admin and Weak JWT",
+      "steps": [
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Access the /admin endpoint without authentication to view administrative functions.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Craft a malformed or unsigned JWT to impersonate an admin user.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Use the /api/admin/users endpoint to list all users in the system.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Access /api/users/1 and modify the ID parameter to retrieve other users' data.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Inject a NoSQL payload into /api/users to retrieve all user records.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        }
+      ],
+      "total_impact": "Full administrative control and exfiltration of all user data, enabling system compromise.",
+      "estimated_severity": "critical"
+    },
+    {
+      "name": "Data Exfiltration via IDOR and NoSQL Injection",
+      "steps": [
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Retrieve user data from /api/users/1 without authentication.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Change the ID parameter to access /api/users/2 and other user records.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Inject a NoSQL payload into /api/users to retrieve all user records.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Access /debug to retrieve system logs containing sensitive information.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        }
+      ],
+      "total_impact": "Exfiltration of all user data and system logs, compromising confidentiality.",
+      "estimated_severity": "critical"
+    },
+    {
+      "name": "Privilege Escalation via Admin Config Modification",
+      "steps": [
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Retrieve the configuration via /api/admin/config without authentication.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Inject a NoSQL payload into /api/admin/config to grant admin privileges to an arbitrary user.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Create a JWT with the elevated admin role.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Use the forged JWT to access /admin and perform privileged actions.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        }
+      ],
+      "total_impact": "Persistent admin access, ability to modify system configuration and data.",
+      "estimated_severity": "critical"
+    },
+    {
+      "name": "Denial of Service via Debug Endpoint and NoSQL Injection",
+      "steps": [
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Access /debug to discover internal API endpoints.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "Inject a NoSQL payload into /api/users to cause a resource-intensive query.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        },
+        {
+          "title": "Unauthenticated access to /admin",
+          "description": "The heavy query overloads the server, leading to a denial of service.",
+          "severity": "high",
+          "impact": "",
+          "endpoint": "http://127.0.0.1:8000/admin"
+        }
+      ],
+      "total_impact": "Service disruption, impacting availability.",
+      "estimated_severity": "high"
+    }
+  ],
+  "metadata": {
+    "scanners_used": [
+      "injection",
+      "fuzz",
+      "authorization",
+      "auth"
+    ],
+    "total_endpoints_tested": 14
+  }
+}

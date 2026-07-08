@@ -1,0 +1,21 @@
+# STRYX Configuration Example
+# Copy this to ~/.stryx/config.yaml or ./stryx.config.yaml
+
+# AI Provider Configuration
+provider: groq
+model: llama-3.3-70b-versatile
+# api_key: gsk_your_key_here  # Or set GROQ_API_KEY env var
+
+# Scanning Configuration
+threads: 20
+timeout: 10
+crawl_depth: 5
+respect_robots: false
+ai_attack_planning: true
+
+# Module Toggles
+modules:
+  auth: true
+  authorization: true
+  injection: true
+  fuzzing: true

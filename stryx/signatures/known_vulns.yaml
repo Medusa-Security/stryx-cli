@@ -1,0 +1,210 @@
+# Known vulnerable JavaScript library versions
+# Format: library_name:
+#   CVE-ID:
+#     affected: "<version" or ">=version,<version"
+#     fixed_version: "version"
+#     severity: "critical|high|medium|low"
+#     description: "Description of the vulnerability"
+#     reference: "URL to advisory"
+#     cwe: "CWE-XXX"
+
+jquery:
+  CVE-2020-11022:
+    affected: "<3.5.0"
+    fixed_version: "3.5.0"
+    severity: "medium"
+    description: "XSS vulnerability in jQuery's html() method when passing untrusted HTML"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2020-11022"
+    cwe: "CWE-79"
+  CVE-2020-11023:
+    affected: "<3.5.0"
+    fixed_version: "3.5.0"
+    severity: "medium"
+    description: "XSS vulnerability in jQuery's DOM manipulation methods"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2020-11023"
+    cwe: "CWE-79"
+  CVE-2019-11358:
+    affected: "<3.4.0"
+    fixed_version: "3.4.0"
+    severity: "medium"
+    description: "Prototype pollution vulnerability in jQuery.extend()"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2019-11358"
+    cwe: "CWE-1321"
+  CVE-2015-9251:
+    affected: "<3.0.0"
+    fixed_version: "3.0.0"
+    severity: "medium"
+    description: "XSS via cross-domain AJAX requests when text/javascript responses are received"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2015-9251"
+    cwe: "CWE-79"
+
+lodash:
+  CVE-2021-23337:
+    affected: "<4.17.21"
+    fixed_version: "4.17.21"
+    severity: "high"
+    description: "Command injection via template function"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2021-23337"
+    cwe: "CWE-78"
+  CVE-2020-28500:
+    affected: "<4.17.21"
+    fixed_version: "4.17.21"
+    severity: "medium"
+    description: "ReDoS (Regular Expression Denial of Service) in trim functions"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2020-28500"
+    cwe: "CWE-400"
+  CVE-2020-8203:
+    affected: "<4.17.19"
+    fixed_version: "4.17.19"
+    severity: "high"
+    description: "Prototype pollution vulnerability"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2020-8203"
+    cwe: "CWE-1321"
+
+angular:
+  CVE-2022-25869:
+    affected: "<1.8.0"
+    fixed_version: "1.8.0"
+    severity: "high"
+    description: "XSS vulnerability in $sanitize service"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2022-25869"
+    cwe: "CWE-79"
+  CVE-2022-25868:
+    affected: "<1.8.0"
+    fixed_version: "1.8.0"
+    severity: "medium"
+    description: "XSS via template injection in jqLite"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2022-25868"
+    cwe: "CWE-79"
+  CVE-2021-41056:
+    affected: "<1.7.5"
+    fixed_version: "1.7.5"
+    severity: "high"
+    description: "XSS vulnerability in $sanitize"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2021-41056"
+    cwe: "CWE-79"
+
+bootstrap:
+  CVE-2024-6531:
+    affected: "<4.3.1"
+    fixed_version: "4.3.1"
+    severity: "medium"
+    description: "XSS vulnerability in tooltip and popover data attributes"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2024-6531"
+    cwe: "CWE-79"
+  CVE-2019-8331:
+    affected: "<4.3.1"
+    fixed_version: "4.3.1"
+    severity: "medium"
+    description: "XSS in tooltip, popover, and collapse data-template"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2019-8331"
+    cwe: "CWE-79"
+
+moment:
+  CVE-2022-31129:
+    affected: "<2.29.4"
+    fixed_version: "2.29.4"
+    severity: "high"
+    description: "ReDoS (Regular Expression Denial of Service) in ISO date parsing"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2022-31129"
+    cwe: "CWE-400"
+
+underscore:
+  CVE-2021-23358:
+    affected: "<1.13.3"
+    fixed_version: "1.13.3"
+    severity: "high"
+    description: "Arbitrary code execution via template settings"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2021-23358"
+    cwe: "CWE-94"
+
+three:
+  CVE-2023-36479:
+    affected: "<0.160.0"
+    fixed_version: "0.160.0"
+    severity: "medium"
+    description: "Prototype pollution in GLTFLoader"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2023-36479"
+    cwe: "CWE-1321"
+
+d3:
+  CVE-2023-45133:
+    affected: "<7.0.0"
+    fixed_version: "7.0.0"
+    severity: "critical"
+    description: "Prototype pollution in d3.merge() and d3.concat()"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2023-45133"
+    cwe: "CWE-1321"
+
+backbone:
+  CVE-2020-21716:
+    affected: "<1.4.0"
+    fixed_version: "1.4.0"
+    severity: "medium"
+    description: "XSS vulnerability in template rendering"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2020-21716"
+    cwe: "CWE-79"
+
+ember:
+  CVE-2023-26920:
+    affected: "<4.12.0"
+    fixed_version: "4.12.0"
+    severity: "high"
+    description: "Prototype pollution in handlebars templates"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2023-26920"
+    cwe: "CWE-1321"
+
+mootools:
+  CVE-2022-23536:
+    affected: "<1.6.0"
+    fixed_version: "1.6.0"
+    severity: "medium"
+    description: "XSS in Element.inject methods"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2022-23536"
+    cwe: "CWE-79"
+
+prototype:
+  CVE-2018-16487:
+    affected: "<1.7.3"
+    fixed_version: "1.7.3"
+    severity: "high"
+    description: "Prototype pollution via Object.toQueryParameter"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2018-16487"
+    cwe: "CWE-1321"
+
+chart:
+  CVE-2023-2828:
+    affected: "<4.0.0"
+    fixed_version: "4.0.0"
+    severity: "medium"
+    description: "XSS via tooltip callback and external script loading"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2023-2828"
+    cwe: "CWE-79"
+
+# Node.js / npm packages
+express:
+  CVE-2024-29041:
+    affected: "<4.19.2"
+    fixed_version: "4.19.2"
+    severity: "high"
+    description: "Open redirect vulnerability in res.location()"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2024-29041"
+    cwe: "CWE-601"
+
+axios:
+  CVE-2023-45857:
+    affected: "<1.6.0"
+    fixed_version: "1.6.0"
+    severity: "medium"
+    description: "CSRF token exposure in cross-site requests"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2023-45857"
+    cwe: "CWE-352"
+
+webpack:
+  CVE-2023-28154:
+    affected: "<5.76.0"
+    fixed_version: "5.76.0"
+    severity: "medium"
+    description: "Cross-realm object access in webpack-dev-middleware"
+    reference: "https://nvd.nist.gov/vuln/detail/CVE-2023-28154"
+    cwe: "CWE-502"

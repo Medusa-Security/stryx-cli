@@ -1,0 +1,122 @@
+# Framework and technology fingerprints used by the injection engine
+# to adapt payloads to the target framework.
+
+frameworks:
+  python_flask:
+    name: Flask
+    headers:
+      - "Server: Werkzeug"
+      - "Server: Python"
+    cookies:
+      - "session=ey"
+      - "csrf_token="
+    body_patterns:
+      - "flask"
+      - "werkzeug"
+    sql_dialect: "generic"
+    injection_modifiers:
+      - "sleep"
+      - "benchmark"
+
+  python_django:
+    name: Django
+    headers:
+      - "Server: WSGIServer"
+      - "X-Frame-Options: DENY"
+      - "X-Content-Type-Options: nosniff"
+    cookies:
+      - "csrftoken="
+      - "sessionid="
+    body_patterns:
+      - "csrfmiddlewaretoken"
+      - "django"
+    sql_dialect: "postgres"
+    injection_modifiers:
+      - "pg_sleep"
+
+  node_express:
+    name: Express
+    headers:
+      - "X-Powered-By: Express"
+    cookies:
+      - "connect.sid="
+    body_patterns:
+      - "express"
+    sql_dialect: "generic"
+
+  php_laravel:
+    name: Laravel
+    headers:
+      - "Server: Apache"
+      - "X-Powered-By: PHP"
+    cookies:
+      - "laravel_session="
+      - "XSRF-TOKEN="
+    body_patterns:
+      - "laravel"
+      - "csrf-token"
+    sql_dialect: "mysql"
+    injection_modifiers:
+      - "sleep(5)"
+
+  ruby_rails:
+    name: Ruby on Rails
+    headers:
+      - "X-Powered-By: Phusion Passenger"
+      - "X-Request-Id:"
+    cookies:
+      - "_session_id="
+      - "rack.session="
+    body_patterns:
+      - "authenticity_token"
+    sql_dialect: "postgres"
+
+  java_spring:
+    name: Spring Boot
+    headers:
+      - "X-Application-Context:"
+      - "Set-Cookie: JSESSIONID="
+    cookies:
+      - "JSESSIONID="
+    body_patterns:
+      - "spring"
+      - "whitelabel error"
+    sql_dialect: "generic"
+
+  dotnet_aspnet:
+    name: ASP.NET
+    headers:
+      - "X-Powered-By: ASP.NET"
+      - "X-AspNet-Version:"
+      - "X-AspNetMvc-Version:"
+    cookies:
+      - "ASP.NET_SessionId="
+      - "__RequestVerificationToken="
+    body_patterns:
+      - "__VIEWSTATE"
+      - "__EVENTVALIDATION"
+    sql_dialect: "mssql"
+
+  go_gin:
+    name: Go (Gin/Echo/Fiber)
+    headers:
+      - "Server: Go-http-server"
+    cookies:
+      - "session="
+    body_patterns:
+      - "go"
+    sql_dialect: "generic"
+
+  graphql:
+    name: GraphQL
+    headers:
+      - "Content-Type: application/json"
+    endpoints:
+      - "/graphql"
+      - "/graphiql"
+      - "/api/graphql"
+      - "/query"
+    body_patterns:
+      - "query"
+      - "mutation"
+      - "subscription"

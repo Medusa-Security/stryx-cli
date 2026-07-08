@@ -1,0 +1,12 @@
+provider: groq
+model: openai/gpt-oss-120b
+threads: 20
+timeout: 10
+crawl_depth: 5
+respect_robots: false
+ai_attack_planning: true
+modules:
+  auth: true
+  authorization: true
+  injection: true
+  fuzzing: true
