@@ -39,7 +39,7 @@ CLI -> Configuration -> Attack Orchestrator -> { Endpoint Discovery }
 pip install stryx
 
 # From source
-git clone https://github.com/medusa-Security/stryx.git
+git clone https://github.com/Medusa-Security/stryx.git
 cd stryx
 pip install -e .
 ```
