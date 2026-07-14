@@ -43,7 +43,7 @@ an individual is officially representing the community in public spaces.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported by opening a GitHub issue tagged `conduct` on the
-[medusa-Security/stryx](https://github.com/medusa-Security/stryx/issues) repository.
+[Medusa-Security/stryx](https://github.com/Medusa-Security/stryx/issues) repository.
 
 All complaints will be reviewed and investigated promptly and fairly.
 
