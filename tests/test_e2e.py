@@ -27,10 +27,16 @@ def mock_server():
     """Start the mock vulnerable app on a free port."""
     port = _find_free_port()
     proc = subprocess.Popen(
-        [sys.executable, "-m", "uvicorn",
-         "tests.fixtures.mock_target_app:app",
-         "--host", "127.0.0.1",
-         "--port", str(port)],
+        [
+            sys.executable,
+            "-m",
+            "uvicorn",
+            "tests.fixtures.mock_target_app:app",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            str(port),
+        ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
@@ -57,8 +63,7 @@ async def test_auth_scanner_detects_missing_auth(mock_server):
     # Should find unauthenticated access
     assert len(findings) > 0, "Expected auth findings"
     titles = [f.title for f in findings]
-    assert any("admin" in t.lower() for t in titles), \
-        f"Expected admin access finding, got: {titles}"
+    assert any("admin" in t.lower() for t in titles), f"Expected admin access finding, got: {titles}"
 
 
 @pytest.mark.asyncio
@@ -143,8 +148,7 @@ async def test_crawler_discovers_endpoints(mock_server):
 
     # Should find some of the known endpoints
     paths = [ep.path for ep in endpoints]
-    assert any("/admin" in p for p in paths), \
-        f"Expected /admin endpoint, got: {paths[:10]}"
+    assert any("/admin" in p for p in paths), f"Expected /admin endpoint, got: {paths[:10]}"
 
 
 @pytest.mark.asyncio

@@ -30,13 +30,15 @@ def _first_run_check() -> bool:
 
 def _interactive_config() -> StryxConfig:
     """Interactive configuration wizard for first-time setup."""
-    console.print(Panel(
-        "[bold cyan]Welcome to STRYX![/]\n\n"
-        "This appears to be your first run. Let's configure your AI provider.\n"
-        "You can change these settings later with [bold]stryx config[/].",
-        title="First-Time Setup",
-        border_style="cyan",
-    ))
+    console.print(
+        Panel(
+            "[bold cyan]Welcome to STRYX![/]\n\n"
+            "This appears to be your first run. Let's configure your AI provider.\n"
+            "You can change these settings later with [bold]stryx config[/].",
+            title="First-Time Setup",
+            border_style="cyan",
+        )
+    )
 
     providers = {
         "1": ("groq", "Groq (free tier available, fast)"),
@@ -87,9 +89,7 @@ def _interactive_config() -> StryxConfig:
             )
             if not api_key:
                 api_key = None
-                console.print(
-                    f"[yellow]No key provided. Set {env_var} env var before scanning.[/]"
-                )
+                console.print(f"[yellow]No key provided. Set {env_var} env var before scanning.[/]")
 
     model_defaults = {
         "groq": "llama-3.3-70b-versatile",
@@ -180,10 +180,12 @@ def scan(
     login_url: str | None,
 ) -> None:
     """Run a full security scan against a target URL."""
-    console.print(Panel(
-        f"[bold]STRYX Scan[/]\nTarget: {target_url}",
-        border_style="cyan",
-    ))
+    console.print(
+        Panel(
+            f"[bold]STRYX Scan[/]\nTarget: {target_url}",
+            border_style="cyan",
+        )
+    )
 
     overrides = {
         "target_url": target_url,
@@ -235,17 +237,19 @@ def scan(
         severity_counts[sev] = severity_counts.get(sev, 0) + 1
 
     if findings:
-        console.print(Panel(
-            f"[bold]Scan Complete[/]\n"
-            f"Total findings: {len(findings)}\n"
-            f"Critical: {severity_counts.get('critical', 0)} | "
-            f"High: {severity_counts.get('high', 0)} | "
-            f"Medium: {severity_counts.get('medium', 0)} | "
-            f"Low: {severity_counts.get('low', 0)} | "
-            f"Info: {severity_counts.get('info', 0)}",
-            title="Results Summary",
-            border_style="green" if not severity_counts.get("critical") else "red",
-        ))
+        console.print(
+            Panel(
+                f"[bold]Scan Complete[/]\n"
+                f"Total findings: {len(findings)}\n"
+                f"Critical: {severity_counts.get('critical', 0)} | "
+                f"High: {severity_counts.get('high', 0)} | "
+                f"Medium: {severity_counts.get('medium', 0)} | "
+                f"Low: {severity_counts.get('low', 0)} | "
+                f"Info: {severity_counts.get('info', 0)}",
+                title="Results Summary",
+                border_style="green" if not severity_counts.get("critical") else "red",
+            )
+        )
     else:
         console.print("[green]No findings -- target appears secure[/]")
 
@@ -260,7 +264,7 @@ def scan(
         console.print(f"[dim]SARIF report: {sarif_output}[/]")
 
     # Policy result
-    if hasattr(orchestrator, '_policy_failed') and orchestrator._policy_failed:
+    if hasattr(orchestrator, "_policy_failed") and orchestrator._policy_failed:
         console.print("[red]❌ Policy check FAILED[/]")
         sys.exit(1)
 
@@ -380,7 +384,9 @@ def disclosure(target_url: str, cookies: str | None, headers: str | None) -> Non
 
         if findings:
             for f in findings:
-                sev_color = {"critical": "red", "high": "red", "medium": "yellow", "low": "blue"}.get(f.severity.value, "white")
+                sev_color = {"critical": "red", "high": "red", "medium": "yellow", "low": "blue"}.get(
+                    f.severity.value, "white"
+                )
                 console.print(f"[{sev_color}]{f.severity.value.upper()}[/] {f.title}")
         else:
             console.print("[green]No disclosure issues found[/]")
@@ -487,6 +493,7 @@ def report(
 
     if sarif_output:
         from stryx.reports.sarif_report import SarifReport
+
         sarif = SarifReport(target, findings)
         sarif.save(sarif_output)
         console.print(f"[green]SARIF report saved to {sarif_output}[/]")
@@ -541,6 +548,7 @@ def config_show() -> None:
     console.print(json.dumps(effective, indent=2))
 
     from stryx.config.loader import _USER_CONFIG_PATH, _LOCAL_CONFIG_PATH
+
     console.print(f"\n[dim]User config: {_USER_CONFIG_PATH}[/]")
     console.print(f"[dim]Project config: {_LOCAL_CONFIG_PATH}[/]")
 
@@ -668,6 +676,7 @@ def update() -> None:
 def version() -> None:
     """Show STRYX version."""
     from stryx import __version__
+
     console.print(f"STRYX v{__version__}")
 
 

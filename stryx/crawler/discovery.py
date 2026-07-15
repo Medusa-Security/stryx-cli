@@ -72,6 +72,7 @@ class DiscoveryAggregator:
         ]
 
         import asyncio
+
         passive_results = await asyncio.gather(*passive_tasks, return_exceptions=True)
         for result in passive_results:
             if isinstance(result, list):
@@ -131,6 +132,7 @@ class DiscoveryAggregator:
         logger.info(f"Testing {len(words)} paths from wordlist")
 
         from stryx.utils.http_client import HttpClient
+
         client = HttpClient(timeout=5)
         batch_size = 50
 
@@ -145,9 +147,7 @@ class DiscoveryAggregator:
                 if isinstance(result, Endpoint):
                     self.endpoints.append(result)
 
-    async def _probe_path(
-        self, client, url: str, source: str
-    ) -> Endpoint | None:
+    async def _probe_path(self, client, url: str, source: str) -> Endpoint | None:
         """Probe a single path and return an Endpoint if it exists."""
         try:
             response, _ = await client.get(url)

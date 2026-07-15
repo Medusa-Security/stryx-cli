@@ -31,6 +31,7 @@ class OpenAIProvider(AIProvider):
     async def generate(self, prompt: str, system_prompt: str = "") -> str:
         try:
             from openai import AsyncOpenAI
+
             client = AsyncOpenAI(api_key=self.api_key)
             messages = []
             if system_prompt:
@@ -55,6 +56,7 @@ class GroqProvider(AIProvider):
     async def generate(self, prompt: str, system_prompt: str = "") -> str:
         try:
             from groq import AsyncGroq
+
             client = AsyncGroq(api_key=self.api_key)
             messages = []
             if system_prompt:
@@ -79,6 +81,7 @@ class AnthropicProvider(AIProvider):
     async def generate(self, prompt: str, system_prompt: str = "") -> str:
         try:
             from anthropic import AsyncAnthropic
+
             client = AsyncAnthropic(api_key=self.api_key)
             response = await client.messages.create(
                 model=self.model or "claude-3-5-sonnet-20241022",
@@ -98,6 +101,7 @@ class OpenRouterProvider(AIProvider):
     async def generate(self, prompt: str, system_prompt: str = "") -> str:
         try:
             import httpx
+
             async with httpx.AsyncClient() as client:
                 messages = []
                 if system_prompt:
@@ -128,14 +132,14 @@ class OpenRouterProvider(AIProvider):
 class OllamaProvider(AIProvider):
     """Ollama local model provider."""
 
-    def __init__(self, api_key: str | None = None, model: str | None = None,
-                 base_url: str = "http://localhost:11434"):
+    def __init__(self, api_key: str | None = None, model: str | None = None, base_url: str = "http://localhost:11434"):
         super().__init__(api_key, model)
         self.base_url = base_url
 
     async def generate(self, prompt: str, system_prompt: str = "") -> str:
         try:
             import httpx
+
             async with httpx.AsyncClient() as client:
                 messages = []
                 if system_prompt:
@@ -164,6 +168,7 @@ class XAIProvider(AIProvider):
     async def generate(self, prompt: str, system_prompt: str = "") -> str:
         try:
             import httpx
+
             async with httpx.AsyncClient() as client:
                 messages = []
                 if system_prompt:
@@ -197,6 +202,7 @@ class NVIDIANimProvider(AIProvider):
     async def generate(self, prompt: str, system_prompt: str = "") -> str:
         try:
             import httpx
+
             async with httpx.AsyncClient() as client:
                 messages = []
                 if system_prompt:
@@ -224,8 +230,7 @@ class NVIDIANimProvider(AIProvider):
             return ""
 
 
-def get_provider(name: str, api_key: str | None = None,
-                 model: str | None = None, **kwargs: Any) -> AIProvider:
+def get_provider(name: str, api_key: str | None = None, model: str | None = None, **kwargs: Any) -> AIProvider:
     """Factory function to get an AI provider by name."""
     providers = {
         "openai": OpenAIProvider,

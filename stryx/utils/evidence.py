@@ -85,8 +85,7 @@ class Finding:
     def __post_init__(self) -> None:
         if not self.evidence:
             raise ValueError(
-                f"Finding '{self.title}' has no evidence. "
-                "All findings MUST include supporting Evidence."
+                f"Finding '{self.title}' has no evidence. " "All findings MUST include supporting Evidence."
             )
         if self.evidence.confidence < 0.0 or self.evidence.confidence > 1.0:
             raise ValueError("Confidence must be between 0.0 and 1.0")

@@ -136,9 +136,7 @@ class Orchestrator:
         try:
             response, _ = await self.client.get(self.context.target_url)
             scanner = InjectionScanner(self.client)
-            self.context.framework = scanner.fingerprint_framework(
-                dict(response.headers), response.text
-            )
+            self.context.framework = scanner.fingerprint_framework(dict(response.headers), response.text)
             if self.context.framework:
                 logger.info(f"Detected framework: {self.context.framework}")
         except Exception as e:
@@ -196,82 +194,94 @@ class Orchestrator:
         # Auth scanner
         if deep or modules.auth:
             auth_scanner = AuthScanner(self.client)
-            scanner_tasks.append(("auth", asyncio.create_task(
-                _safe_run("Auth", auth_scanner.scan(endpoints, base_url))
-            )))
+            scanner_tasks.append(
+                ("auth", asyncio.create_task(_safe_run("Auth", auth_scanner.scan(endpoints, base_url))))
+            )
 
         # Authorization scanner
         if deep or modules.authorization:
             authz_scanner = AuthorizationScanner(self.client)
-            scanner_tasks.append(("authorization", asyncio.create_task(
-                _safe_run("Authorization", authz_scanner.scan(endpoints, base_url, self.context.cookies))
-            )))
+            scanner_tasks.append(
+                (
+                    "authorization",
+                    asyncio.create_task(
+                        _safe_run("Authorization", authz_scanner.scan(endpoints, base_url, self.context.cookies))
+                    ),
+                )
+            )
 
         # Injection scanner
         if deep or modules.injection:
             injection_scanner = InjectionScanner(self.client)
             if self.context.framework:
                 injection_scanner.framework = self.context.framework
-            scanner_tasks.append(("injection", asyncio.create_task(
-                _safe_run("Injection", injection_scanner.scan(endpoints, base_url))
-            )))
+            scanner_tasks.append(
+                ("injection", asyncio.create_task(_safe_run("Injection", injection_scanner.scan(endpoints, base_url))))
+            )
 
         # Fuzz scanner
         if deep or modules.fuzzing:
             fuzz_scanner = FuzzScanner(self.client)
-            scanner_tasks.append(("fuzz", asyncio.create_task(
-                _safe_run("Fuzz", fuzz_scanner.scan(endpoints, base_url))
-            )))
+            scanner_tasks.append(
+                ("fuzz", asyncio.create_task(_safe_run("Fuzz", fuzz_scanner.scan(endpoints, base_url))))
+            )
 
         # CORS scanner (always runs)
         cors_scanner = CorsScanner(self.client)
-        scanner_tasks.append(("cors", asyncio.create_task(
-            _safe_run("CORS", cors_scanner.scan(base_url))
-        )))
+        scanner_tasks.append(("cors", asyncio.create_task(_safe_run("CORS", cors_scanner.scan(base_url)))))
 
         # GraphQL scanner
         if self.context.graphql_endpoints:
             graphql_scanner = GraphQLScanner(self.client)
-            scanner_tasks.append(("graphql", asyncio.create_task(
-                _safe_run("GraphQL", graphql_scanner.scan(self.context.graphql_endpoints))
-            )))
+            scanner_tasks.append(
+                (
+                    "graphql",
+                    asyncio.create_task(_safe_run("GraphQL", graphql_scanner.scan(self.context.graphql_endpoints))),
+                )
+            )
 
         # === NEW SCANNERS ===
 
         # Blind injection scanner
         if deep or modules.blind:
             blind_scanner = BlindScanner(self.client)
-            scanner_tasks.append(("blind", asyncio.create_task(
-                _safe_run("Blind", blind_scanner.scan(endpoints, base_url))
-            )))
+            scanner_tasks.append(
+                ("blind", asyncio.create_task(_safe_run("Blind", blind_scanner.scan(endpoints, base_url))))
+            )
 
         # Information disclosure scanner
         if deep or modules.disclosure:
             disclosure_scanner = DisclosureScanner(self.client)
-            scanner_tasks.append(("disclosure", asyncio.create_task(
-                _safe_run("Disclosure", disclosure_scanner.scan(endpoints, base_url))
-            )))
+            scanner_tasks.append(
+                (
+                    "disclosure",
+                    asyncio.create_task(_safe_run("Disclosure", disclosure_scanner.scan(endpoints, base_url))),
+                )
+            )
 
         # Race condition scanner
         if deep or modules.race:
             race_scanner = RaceScanner(self.client)
-            scanner_tasks.append(("race", asyncio.create_task(
-                _safe_run("Race", race_scanner.scan(endpoints, base_url))
-            )))
+            scanner_tasks.append(
+                ("race", asyncio.create_task(_safe_run("Race", race_scanner.scan(endpoints, base_url))))
+            )
 
         # Cloud metadata SSRF scanner
         if deep or modules.cloud_ssrf:
             cloud_ssrf_scanner = CloudSSRFScanner(self.client)
-            scanner_tasks.append(("cloud-ssrf", asyncio.create_task(
-                _safe_run("CloudSSRF", cloud_ssrf_scanner.scan(endpoints, base_url))
-            )))
+            scanner_tasks.append(
+                (
+                    "cloud-ssrf",
+                    asyncio.create_task(_safe_run("CloudSSRF", cloud_ssrf_scanner.scan(endpoints, base_url))),
+                )
+            )
 
         # JS dependency scanner
         if deep or modules.dependencies:
             dep_scanner = DependencyScanner(self.client)
-            scanner_tasks.append(("dependencies", asyncio.create_task(
-                _safe_run("Dependencies", dep_scanner.scan(endpoints, base_url))
-            )))
+            scanner_tasks.append(
+                ("dependencies", asyncio.create_task(_safe_run("Dependencies", dep_scanner.scan(endpoints, base_url))))
+            )
 
         # Wait for all scanners to complete
         if scanner_tasks:
@@ -327,12 +337,14 @@ class Orchestrator:
         # SARIF output
         if self.config.sarif_output:
             from stryx.reports.sarif_report import SarifReport
+
             sarif = SarifReport(self.context.target_url, self.context.findings)
             sarif.save(self.config.sarif_output)
 
         # Policy evaluation
         if self.config.policy_file:
             from stryx.policy.engine import PolicyEngine
+
             policy = PolicyEngine.from_file(self.config.policy_file)
             result = policy.evaluate(self.context.findings)
             logger.info(str(result))
@@ -342,6 +354,7 @@ class Orchestrator:
         # Baseline comparison
         if self.config.baseline_file and self.config.json_output:
             from stryx.comparison.differ import ScanDiffer
+
             differ = ScanDiffer(self.config.baseline_file, self.config.json_output)
             diff = differ.compare()
             logger.info(diff.summary())

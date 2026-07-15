@@ -106,23 +106,19 @@ class CloudSSRFScanner:
         for endpoint_config in CLOUD_METADATA_ENDPOINTS:
             for metadata_url in endpoint_config["urls"]:
                 for endpoint, param_name, param_value in injectable:
-                    finding = await self._test_ssrf(
-                        endpoint, param_name, metadata_url, endpoint_config
-                    )
+                    finding = await self._test_ssrf(endpoint, param_name, metadata_url, endpoint_config)
                     if finding:
                         findings.append(finding)
                         break  # One finding per provider
-                if findings and any(f.scanner == "cloud-ssrf" and
-                                   f.evidence.payload == metadata_url
-                                   for f in findings[-1:]):
+                if findings and any(
+                    f.scanner == "cloud-ssrf" and f.evidence.payload == metadata_url for f in findings[-1:]
+                ):
                     break
 
         logger.info(f"Cloud SSRF scanner found {len(findings)} findings")
         return findings
 
-    def _find_injectable_endpoints(
-        self, endpoints: list[str]
-    ) -> list[tuple[str, str, str]]:
+    def _find_injectable_endpoints(self, endpoints: list[str]) -> list[tuple[str, str, str]]:
         """Find endpoints with URL-like parameters."""
         injectable = []
 
@@ -133,10 +129,21 @@ class CloudSSRFScanner:
             for param_name, values in params.items():
                 value = values[0] if values else ""
                 # Check if parameter looks like a URL
-                if (value.startswith("http") or
-                    param_name.lower() in ("url", "href", "link", "src", "redirect",
-                                           "next", "return", "callback", "webhook",
-                                           "fetch", "load", "proxy", "target")):
+                if value.startswith("http") or param_name.lower() in (
+                    "url",
+                    "href",
+                    "link",
+                    "src",
+                    "redirect",
+                    "next",
+                    "return",
+                    "callback",
+                    "webhook",
+                    "fetch",
+                    "load",
+                    "proxy",
+                    "target",
+                ):
                     injectable.append((endpoint, param_name, value))
 
         return injectable

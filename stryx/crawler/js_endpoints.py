@@ -18,53 +18,53 @@ logger = get_logger("crawler.js_endpoints")
 # Patterns that commonly indicate API endpoints in JS
 ENDPOINT_PATTERNS = [
     # fetch/axios/http client URLs
-    re.compile(r'''(?:fetch|axios|\.get|\.post|\.put|\.delete|\.patch|\.request)\s*\(\s*['"`]([^'"`]+)['"`]'''),
+    re.compile(r"""(?:fetch|axios|\.get|\.post|\.put|\.delete|\.patch|\.request)\s*\(\s*['"`]([^'"`]+)['"`]"""),
     # URL assignments
-    re.compile(r'''(?:url|endpoint|api|path|href|baseUrl|baseURL)\s*[=:]\s*['"`]([^'"`]+)['"`]'''),
+    re.compile(r"""(?:url|endpoint|api|path|href|baseUrl|baseURL)\s*[=:]\s*['"`]([^'"`]+)['"`]"""),
     # Template literal API calls
-    re.compile(r'''`(/api/[^`]+)`'''),
-    re.compile(r'''`(/v\d/[^`]+)`'''),
-    re.compile(r'''`(/auth/[^`]+)`'''),
-    re.compile(r'''`(/admin/[^`]+)`'''),
+    re.compile(r"""`(/api/[^`]+)`"""),
+    re.compile(r"""`(/v\d/[^`]+)`"""),
+    re.compile(r"""`(/auth/[^`]+)`"""),
+    re.compile(r"""`(/admin/[^`]+)`"""),
     # String concatenation API paths
-    re.compile(r'''['"]([^'"]*api[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/users\/[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/admin[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/login[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/auth[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/register[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/profile[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/settings[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/upload[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/search[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/graphql[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/websocket[^'"]*)['"]'''),
-    re.compile(r'''['"]([^'"]*\/ws[^'"]*)['"]'''),
+    re.compile(r"""['"]([^'"]*api[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/users\/[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/admin[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/login[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/auth[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/register[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/profile[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/settings[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/upload[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/search[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/graphql[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/websocket[^'"]*)['"]"""),
+    re.compile(r"""['"]([^'"]*\/ws[^'"]*)['"]"""),
     # HTTP method detection
-    re.compile(r'''method\s*:\s*['"]?(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)['"]?'''),
+    re.compile(r"""method\s*:\s*['"]?(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)['"]?"""),
     # Common SPA routes
-    re.compile(r'''(?:path|route)\s*:\s*['"]\/([a-zA-Z][a-zA-Z0-9_\/-]*)['"]'''),
+    re.compile(r"""(?:path|route)\s*:\s*['"]\/([a-zA-Z][a-zA-Z0-9_\/-]*)['"]"""),
 ]
 
 # HTTP method patterns (to detect which methods are used)
 METHOD_PATTERNS = {
-    "GET": re.compile(r'''\.get\s*\('''),
-    "POST": re.compile(r'''\.post\s*\('''),
-    "PUT": re.compile(r'''\.put\s*\('''),
-    "DELETE": re.compile(r'''\.delete\s*\('''),
-    "PATCH": re.compile(r'''\.patch\s*\('''),
+    "GET": re.compile(r"""\.get\s*\("""),
+    "POST": re.compile(r"""\.post\s*\("""),
+    "PUT": re.compile(r"""\.put\s*\("""),
+    "DELETE": re.compile(r"""\.delete\s*\("""),
+    "PATCH": re.compile(r"""\.patch\s*\("""),
 }
 
 # Patterns to skip (not endpoints)
 SKIP_PATTERNS = [
-    re.compile(r'''node_modules'''),
-    re.compile(r'''\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map)$'''),
-    re.compile(r'''webpack'''),
-    re.compile(r'''bundle'''),
-    re.compile(r'''chunk'''),
-    re.compile(r'''favicon'''),
-    re.compile(r'''\.min\.''' ),
-    re.compile(r'''^(https?:)?//[a-z0-9.-]+\.(com|org|net|io)/$'''),  # Just a domain
+    re.compile(r"""node_modules"""),
+    re.compile(r"""\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map)$"""),
+    re.compile(r"""webpack"""),
+    re.compile(r"""bundle"""),
+    re.compile(r"""chunk"""),
+    re.compile(r"""favicon"""),
+    re.compile(r"""\.min\."""),
+    re.compile(r"""^(https?:)?//[a-z0-9.-]+\.(com|org|net|io)/$"""),  # Just a domain
 ]
 
 
@@ -155,11 +155,13 @@ def _extract_endpoints_from_js(js_content: str, base_url: str) -> list[Endpoint]
                     method = http_method
                     break
 
-            endpoints.append(Endpoint(
-                path=url,
-                method=method,
-                source="js-endpoints",
-                confidence=0.65,
-            ))
+            endpoints.append(
+                Endpoint(
+                    path=url,
+                    method=method,
+                    source="js-endpoints",
+                    confidence=0.65,
+                )
+            )
 
     return endpoints

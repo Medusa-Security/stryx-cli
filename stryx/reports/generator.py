@@ -27,24 +27,18 @@ class ReportGenerator:
 
     def generate_terminal(self) -> None:
         """Display results in terminal."""
-        report = TerminalReport(
-            self.target_url, self.findings, self.attack_chains
-        )
+        report = TerminalReport(self.target_url, self.findings, self.attack_chains)
         report.display()
 
     def generate_json(self, path: str) -> str:
         """Generate JSON report."""
-        report = JsonReport(
-            self.target_url, self.findings, self.attack_chains
-        )
+        report = JsonReport(self.target_url, self.findings, self.attack_chains)
         report.save(path)
         return path
 
     def generate_markdown(self, path: str) -> str:
         """Generate Markdown report."""
-        report = MarkdownReport(
-            self.target_url, self.findings, self.attack_chains
-        )
+        report = MarkdownReport(self.target_url, self.findings, self.attack_chains)
         report.save(path)
         return path
 
@@ -68,38 +62,40 @@ class ReportGenerator:
             # Prepare finding data for template
             findings_data = []
             for f in self.findings:
-                findings_data.append({
-                    "title": f.title,
-                    "severity": f.severity.value,
-                    "endpoint": f.endpoint,
-                    "description": f.description,
-                    "remediation": f.remediation,
-                    "cwe": f.cwe,
-                    "owasp": f.owasp,
-                    "evidence": f.evidence,
-                })
+                findings_data.append(
+                    {
+                        "title": f.title,
+                        "severity": f.severity.value,
+                        "endpoint": f.endpoint,
+                        "description": f.description,
+                        "remediation": f.remediation,
+                        "cwe": f.cwe,
+                        "owasp": f.owasp,
+                        "evidence": f.evidence,
+                    }
+                )
 
             # Prepare chain data
             chains_data = []
             for c in self.attack_chains:
-                chains_data.append({
-                    "name": c.name,
-                    "total_impact": c.total_impact,
-                    "estimated_severity": c.estimated_severity,
-                    "steps": [
-                        {
-                            "title": step.finding.title,
-                            "description": step.description,
-                        }
-                        for step in c.steps
-                    ],
-                })
+                chains_data.append(
+                    {
+                        "name": c.name,
+                        "total_impact": c.total_impact,
+                        "estimated_severity": c.estimated_severity,
+                        "steps": [
+                            {
+                                "title": step.finding.title,
+                                "description": step.description,
+                            }
+                            for step in c.steps
+                        ],
+                    }
+                )
 
             html = template.render(
                 target=self.target_url,
-                generated_at=__import__("datetime").datetime.now(
-                    __import__("datetime").timezone.utc
-                ).isoformat(),
+                generated_at=__import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
                 total_findings=len(self.findings),
                 critical_count=severity_counts.get("critical", 0),
                 high_count=severity_counts.get("high", 0),

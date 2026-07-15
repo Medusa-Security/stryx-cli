@@ -64,9 +64,11 @@ class ReplayEngine:
                 )
 
                 # If we get same-status response with different ID, it's likely IDOR
-                if (response.status_code == baseline_status and
-                    response.status_code == 200 and
-                    abs(len(response.text) - baseline_length) < 100):
+                if (
+                    response.status_code == baseline_status
+                    and response.status_code == 200
+                    and abs(len(response.text) - baseline_length) < 100
+                ):
 
                     evidence.confidence = 0.7
                     evidence.payload = f"ID substitution: {original_id} -> {test_id}"
@@ -116,9 +118,7 @@ class ReplayEngine:
                 response, evidence = await self.client.get(other_url, headers=headers)
                 if response.status_code == 200:
                     evidence.confidence = 0.6
-                    evidence.payload = (
-                        f"User {other_id} accessing {user_ids[0]}'s resource"
-                    )
+                    evidence.payload = f"User {other_id} accessing {user_ids[0]}'s resource"
                     return Finding(
                         title=(
                             f"Horizontal privilege escalation: user {other_id} "
@@ -127,8 +127,7 @@ class ReplayEngine:
                         severity=Severity.HIGH,
                         evidence=evidence,
                         description=(
-                            f"User {other_id} was able to access resources "
-                            f"belonging to user {user_ids[0]}."
+                            f"User {other_id} was able to access resources " f"belonging to user {user_ids[0]}."
                         ),
                         remediation="Verify resource ownership before granting access.",
                         cwe="CWE-639",

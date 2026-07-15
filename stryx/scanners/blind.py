@@ -43,7 +43,10 @@ TIME_TESTS = [
     # Oracle
     (" AND 1=DBMS_PIPE.RECEIVE_MESSAGE('a',3)--", "Oracle DBMS_PIPE"),
     # SQLite (no sleep, but we can use a busy loop)
-    (" AND (SELECT COUNT(*) FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3)x WHERE RANDOMBLOB(500000000))>0--", "SQLite busy"),
+    (
+        " AND (SELECT COUNT(*) FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3)x WHERE RANDOMBLOB(500000000))>0--",
+        "SQLite busy",
+    ),
 ]
 
 # Blind SSRF test URLs (internal services that may respond differently)
@@ -138,34 +141,38 @@ class BlindScanner:
                     false_len = len(false_response.text)
 
                     # Significant difference between true and false responses
-                    if (true_response.status_code == baseline_status and
-                        true_len != false_len and
-                        abs(true_len - false_len) > 10 and
-                        abs(true_len - baseline_length) < abs(false_len - baseline_length)):
+                    if (
+                        true_response.status_code == baseline_status
+                        and true_len != false_len
+                        and abs(true_len - false_len) > 10
+                        and abs(true_len - baseline_length) < abs(false_len - baseline_length)
+                    ):
 
                         confidence = min(0.9, 0.5 + abs(true_len - false_len) / 1000)
-                        findings.append(Finding(
-                            title=f"Boolean-based blind injection in parameter '{param_name}'",
-                            severity=Severity.HIGH,
-                            evidence=Evidence(
-                                request_method="GET",
-                                request_url=true_url,
-                                response_status=true_response.status_code,
-                                response_body=true_response.text[:500],
-                                response_snippet=f"True: {true_len} chars, False: {false_len} chars",
-                                payload=true_payload.strip(),
-                                confidence=confidence,
-                            ),
-                            description=(
-                                f"Boolean-based blind injection detected in parameter '{param_name}'. "
-                                f"True condition returned {true_len} chars, false returned {false_len} chars."
-                            ),
-                            remediation="Use parameterized queries and input validation.",
-                            cwe="CWE-89",
-                            owasp="A03:2021 - Injection",
-                            endpoint=endpoint,
-                            scanner="blind",
-                        ))
+                        findings.append(
+                            Finding(
+                                title=f"Boolean-based blind injection in parameter '{param_name}'",
+                                severity=Severity.HIGH,
+                                evidence=Evidence(
+                                    request_method="GET",
+                                    request_url=true_url,
+                                    response_status=true_response.status_code,
+                                    response_body=true_response.text[:500],
+                                    response_snippet=f"True: {true_len} chars, False: {false_len} chars",
+                                    payload=true_payload.strip(),
+                                    confidence=confidence,
+                                ),
+                                description=(
+                                    f"Boolean-based blind injection detected in parameter '{param_name}'. "
+                                    f"True condition returned {true_len} chars, false returned {false_len} chars."
+                                ),
+                                remediation="Use parameterized queries and input validation.",
+                                cwe="CWE-89",
+                                owasp="A03:2021 - Injection",
+                                endpoint=endpoint,
+                                scanner="blind",
+                            )
+                        )
                         break  # One finding per parameter
 
                 except Exception:
@@ -202,53 +209,57 @@ class BlindScanner:
                     delay = test_time - baseline_time
                     if delay >= TIME_DELAY_THRESHOLD:
                         confidence = min(0.95, 0.6 + (delay / 10))
-                        findings.append(Finding(
-                            title=f"Time-based blind injection ({db_name}) in parameter '{param_name}'",
-                            severity=Severity.HIGH,
+                        findings.append(
+                            Finding(
+                                title=f"Time-based blind injection ({db_name}) in parameter '{param_name}'",
+                                severity=Severity.HIGH,
+                                evidence=Evidence(
+                                    request_method="GET",
+                                    request_url=test_url,
+                                    response_status=test_response.status_code,
+                                    response_body=test_response.text[:500],
+                                    response_snippet=f"Baseline: {baseline_time:.2f}s, Test: {test_time:.2f}s, Delay: {delay:.2f}s",
+                                    payload=payload.strip(),
+                                    confidence=confidence,
+                                ),
+                                description=(
+                                    f"Time-based blind injection detected in parameter '{param_name}' "
+                                    f"using {db_name}. Response delay: {delay:.2f}s (baseline: {baseline_time:.2f}s)."
+                                ),
+                                remediation="Use parameterized queries and input validation.",
+                                cwe="CWE-89",
+                                owasp="A03:2021 - Injection",
+                                endpoint=endpoint,
+                                scanner="blind",
+                            )
+                        )
+                        break  # One finding per parameter
+
+                except asyncio.TimeoutError:
+                    # Timeout itself may indicate successful blind injection
+                    findings.append(
+                        Finding(
+                            title=f"Possible time-based blind injection in parameter '{param_name}'",
+                            severity=Severity.MEDIUM,
                             evidence=Evidence(
                                 request_method="GET",
-                                request_url=test_url,
-                                response_status=test_response.status_code,
-                                response_body=test_response.text[:500],
-                                response_snippet=f"Baseline: {baseline_time:.2f}s, Test: {test_time:.2f}s, Delay: {delay:.2f}s",
+                                request_url=test_url if "test_url" in dir() else endpoint,
+                                response_status=0,
+                                response_body="Request timed out",
                                 payload=payload.strip(),
-                                confidence=confidence,
+                                confidence=0.5,
                             ),
                             description=(
-                                f"Time-based blind injection detected in parameter '{param_name}' "
-                                f"using {db_name}. Response delay: {delay:.2f}s (baseline: {baseline_time:.2f}s)."
+                                f"Request timed out after injection payload in parameter '{param_name}'. "
+                                f"This may indicate time-based blind injection causing server hang."
                             ),
                             remediation="Use parameterized queries and input validation.",
                             cwe="CWE-89",
                             owasp="A03:2021 - Injection",
                             endpoint=endpoint,
                             scanner="blind",
-                        ))
-                        break  # One finding per parameter
-
-                except asyncio.TimeoutError:
-                    # Timeout itself may indicate successful blind injection
-                    findings.append(Finding(
-                        title=f"Possible time-based blind injection in parameter '{param_name}'",
-                        severity=Severity.MEDIUM,
-                        evidence=Evidence(
-                            request_method="GET",
-                            request_url=test_url if 'test_url' in dir() else endpoint,
-                            response_status=0,
-                            response_body="Request timed out",
-                            payload=payload.strip(),
-                            confidence=0.5,
-                        ),
-                        description=(
-                            f"Request timed out after injection payload in parameter '{param_name}'. "
-                            f"This may indicate time-based blind injection causing server hang."
-                        ),
-                        remediation="Use parameterized queries and input validation.",
-                        cwe="CWE-89",
-                        owasp="A03:2021 - Injection",
-                        endpoint=endpoint,
-                        scanner="blind",
-                    ))
+                        )
+                    )
                     break
                 except Exception:
                     continue
@@ -284,28 +295,30 @@ class BlindScanner:
                     delay = abs(test_time - baseline_time)
                     if delay > TIME_DELAY_THRESHOLD:
                         confidence = min(0.8, 0.4 + (delay / 10))
-                        findings.append(Finding(
-                            title=f"Possible blind SSRF to {service_name} via parameter '{param_name}'",
-                            severity=Severity.HIGH,
-                            evidence=Evidence(
-                                request_method="GET",
-                                request_url=test_url,
-                                response_status=test_response.status_code,
-                                response_body=test_response.text[:500],
-                                response_snippet=f"Baseline: {baseline_time:.2f}s, Test: {test_time:.2f}s",
-                                payload=internal_url,
-                                confidence=confidence,
-                            ),
-                            description=(
-                                f"Possible blind SSRF detected. Request to {service_name} via "
-                                f"parameter '{param_name}' caused a {delay:.2f}s timing difference."
-                            ),
-                            remediation="Validate and sanitize URLs. Block internal IP ranges.",
-                            cwe="CWE-918",
-                            owasp="A10:2021 - Server-Side Request Forgery",
-                            endpoint=endpoint,
-                            scanner="blind",
-                        ))
+                        findings.append(
+                            Finding(
+                                title=f"Possible blind SSRF to {service_name} via parameter '{param_name}'",
+                                severity=Severity.HIGH,
+                                evidence=Evidence(
+                                    request_method="GET",
+                                    request_url=test_url,
+                                    response_status=test_response.status_code,
+                                    response_body=test_response.text[:500],
+                                    response_snippet=f"Baseline: {baseline_time:.2f}s, Test: {test_time:.2f}s",
+                                    payload=internal_url,
+                                    confidence=confidence,
+                                ),
+                                description=(
+                                    f"Possible blind SSRF detected. Request to {service_name} via "
+                                    f"parameter '{param_name}' caused a {delay:.2f}s timing difference."
+                                ),
+                                remediation="Validate and sanitize URLs. Block internal IP ranges.",
+                                cwe="CWE-918",
+                                owasp="A10:2021 - Server-Side Request Forgery",
+                                endpoint=endpoint,
+                                scanner="blind",
+                            )
+                        )
                         break  # One finding per parameter
 
                 except Exception:

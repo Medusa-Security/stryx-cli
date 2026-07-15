@@ -63,9 +63,7 @@ class RaceScanner:
         logger.info(f"Race condition scanner found {len(findings)} findings")
         return findings
 
-    def _build_race_tests(
-        self, endpoints: list[str], base_url: str
-    ) -> list[RaceTestConfig]:
+    def _build_race_tests(self, endpoints: list[str], base_url: str) -> list[RaceTestConfig]:
         """Build race condition test configurations based on discovered endpoints."""
         configs: list[RaceTestConfig] = []
 
@@ -74,75 +72,91 @@ class RaceScanner:
 
             # Balance/transfer endpoints
             if any(kw in ep_lower for kw in ["transfer", "balance", "payment", "checkout", "purchase"]):
-                configs.append(RaceTestConfig(
-                    name="double-spend",
-                    url=endpoint,
-                    method="POST",
-                    body={"amount": 100, "currency": "USD"},
-                    expected_count=1,
-                    description="Double-spend via race condition on payment endpoint",
-                ))
+                configs.append(
+                    RaceTestConfig(
+                        name="double-spend",
+                        url=endpoint,
+                        method="POST",
+                        body={"amount": 100, "currency": "USD"},
+                        expected_count=1,
+                        description="Double-spend via race condition on payment endpoint",
+                    )
+                )
 
             # Coupon/discount endpoints
             if any(kw in ep_lower for kw in ["coupon", "discount", "promo", "redeem"]):
-                configs.append(RaceTestConfig(
-                    name="coupon-reuse",
-                    url=endpoint,
-                    method="POST",
-                    body={"code": "TESTCOUPON"},
-                    expected_count=1,
-                    description="Coupon reuse via race condition",
-                ))
+                configs.append(
+                    RaceTestConfig(
+                        name="coupon-reuse",
+                        url=endpoint,
+                        method="POST",
+                        body={"code": "TESTCOUPON"},
+                        expected_count=1,
+                        description="Coupon reuse via race condition",
+                    )
+                )
 
             # Vote/like endpoints
             if any(kw in ep_lower for kw in ["vote", "like", "upvote", "reaction"]):
-                configs.append(RaceTestConfig(
-                    name="vote-manipulation",
-                    url=endpoint,
-                    method="POST",
-                    body={"id": "1"},
-                    expected_count=1,
-                    description="Vote manipulation via race condition",
-                ))
+                configs.append(
+                    RaceTestConfig(
+                        name="vote-manipulation",
+                        url=endpoint,
+                        method="POST",
+                        body={"id": "1"},
+                        expected_count=1,
+                        description="Vote manipulation via race condition",
+                    )
+                )
 
             # Registration endpoints
             if any(kw in ep_lower for kw in ["register", "signup", "create"]):
-                configs.append(RaceTestConfig(
-                    name="duplicate-registration",
-                    url=endpoint,
-                    method="POST",
-                    body={"email": "race-test@example.com", "username": "race-test-user"},
-                    expected_count=1,
-                    description="Duplicate registration via race condition",
-                ))
+                configs.append(
+                    RaceTestConfig(
+                        name="duplicate-registration",
+                        url=endpoint,
+                        method="POST",
+                        body={"email": "race-test@example.com", "username": "race-test-user"},
+                        expected_count=1,
+                        description="Duplicate registration via race condition",
+                    )
+                )
 
             # Generic POST endpoints (test for idempotency issues)
             if any(kw in ep_lower for kw in ["api", "action", "submit", "process"]):
-                configs.append(RaceTestConfig(
-                    name="generic-race",
-                    url=endpoint,
-                    method="POST",
-                    body={"test": "race-condition"},
-                    expected_count=1,
-                    description="Generic race condition test",
-                ))
+                configs.append(
+                    RaceTestConfig(
+                        name="generic-race",
+                        url=endpoint,
+                        method="POST",
+                        body={"test": "race-condition"},
+                        expected_count=1,
+                        description="Generic race condition test",
+                    )
+                )
 
         # Add common race condition paths
         common_paths = [
-            "/api/transfer", "/api/payment", "/api/checkout",
-            "/api/coupon/redeem", "/api/vote", "/api/like",
+            "/api/transfer",
+            "/api/payment",
+            "/api/checkout",
+            "/api/coupon/redeem",
+            "/api/vote",
+            "/api/like",
         ]
         for path in common_paths:
             url = f"{base_url}{path}"
             if not any(c.url == url for c in configs):
-                configs.append(RaceTestConfig(
-                    name=f"common-{path.split('/')[-1]}",
-                    url=url,
-                    method="POST",
-                    body={"test": "race"},
-                    expected_count=1,
-                    description=f"Race condition test on {path}",
-                ))
+                configs.append(
+                    RaceTestConfig(
+                        name=f"common-{path.split('/')[-1]}",
+                        url=url,
+                        method="POST",
+                        body={"test": "race"},
+                        expected_count=1,
+                        description=f"Race condition test on {path}",
+                    )
+                )
 
         return configs[:10]  # Limit total tests
 
@@ -240,9 +254,7 @@ class RaceScanner:
 
         return None
 
-    async def _send_request(
-        self, config: RaceTestConfig, index: int
-    ) -> tuple[int, str] | None:
+    async def _send_request(self, config: RaceTestConfig, index: int) -> tuple[int, str] | None:
         """Send a single request for the race test."""
         try:
             body = json.dumps(config.body) if config.body else None

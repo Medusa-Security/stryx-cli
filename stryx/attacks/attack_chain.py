@@ -31,11 +31,13 @@ class AttackChain:
 
     def add_step(self, finding: Finding, description: str = "", impact: str = "") -> None:
         """Add a step to the attack chain."""
-        self.steps.append(AttackStep(
-            finding=finding,
-            description=description or finding.description,
-            impact=impact,
-        ))
+        self.steps.append(
+            AttackStep(
+                finding=finding,
+                description=description or finding.description,
+                impact=impact,
+            )
+        )
 
     def to_dict(self) -> dict:
         """Convert to dictionary for serialization."""
@@ -69,10 +71,7 @@ class ChainBuilder:
         # Group findings by type
         auth_findings = [f for f in self.findings if "auth" in f.tags]
         injection_findings = [f for f in self.findings if "injection" in f.tags]
-        access_findings = [
-            f for f in self.findings
-            if "idor" in f.tags or "broken-access-control" in f.tags
-        ]
+        access_findings = [f for f in self.findings if "idor" in f.tags or "broken-access-control" in f.tags]
         ssrf_findings = [f for f in self.findings if "ssrf" in f.tags]
         traversal_findings = [f for f in self.findings if "path_traversal" in f.tags]
 
@@ -100,7 +99,8 @@ class ChainBuilder:
             chain.add_step(ssrf_findings[0], "Trigger SSRF", "Access internal services")
             if traversal_findings:
                 chain.add_step(
-                    traversal_findings[0], "Read sensitive files",
+                    traversal_findings[0],
+                    "Read sensitive files",
                     "Access configuration files",
                 )
             chain.total_impact = "Access to internal network and sensitive files"

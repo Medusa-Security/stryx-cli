@@ -68,8 +68,13 @@ PROVIDER_FINGERPRINTS = {
         "headers": [],
         "header_patterns": [],
         "cookie_patterns": [
-            r"session", r"sid", r"connect\.sid", r"JSESSIONID",
-            r"_session_id", r"laravel_session", r"csrftoken",
+            r"session",
+            r"sid",
+            r"connect\.sid",
+            r"JSESSIONID",
+            r"_session_id",
+            r"laravel_session",
+            r"csrftoken",
         ],
         "response_patterns": [],
     },
@@ -130,9 +135,7 @@ class AuthScanner:
         self.client = client
         self.detected_providers: list[str] = []
 
-    async def scan(
-        self, endpoints: list[str], base_url: str
-    ) -> list[Finding]:
+    async def scan(self, endpoints: list[str], base_url: str) -> list[Finding]:
         """Run authentication tests against the target."""
         findings: list[Finding] = []
         logger.info("Running authentication scanner")
@@ -165,25 +168,34 @@ class AuthScanner:
                 response.text,
             )
             if self.detected_providers:
-                logger.info(
-                    f"Detected auth providers: {', '.join(self.detected_providers)}"
-                )
+                logger.info(f"Detected auth providers: {', '.join(self.detected_providers)}")
         except Exception as e:
             logger.debug(f"Provider fingerprinting failed: {e}")
 
-    async def _test_missing_auth(
-        self, endpoints: list[str], base_url: str
-    ) -> list[Finding]:
+    async def _test_missing_auth(self, endpoints: list[str], base_url: str) -> list[Finding]:
         """Test if endpoints are accessible without authentication."""
         findings: list[Finding] = []
 
         protected_paths = [
-            "/admin", "/admin/", "/api/admin", "/dashboard",
-            "/api/users", "/api/user", "/api/profile",
-            "/settings", "/api/settings", "/api/config",
-            "/api/internal", "/internal", "/debug",
-            "/api/me", "/api/account", "/api/account/settings",
-            "/api/billing", "/api/keys", "/api/secrets",
+            "/admin",
+            "/admin/",
+            "/api/admin",
+            "/dashboard",
+            "/api/users",
+            "/api/user",
+            "/api/profile",
+            "/settings",
+            "/api/settings",
+            "/api/config",
+            "/api/internal",
+            "/internal",
+            "/debug",
+            "/api/me",
+            "/api/account",
+            "/api/account/settings",
+            "/api/billing",
+            "/api/keys",
+            "/api/secrets",
         ]
 
         for path in protected_paths:
@@ -193,33 +205,39 @@ class AuthScanner:
                 if response.status_code == 200:
                     body_lower = response.text.lower()
                     # Confirm it's actual content, not a redirect or error page
-                    if not any(x in body_lower for x in [
-                        "login", "sign in", "unauthorized", "forbidden",
-                    ]):
+                    if not any(
+                        x in body_lower
+                        for x in [
+                            "login",
+                            "sign in",
+                            "unauthorized",
+                            "forbidden",
+                        ]
+                    ):
                         evidence.confidence = 0.7
-                        findings.append(Finding(
-                            title=f"Unauthenticated access to {path}",
-                            severity=Severity.HIGH,
-                            evidence=evidence,
-                            description=(
-                                f"The endpoint {path} is accessible without any "
-                                f"authentication. This may expose sensitive data "
-                                f"or administrative functions."
-                            ),
-                            remediation="Implement authentication middleware to protect this endpoint.",
-                            cwe="CWE-306",
-                            owasp="A07:2021 - Identification and Authentication Failures",
-                            scanner="auth",
-                            tags=["missing-auth", "no-auth"],
-                        ))
+                        findings.append(
+                            Finding(
+                                title=f"Unauthenticated access to {path}",
+                                severity=Severity.HIGH,
+                                evidence=evidence,
+                                description=(
+                                    f"The endpoint {path} is accessible without any "
+                                    f"authentication. This may expose sensitive data "
+                                    f"or administrative functions."
+                                ),
+                                remediation="Implement authentication middleware to protect this endpoint.",
+                                cwe="CWE-306",
+                                owasp="A07:2021 - Identification and Authentication Failures",
+                                scanner="auth",
+                                tags=["missing-auth", "no-auth"],
+                            )
+                        )
             except Exception:
                 continue
 
         return findings
 
-    async def _test_jwt_weaknesses(
-        self, endpoints: list[str], base_url: str
-    ) -> list[Finding]:
+    async def _test_jwt_weaknesses(self, endpoints: list[str], base_url: str) -> list[Finding]:
         """Test for JWT implementation weaknesses.
 
         Tests: empty JWT, unsigned JWT, algorithm none, expired JWT,
@@ -237,24 +255,26 @@ class AuthScanner:
                     response, evidence = await self.client.get(endpoint, headers=headers)
                     if response.status_code == 200 and jwt_header:
                         evidence.confidence = 0.8
-                        findings.append(Finding(
-                            title=f"Weak JWT accepted: {jwt_desc} at {endpoint}",
-                            severity=Severity.CRITICAL,
-                            evidence=evidence,
-                            description=(
-                                f"The endpoint accepted {jwt_desc}. "
-                                f"This indicates weak token validation that could "
-                                f"allow authentication bypass."
-                            ),
-                            remediation=(
-                                "Validate JWT signatures, algorithm, expiration. "
-                                "Reject 'none' algorithm. Enforce signature verification."
-                            ),
-                            cwe="CWE-347",
-                            owasp="A07:2021 - Identification and Authentication Failures",
-                            scanner="auth",
-                            tags=["jwt", "weak-auth", "jwt-weakness"],
-                        ))
+                        findings.append(
+                            Finding(
+                                title=f"Weak JWT accepted: {jwt_desc} at {endpoint}",
+                                severity=Severity.CRITICAL,
+                                evidence=evidence,
+                                description=(
+                                    f"The endpoint accepted {jwt_desc}. "
+                                    f"This indicates weak token validation that could "
+                                    f"allow authentication bypass."
+                                ),
+                                remediation=(
+                                    "Validate JWT signatures, algorithm, expiration. "
+                                    "Reject 'none' algorithm. Enforce signature verification."
+                                ),
+                                cwe="CWE-347",
+                                owasp="A07:2021 - Identification and Authentication Failures",
+                                scanner="auth",
+                                tags=["jwt", "weak-auth", "jwt-weakness"],
+                            )
+                        )
                         break  # One finding per JWT type
                 except Exception:
                     continue
@@ -290,22 +310,24 @@ class AuthScanner:
                 if cookie_name in new_cookies:
                     if new_cookies[cookie_name] == session_cookies[cookie_name]:
                         evidence.confidence = 0.6
-                        findings.append(Finding(
-                            title="Potential session fixation",
-                            severity=Severity.MEDIUM,
-                            evidence=evidence,
-                            description=(
-                                f"The session cookie '{cookie_name}' did not change "
-                                f"after login, which may indicate session fixation. "
-                                f"An attacker could set a known session ID before the "
-                                f"user authenticates."
-                            ),
-                            remediation="Regenerate session ID after successful authentication.",
-                            cwe="CWE-384",
-                            owasp="A07:2021 - Identification and Authentication Failures",
-                            scanner="auth",
-                            tags=["session-fixation"],
-                        ))
+                        findings.append(
+                            Finding(
+                                title="Potential session fixation",
+                                severity=Severity.MEDIUM,
+                                evidence=evidence,
+                                description=(
+                                    f"The session cookie '{cookie_name}' did not change "
+                                    f"after login, which may indicate session fixation. "
+                                    f"An attacker could set a known session ID before the "
+                                    f"user authenticates."
+                                ),
+                                remediation="Regenerate session ID after successful authentication.",
+                                cwe="CWE-384",
+                                owasp="A07:2021 - Identification and Authentication Failures",
+                                scanner="auth",
+                                tags=["session-fixation"],
+                            )
+                        )
         except Exception:
             pass
 
@@ -331,58 +353,63 @@ class AuthScanner:
                 # Missing Secure flag
                 if "secure" not in cookie_lower:
                     evidence.confidence = 0.6
-                    findings.append(Finding(
-                        title="Cookie missing Secure flag",
-                        severity=Severity.MEDIUM,
-                        evidence=evidence,
-                        description=(
-                            f"Cookie '{cookie_header[:60]}...' is set without "
-                            f"the Secure flag, allowing it to be sent over HTTP."
-                        ),
-                        remediation="Set the Secure flag on all session cookies.",
-                        cwe="CWE-614",
-                        owasp="A05:2021 - Security Misconfiguration",
-                        scanner="auth",
-                        tags=["cookie", "insecure-flag"],
-                    ))
+                    findings.append(
+                        Finding(
+                            title="Cookie missing Secure flag",
+                            severity=Severity.MEDIUM,
+                            evidence=evidence,
+                            description=(
+                                f"Cookie '{cookie_header[:60]}...' is set without "
+                                f"the Secure flag, allowing it to be sent over HTTP."
+                            ),
+                            remediation="Set the Secure flag on all session cookies.",
+                            cwe="CWE-614",
+                            owasp="A05:2021 - Security Misconfiguration",
+                            scanner="auth",
+                            tags=["cookie", "insecure-flag"],
+                        )
+                    )
                     break  # One finding per type
 
                 # Missing HttpOnly flag
                 if "httponly" not in cookie_lower:
                     evidence.confidence = 0.6
-                    findings.append(Finding(
-                        title="Cookie missing HttpOnly flag",
-                        severity=Severity.MEDIUM,
-                        evidence=evidence,
-                        description=(
-                            f"Cookie '{cookie_header[:60]}...' is set without "
-                            f"the HttpOnly flag, exposing it to XSS attacks."
-                        ),
-                        remediation="Set the HttpOnly flag on all session cookies.",
-                        cwe="CWE-1004",
-                        owasp="A05:2021 - Security Misconfiguration",
-                        scanner="auth",
-                        tags=["cookie", "httponly"],
-                    ))
+                    findings.append(
+                        Finding(
+                            title="Cookie missing HttpOnly flag",
+                            severity=Severity.MEDIUM,
+                            evidence=evidence,
+                            description=(
+                                f"Cookie '{cookie_header[:60]}...' is set without "
+                                f"the HttpOnly flag, exposing it to XSS attacks."
+                            ),
+                            remediation="Set the HttpOnly flag on all session cookies.",
+                            cwe="CWE-1004",
+                            owasp="A05:2021 - Security Misconfiguration",
+                            scanner="auth",
+                            tags=["cookie", "httponly"],
+                        )
+                    )
                     break
 
                 # Missing SameSite attribute
                 if "samesite" not in cookie_lower:
                     evidence.confidence = 0.5
-                    findings.append(Finding(
-                        title="Cookie missing SameSite attribute",
-                        severity=Severity.LOW,
-                        evidence=evidence,
-                        description=(
-                            f"Cookie '{cookie_header[:60]}...' is set without "
-                            f"the SameSite attribute."
-                        ),
-                        remediation="Set SameSite=Strict or SameSite=Lax on cookies.",
-                        cwe="CWE-1275",
-                        owasp="A05:2021 - Security Misconfiguration",
-                        scanner="auth",
-                        tags=["cookie", "samesite"],
-                    ))
+                    findings.append(
+                        Finding(
+                            title="Cookie missing SameSite attribute",
+                            severity=Severity.LOW,
+                            evidence=evidence,
+                            description=(
+                                f"Cookie '{cookie_header[:60]}...' is set without " f"the SameSite attribute."
+                            ),
+                            remediation="Set SameSite=Strict or SameSite=Lax on cookies.",
+                            cwe="CWE-1275",
+                            owasp="A05:2021 - Security Misconfiguration",
+                            scanner="auth",
+                            tags=["cookie", "samesite"],
+                        )
+                    )
                     break
 
         except Exception:
@@ -399,41 +426,47 @@ def _build_jwt_test_cases() -> list[tuple[str, str]]:
     cases.append(("", "empty Bearer token"))
 
     # 2. Unsigned JWT (alg: none)
-    header_b64 = base64.urlsafe_b64encode(
-        json.dumps({"alg": "none", "typ": "JWT"}).encode()
-    ).rstrip(b"=").decode()
-    payload_b64 = base64.urlsafe_b64encode(
-        json.dumps({"sub": "1", "name": "admin", "role": "admin"}).encode()
-    ).rstrip(b"=").decode()
+    header_b64 = base64.urlsafe_b64encode(json.dumps({"alg": "none", "typ": "JWT"}).encode()).rstrip(b"=").decode()
+    payload_b64 = (
+        base64.urlsafe_b64encode(json.dumps({"sub": "1", "name": "admin", "role": "admin"}).encode())
+        .rstrip(b"=")
+        .decode()
+    )
     cases.append((f"{header_b64}.{payload_b64}.", "unsigned JWT (alg: none)"))
 
     # 3. JWT with "none" algorithm variant
-    header_b64 = base64.urlsafe_b64encode(
-        json.dumps({"alg": "None", "typ": "JWT"}).encode()
-    ).rstrip(b"=").decode()
+    header_b64 = base64.urlsafe_b64encode(json.dumps({"alg": "None", "typ": "JWT"}).encode()).rstrip(b"=").decode()
     cases.append((f"{header_b64}.{payload_b64}.", "JWT with None algorithm (mixed case)"))
 
     # 4. Expired JWT
-    expired_payload = base64.urlsafe_b64encode(
-        json.dumps({
-            "sub": "1",
-            "exp": int(time.time()) - 3600,  # 1 hour ago
-            "iat": int(time.time()) - 7200,
-        }).encode()
-    ).rstrip(b"=").decode()
-    header_hs256 = base64.urlsafe_b64encode(
-        json.dumps({"alg": "HS256", "typ": "JWT"}).encode()
-    ).rstrip(b"=").decode()
-    cases.append((
-        f"{header_hs256}.{expired_payload}.fake_signature",
-        "expired JWT",
-    ))
+    expired_payload = (
+        base64.urlsafe_b64encode(
+            json.dumps(
+                {
+                    "sub": "1",
+                    "exp": int(time.time()) - 3600,  # 1 hour ago
+                    "iat": int(time.time()) - 7200,
+                }
+            ).encode()
+        )
+        .rstrip(b"=")
+        .decode()
+    )
+    header_hs256 = base64.urlsafe_b64encode(json.dumps({"alg": "HS256", "typ": "JWT"}).encode()).rstrip(b"=").decode()
+    cases.append(
+        (
+            f"{header_hs256}.{expired_payload}.fake_signature",
+            "expired JWT",
+        )
+    )
 
     # 5. JWT with no signature
-    cases.append((
-        f"{header_hs256}.{payload_b64}",
-        "JWT with missing signature",
-    ))
+    cases.append(
+        (
+            f"{header_hs256}.{payload_b64}",
+            "JWT with missing signature",
+        )
+    )
 
     # 6. Malformed token
     cases.append(("not.a.valid.jwt.token", "malformed JWT token"))

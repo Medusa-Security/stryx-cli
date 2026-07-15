@@ -101,8 +101,16 @@ def save_config(config: StryxConfig, path: Path | None = None) -> Path:
     data = config.model_dump(exclude_none=True)
     # Remove CLI-only fields
     cli_fields = {
-        "target_url", "deep", "json_output", "html_output",
-        "markdown_output", "headers", "cookies", "proxy", "wordlist", "rate",
+        "target_url",
+        "deep",
+        "json_output",
+        "html_output",
+        "markdown_output",
+        "headers",
+        "cookies",
+        "proxy",
+        "wordlist",
+        "rate",
     }
     for field in cli_fields:
         data.pop(field, None)

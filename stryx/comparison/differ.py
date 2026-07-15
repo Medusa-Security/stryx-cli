@@ -45,10 +45,7 @@ class ScanDiff:
     @property
     def has_regressions(self) -> bool:
         """Check if there are new critical/high findings."""
-        return any(
-            d.severity in ("critical", "high")
-            for d in self.new_findings
-        )
+        return any(d.severity in ("critical", "high") for d in self.new_findings)
 
     @property
     def total_changes(self) -> int:
@@ -108,12 +105,10 @@ class ScanDiff:
                 "has_regressions": self.has_regressions,
             },
             "new_findings": [
-                {"title": d.title, "endpoint": d.endpoint, "severity": d.severity}
-                for d in self.new_findings
+                {"title": d.title, "endpoint": d.endpoint, "severity": d.severity} for d in self.new_findings
             ],
             "resolved_findings": [
-                {"title": d.title, "endpoint": d.endpoint, "severity": d.severity}
-                for d in self.resolved_findings
+                {"title": d.title, "endpoint": d.endpoint, "severity": d.severity} for d in self.resolved_findings
             ],
             "severity_changes": [
                 {
@@ -203,14 +198,16 @@ class ScanDiffer:
             old_sev = baseline_findings[fp].get("severity", "info")
             new_sev = current_findings[fp].get("severity", "info")
             if old_sev != new_sev:
-                severity_changes.append(FindingDiff(
-                    title=current_findings[fp]["title"],
-                    endpoint=current_findings[fp].get("endpoint", ""),
-                    severity=new_sev,
-                    status="severity_changed",
-                    old_severity=old_sev,
-                    new_severity=new_sev,
-                ))
+                severity_changes.append(
+                    FindingDiff(
+                        title=current_findings[fp]["title"],
+                        endpoint=current_findings[fp].get("endpoint", ""),
+                        severity=new_sev,
+                        status="severity_changed",
+                        old_severity=old_sev,
+                        new_severity=new_sev,
+                    )
+                )
 
         return ScanDiff(
             baseline_file=self.baseline_path,
@@ -223,9 +220,7 @@ class ScanDiffer:
             unchanged_count=len(common_fps) - len(severity_changes),
         )
 
-    def _index_findings(
-        self, findings: list[dict]
-    ) -> dict[str, dict]:
+    def _index_findings(self, findings: list[dict]) -> dict[str, dict]:
         """Index findings by their fingerprint."""
         indexed = {}
         for f in findings:

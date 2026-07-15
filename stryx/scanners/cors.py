@@ -60,9 +60,7 @@ class CorsScanner:
                     continue
 
                 # Check for dangerous patterns
-                finding = self._check_origin_reflection(
-                    origin, acao, acac, desc, evidence
-                )
+                finding = self._check_origin_reflection(origin, acao, acac, desc, evidence)
                 if finding:
                     findings.append(finding)
 
@@ -134,8 +132,7 @@ class CorsScanner:
                     "misconfiguration that allows any origin to make credentialed requests."
                 ),
                 remediation=(
-                    "Remove wildcard CORS or disable credentials. "
-                    "Whitelist specific trusted origins instead."
+                    "Remove wildcard CORS or disable credentials. " "Whitelist specific trusted origins instead."
                 ),
                 cwe="CWE-942",
                 owasp="A05:2021 - Security Misconfiguration",

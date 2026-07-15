@@ -46,13 +46,15 @@ class TerminalReport:
 
         summary = " | ".join(summary_parts) if summary_parts else "No findings"
 
-        self.console.print(Panel(
-            f"[bold]Target:[/] {self.target_url}\n"
-            f"[bold]Total Findings:[/] {len(self.findings)}\n"
-            f"[bold]Breakdown:[/] {summary}",
-            title="[bold]STRYX Scan Results[/]",
-            border_style="cyan",
-        ))
+        self.console.print(
+            Panel(
+                f"[bold]Target:[/] {self.target_url}\n"
+                f"[bold]Total Findings:[/] {len(self.findings)}\n"
+                f"[bold]Breakdown:[/] {summary}",
+                title="[bold]STRYX Scan Results[/]",
+                border_style="cyan",
+            )
+        )
 
     def _display_findings_table(self) -> None:
         """Display findings in a table."""

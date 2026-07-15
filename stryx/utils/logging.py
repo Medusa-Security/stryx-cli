@@ -9,18 +9,20 @@ from rich.logging import RichHandler
 from rich.theme import Theme
 
 # Custom theme for STRYX
-STRYX_THEME = Theme({
-    "info": "cyan",
-    "warning": "yellow",
-    "error": "bold red",
-    "critical": "bold white on red",
-    "success": "bold green",
-    "severity.critical": "bold red",
-    "severity.high": "red",
-    "severity.medium": "yellow",
-    "severity.low": "blue",
-    "severity.info": "dim",
-})
+STRYX_THEME = Theme(
+    {
+        "info": "cyan",
+        "warning": "yellow",
+        "error": "bold red",
+        "critical": "bold white on red",
+        "success": "bold green",
+        "severity.critical": "bold red",
+        "severity.high": "red",
+        "severity.medium": "yellow",
+        "severity.low": "blue",
+        "severity.info": "dim",
+    }
+)
 
 console = Console(theme=STRYX_THEME)
 

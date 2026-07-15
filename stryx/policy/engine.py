@@ -94,80 +94,94 @@ class PolicyEngine:
         # Check max severity counts
         max_critical = self.config.get("max_critical")
         if max_critical is not None and severity_counts.get("critical", 0) > max_critical:
-            violations.append(PolicyViolation(
-                rule="max_critical",
-                message=f"Found {severity_counts['critical']} critical findings (max: {max_critical})",
-                severity="critical",
-            ))
+            violations.append(
+                PolicyViolation(
+                    rule="max_critical",
+                    message=f"Found {severity_counts['critical']} critical findings (max: {max_critical})",
+                    severity="critical",
+                )
+            )
 
         max_high = self.config.get("max_high")
         if max_high is not None and severity_counts.get("high", 0) > max_high:
-            violations.append(PolicyViolation(
-                rule="max_high",
-                message=f"Found {severity_counts['high']} high findings (max: {max_high})",
-                severity="high",
-            ))
+            violations.append(
+                PolicyViolation(
+                    rule="max_high",
+                    message=f"Found {severity_counts['high']} high findings (max: {max_high})",
+                    severity="high",
+                )
+            )
 
         max_medium = self.config.get("max_medium")
         if max_medium is not None and severity_counts.get("medium", 0) > max_medium:
-            violations.append(PolicyViolation(
-                rule="max_medium",
-                message=f"Found {severity_counts['medium']} medium findings (max: {max_medium})",
-                severity="medium",
-            ))
+            violations.append(
+                PolicyViolation(
+                    rule="max_medium",
+                    message=f"Found {severity_counts['medium']} medium findings (max: {max_medium})",
+                    severity="medium",
+                )
+            )
 
         max_low = self.config.get("max_low")
         if max_low is not None and severity_counts.get("low", 0) > max_low:
-            violations.append(PolicyViolation(
-                rule="max_low",
-                message=f"Found {severity_counts['low']} low findings (max: {max_low})",
-                severity="low",
-            ))
+            violations.append(
+                PolicyViolation(
+                    rule="max_low",
+                    message=f"Found {severity_counts['low']} low findings (max: {max_low})",
+                    severity="low",
+                )
+            )
 
         max_findings = self.config.get("max_findings")
         if max_findings is not None and len(findings) > max_findings:
-            violations.append(PolicyViolation(
-                rule="max_findings",
-                message=f"Found {len(findings)} total findings (max: {max_findings})",
-                severity="high",
-            ))
+            violations.append(
+                PolicyViolation(
+                    rule="max_findings",
+                    message=f"Found {len(findings)} total findings (max: {max_findings})",
+                    severity="high",
+                )
+            )
 
         # Check blocked CWEs
         blocked_cwe = set(self.config.get("blocked_cwe", []))
         if blocked_cwe:
             for f in findings:
                 if f.cwe in blocked_cwe:
-                    violations.append(PolicyViolation(
-                        rule="blocked_cwe",
-                        message=f"Blocked CWE found: {f.cwe} at {f.endpoint}",
-                        severity=f.severity.value,
-                        details=f.title,
-                    ))
+                    violations.append(
+                        PolicyViolation(
+                            rule="blocked_cwe",
+                            message=f"Blocked CWE found: {f.cwe} at {f.endpoint}",
+                            severity=f.severity.value,
+                            details=f.title,
+                        )
+                    )
 
         # Check blocked scanners
         blocked_scanners = set(self.config.get("blocked_scanners", []))
         if blocked_scanners:
             for f in findings:
                 if f.scanner in blocked_scanners:
-                    violations.append(PolicyViolation(
-                        rule="blocked_scanners",
-                        message=f"Finding from blocked scanner '{f.scanner}': {f.title}",
-                        severity=f.severity.value,
-                        details=f.endpoint,
-                    ))
+                    violations.append(
+                        PolicyViolation(
+                            rule="blocked_scanners",
+                            message=f"Finding from blocked scanner '{f.scanner}': {f.title}",
+                            severity=f.severity.value,
+                            details=f.endpoint,
+                        )
+                    )
 
         # Check minimum confidence
         min_confidence = self.config.get("min_confidence")
         if min_confidence is not None:
-            low_conf_count = sum(
-                1 for f in findings if f.evidence.confidence < min_confidence
-            )
+            low_conf_count = sum(1 for f in findings if f.evidence.confidence < min_confidence)
             if low_conf_count > 0:
-                violations.append(PolicyViolation(
-                    rule="min_confidence",
-                    message=f"{low_conf_count} findings below confidence threshold {min_confidence}",
-                    severity="info",
-                ))
+                violations.append(
+                    PolicyViolation(
+                        rule="min_confidence",
+                        message=f"{low_conf_count} findings below confidence threshold {min_confidence}",
+                        severity="info",
+                    )
+                )
 
         # Build summary
         total = len(findings)

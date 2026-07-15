@@ -88,9 +88,7 @@ class SessionManager:
         # Check explicit login URL first
         if self.login_url:
             try:
-                response, _ = await self.client.get(
-                    self._ensure_absolute(self.login_url)
-                )
+                response, _ = await self.client.get(self._ensure_absolute(self.login_url))
                 if response.status_code == 200:
                     endpoints = self._extract_login_forms(response.text, self.login_url)
                     self._login_endpoints.extend(endpoints)
@@ -98,8 +96,15 @@ class SessionManager:
                 logger.debug(f"Failed to check login URL: {e}")
 
         # Crawl common login paths
-        login_paths = ["/login", "/signin", "/auth/login", "/api/auth/login",
-                       "/api/login", "/account/login", "/wp-login.php"]
+        login_paths = [
+            "/login",
+            "/signin",
+            "/auth/login",
+            "/api/auth/login",
+            "/api/login",
+            "/account/login",
+            "/wp-login.php",
+        ]
         for path in login_paths:
             url = f"{self.base_url}{path}"
             try:
@@ -134,7 +139,7 @@ class SessionManager:
             # Get form content (simplified — find the form body)
             form_start = html.lower().find(f'action="{action}"')
             if form_start == -1:
-                form_start = html.lower().find(f'action=\'{action}\'')
+                form_start = html.lower().find(f"action='{action}'")
             if form_start == -1:
                 continue
 
@@ -164,7 +169,9 @@ class SessionManager:
                 elif action.startswith("/"):
                     form_url = f"{base}{action}"
                 else:
-                    form_url = f"{base}/{page_path.rsplit('/', 1)[0]}/{action}" if "/" in page_path else f"{base}/{action}"
+                    form_url = (
+                        f"{base}/{page_path.rsplit('/', 1)[0]}/{action}" if "/" in page_path else f"{base}/{action}"
+                    )
 
                 # Determine content type
                 content_type = "application/json"
@@ -173,13 +180,15 @@ class SessionManager:
                 elif "urlencoded" in form_html.lower():
                     content_type = "application/x-www-form-urlencoded"
 
-                endpoints.append(LoginEndpoint(
-                    url=form_url,
-                    method=method.upper(),
-                    username_field=username_field,
-                    password_field=password_field,
-                    content_type=content_type,
-                ))
+                endpoints.append(
+                    LoginEndpoint(
+                        url=form_url,
+                        method=method.upper(),
+                        username_field=username_field,
+                        password_field=password_field,
+                        content_type=content_type,
+                    )
+                )
 
         return endpoints
 

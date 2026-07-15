@@ -65,12 +65,14 @@ def _parse_openapi_paths(spec: dict, base_url: str) -> list[Endpoint]:
                         if isinstance(param, dict):
                             params.append(param.get("name", ""))
 
-                endpoints.append(Endpoint(
-                    path=f"{base_url}{path}",
-                    method=method.upper(),
-                    source="openapi",
-                    confidence=0.95,
-                    params=[p for p in params if p],
-                ))
+                endpoints.append(
+                    Endpoint(
+                        path=f"{base_url}{path}",
+                        method=method.upper(),
+                        source="openapi",
+                        confidence=0.95,
+                        params=[p for p in params if p],
+                    )
+                )
 
     return endpoints

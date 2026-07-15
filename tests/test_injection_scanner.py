@@ -71,16 +71,10 @@ class TestDetectionPatterns:
         patterns = DETECTION_PATTERNS["sqli"]
         assert len(patterns) > 5
         # Test a pattern matches
-        assert any(
-            re.search(p, "You have an error in your SQL syntax", re.IGNORECASE)
-            for p in patterns
-        )
+        assert any(re.search(p, "You have an error in your SQL syntax", re.IGNORECASE) for p in patterns)
 
     def test_cmdi_patterns(self):
         """Test command injection detection patterns."""
         patterns = DETECTION_PATTERNS["cmdi"]
         assert len(patterns) > 3
-        assert any(
-            re.search(p, "uid=0(root)", re.IGNORECASE)
-            for p in patterns
-        )
+        assert any(re.search(p, "uid=0(root)", re.IGNORECASE) for p in patterns)

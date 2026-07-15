@@ -22,9 +22,7 @@ class AuthorizationScanner:
         self.client = client
         self.replay = ReplayEngine(client)
 
-    async def scan(
-        self, endpoints: list[str], base_url: str, cookies: str = ""
-    ) -> list[Finding]:
+    async def scan(self, endpoints: list[str], base_url: str, cookies: str = "") -> list[Finding]:
         """Run authorization tests."""
         findings: list[Finding] = []
         logger.info("Running authorization scanner")
@@ -44,17 +42,12 @@ class AuthorizationScanner:
         logger.info(f"Authorization scanner found {len(findings)} findings")
         return findings
 
-    async def _test_idor(
-        self, endpoints: list[str], base_url: str, cookies: str
-    ) -> list[Finding]:
+    async def _test_idor(self, endpoints: list[str], base_url: str, cookies: str) -> list[Finding]:
         """Test for Insecure Direct Object Reference using replay engine."""
         findings: list[Finding] = []
 
         # Find endpoints that likely contain IDs
-        idor_candidates = [
-            ep for ep in endpoints
-            if ReplayEngine.is_idor_candidate(ep)
-        ]
+        idor_candidates = [ep for ep in endpoints if ReplayEngine.is_idor_candidate(ep)]
 
         # If no IDOR candidates from endpoints, test common patterns
         if not idor_candidates:
@@ -89,18 +82,21 @@ class AuthorizationScanner:
 
         return findings
 
-    async def _test_privilege_escalation(
-        self, endpoints: list[str], base_url: str, cookies: str
-    ) -> list[Finding]:
+    async def _test_privilege_escalation(self, endpoints: list[str], base_url: str, cookies: str) -> list[Finding]:
         """Test for privilege escalation."""
         findings: list[Finding] = []
         cookie_dict = _parse_cookies(cookies)
 
         # Test vertical escalation - accessing admin endpoints as regular user
         admin_paths = [
-            "/admin", "/admin/", "/api/admin", "/api/admin/users",
-            "/api/admin/config", "/api/admin/settings",
-            "/api/admin/stats", "/api/admin/logs",
+            "/admin",
+            "/admin/",
+            "/api/admin",
+            "/api/admin/users",
+            "/api/admin/config",
+            "/api/admin/settings",
+            "/api/admin/stats",
+            "/api/admin/logs",
         ]
 
         for path in admin_paths:
@@ -109,35 +105,37 @@ class AuthorizationScanner:
                 response, evidence = await self.client.get(url, cookies=cookie_dict)
                 if response.status_code == 200:
                     evidence.confidence = 0.7
-                    findings.append(Finding(
-                        title=f"Admin endpoint accessible: {path}",
-                        severity=Severity.CRITICAL,
-                        evidence=evidence,
-                        description=(
-                            f"The admin endpoint {path} is accessible. "
-                            f"This may allow privilege escalation."
-                        ),
-                        remediation="Restrict admin endpoints to authorized administrators.",
-                        cwe="CWE-269",
-                        owasp="A01:2021 - Broken Access Control",
-                        scanner="authorization",
-                        tags=["privilege-escalation", "admin-access"],
-                    ))
+                    findings.append(
+                        Finding(
+                            title=f"Admin endpoint accessible: {path}",
+                            severity=Severity.CRITICAL,
+                            evidence=evidence,
+                            description=(
+                                f"The admin endpoint {path} is accessible. " f"This may allow privilege escalation."
+                            ),
+                            remediation="Restrict admin endpoints to authorized administrators.",
+                            cwe="CWE-269",
+                            owasp="A01:2021 - Broken Access Control",
+                            scanner="authorization",
+                            tags=["privilege-escalation", "admin-access"],
+                        )
+                    )
             except Exception:
                 continue
 
         return findings
 
-    async def _test_admin_access(
-        self, base_url: str, cookies: str
-    ) -> list[Finding]:
+    async def _test_admin_access(self, base_url: str, cookies: str) -> list[Finding]:
         """Test for unauthorized admin access."""
         findings: list[Finding] = []
 
         # Try accessing admin with and without auth
         admin_endpoints = [
-            "/admin", "/admin/dashboard", "/api/admin",
-            "/admin/panel", "/administrator",
+            "/admin",
+            "/admin/dashboard",
+            "/api/admin",
+            "/admin/panel",
+            "/administrator",
         ]
 
         for path in admin_endpoints:
@@ -147,40 +145,34 @@ class AuthorizationScanner:
                 response, evidence = await self.client.get(url)
                 if response.status_code == 200:
                     evidence.confidence = 0.8
-                    findings.append(Finding(
-                        title=f"Admin panel accessible without auth: {path}",
-                        severity=Severity.CRITICAL,
-                        evidence=evidence,
-                        description=(
-                            f"The admin panel at {path} is accessible without "
-                            f"authentication. This is a critical security issue."
-                        ),
-                        remediation=(
-                            "Implement authentication and authorization "
-                            "for admin interfaces."
-                        ),
-                        cwe="CWE-284",
-                        owasp="A01:2021 - Broken Access Control",
-                        scanner="authorization",
-                        tags=["admin-panel", "no-auth"],
-                    ))
+                    findings.append(
+                        Finding(
+                            title=f"Admin panel accessible without auth: {path}",
+                            severity=Severity.CRITICAL,
+                            evidence=evidence,
+                            description=(
+                                f"The admin panel at {path} is accessible without "
+                                f"authentication. This is a critical security issue."
+                            ),
+                            remediation=("Implement authentication and authorization " "for admin interfaces."),
+                            cwe="CWE-284",
+                            owasp="A01:2021 - Broken Access Control",
+                            scanner="authorization",
+                            tags=["admin-panel", "no-auth"],
+                        )
+                    )
             except Exception:
                 continue
 
         return findings
 
-    async def _test_horizontal_escalation(
-        self, endpoints: list[str], base_url: str, cookies: str
-    ) -> list[Finding]:
+    async def _test_horizontal_escalation(self, endpoints: list[str], base_url: str, cookies: str) -> list[Finding]:
         """Test horizontal privilege escalation across user resources."""
         findings: list[Finding] = []
         cookie_dict = _parse_cookies(cookies)
 
         # Find endpoints with {user_id} pattern or numeric IDs
-        user_endpoints = [
-            ep for ep in endpoints
-            if "{user_id}" in ep or "/users/" in ep or "/profile/" in ep
-        ]
+        user_endpoints = [ep for ep in endpoints if "{user_id}" in ep or "/users/" in ep or "/profile/" in ep]
 
         # Add common patterns if none found
         if not user_endpoints:

@@ -30,9 +30,9 @@ async def discover_graphql(target_url: str) -> list[Endpoint]:
     endpoints: list[Endpoint] = []
     client = HttpClient(timeout=5)
 
-    introspection_query = json.dumps({
-        "query": "{ __schema { queryType { name } mutationType { name } types { name } } }"
-    })
+    introspection_query = json.dumps(
+        {"query": "{ __schema { queryType { name } mutationType { name } types { name } } }"}
+    )
 
     for path in GRAPHQL_PATHS:
         url = f"{target_url}{path}"
@@ -40,12 +40,14 @@ async def discover_graphql(target_url: str) -> list[Endpoint]:
             # Try GET first (some servers support it)
             response, evidence = await client.get(url)
             if response.status_code == 200 and _looks_like_graphql(response.text):
-                endpoints.append(Endpoint(
-                    path=url,
-                    method="GET",
-                    source="graphql",
-                    confidence=0.9,
-                ))
+                endpoints.append(
+                    Endpoint(
+                        path=url,
+                        method="GET",
+                        source="graphql",
+                        confidence=0.9,
+                    )
+                )
                 continue
 
             # Try POST with introspection query
@@ -59,12 +61,14 @@ async def discover_graphql(target_url: str) -> list[Endpoint]:
                     data = response.json()
                     if isinstance(data, dict) and "data" in data:
                         logger.info(f"Found GraphQL endpoint at {path} (introspection works)")
-                        endpoints.append(Endpoint(
-                            path=url,
-                            method="POST",
-                            source="graphql-introspection",
-                            confidence=0.95,
-                        ))
+                        endpoints.append(
+                            Endpoint(
+                                path=url,
+                                method="POST",
+                                source="graphql-introspection",
+                                confidence=0.95,
+                            )
+                        )
                 except (json.JSONDecodeError, ValueError):
                     pass
         except Exception:

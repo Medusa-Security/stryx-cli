@@ -20,31 +20,71 @@ logger = get_logger("scanner.fuzz")
 # Fuzz payloads for different mutation types
 FUZZ_PAYLOADS = {
     "integer": [
-        "0", "-1", "1", "999999999999", "2147483647", "2147483648",
-        "-2147483648", "-2147483649", "0x7FFFFFFF", "0x80000000",
-        "99999999999999999999", "1.5", "NaN", "Infinity",
+        "0",
+        "-1",
+        "1",
+        "999999999999",
+        "2147483647",
+        "2147483648",
+        "-2147483648",
+        "-2147483649",
+        "0x7FFFFFFF",
+        "0x80000000",
+        "99999999999999999999",
+        "1.5",
+        "NaN",
+        "Infinity",
     ],
     "string": [
-        "", "a", "a" * 1000, "a" * 10000,
-        "'", "\"", "\\", "\\'", "\\\"",
+        "",
+        "a",
+        "a" * 1000,
+        "a" * 10000,
+        "'",
+        '"',
+        "\\",
+        "\\'",
+        '\\"',
         "<script>alert(1)</script>",
-        "{{7*7}}", "${7*7}",
-        "%00", "%0a", "%0d%0a",
-        "true", "false", "null", "undefined",
-        "[]", "{}", "[[]]",
+        "{{7*7}}",
+        "${7*7}",
+        "%00",
+        "%0a",
+        "%0d%0a",
+        "true",
+        "false",
+        "null",
+        "undefined",
+        "[]",
+        "{}",
+        "[[]]",
     ],
     "boundary": [
-        "0", "-0", "+0", "0.0", "-0.0",
+        "0",
+        "-0",
+        "+0",
+        "0.0",
+        "-0.0",
         "1.7976931348623157E+308",
         "4.9E-324",
-        "1e999", "-1e999",
+        "1e999",
+        "-1e999",
         "99999999999999999999999999",
     ],
     "encoding": [
-        "%00", "%0a", "%0d", "%0d%0a",
-        "%ef%bb%bf", "%c0%80", "%e0%80%80",
-        "\\u0000", "\\n", "\\r",
-        "\x00", "\n", "\r\n",
+        "%00",
+        "%0a",
+        "%0d",
+        "%0d%0a",
+        "%ef%bb%bf",
+        "%c0%80",
+        "%e0%80%80",
+        "\\u0000",
+        "\\n",
+        "\\r",
+        "\x00",
+        "\n",
+        "\r\n",
     ],
     "nested_json": [
         json.dumps({"a": {"b": {"c": {"d": {"e": "f"}}}}}),
@@ -130,8 +170,7 @@ class FuzzScanner:
                         test_params = dict(params)
                         test_params[param_name] = [payload]
                         test_url = (
-                            f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
-                            f"?{urlencode(test_params, doseq=True)}"
+                            f"{parsed.scheme}://{parsed.netloc}{parsed.path}" f"?{urlencode(test_params, doseq=True)}"
                         )
 
                         response, evidence = await self.client.get(test_url)
@@ -140,20 +179,22 @@ class FuzzScanner:
                         if self._detect_fuzz_issue(response, payload, evidence):
                             evidence.confidence = 0.6
                             evidence.payload = payload
-                            findings.append(Finding(
-                                title=f"Fuzzing issue in parameter '{param_name}' ({category})",
-                                severity=Severity.MEDIUM,
-                                evidence=evidence,
-                                description=(
-                                    f"Fuzzing parameter '{param_name}' with {category} "
-                                    f"payload caused an unexpected response."
-                                ),
-                                remediation="Validate and sanitize all input parameters.",
-                                cwe="CWE-20",
-                                owasp="A03:2021 - Injection",
-                                scanner="fuzz",
-                                tags=["fuzzing", "input-validation"],
-                            ))
+                            findings.append(
+                                Finding(
+                                    title=f"Fuzzing issue in parameter '{param_name}' ({category})",
+                                    severity=Severity.MEDIUM,
+                                    evidence=evidence,
+                                    description=(
+                                        f"Fuzzing parameter '{param_name}' with {category} "
+                                        f"payload caused an unexpected response."
+                                    ),
+                                    remediation="Validate and sanitize all input parameters.",
+                                    cwe="CWE-20",
+                                    owasp="A03:2021 - Injection",
+                                    scanner="fuzz",
+                                    tags=["fuzzing", "input-validation"],
+                                )
+                            )
                             break  # One finding per category per param
                     except Exception:
                         continue
@@ -175,36 +216,41 @@ class FuzzScanner:
                 if self._detect_fuzz_issue(response, payload, evidence):
                     evidence.confidence = 0.5
                     evidence.payload = payload
-                    findings.append(Finding(
-                        title="Potential prototype pollution or nested JSON issue",
-                        severity=Severity.MEDIUM,
-                        evidence=evidence,
-                        description="Deeply nested or prototype-polluting JSON payload caused an unexpected response.",
-                        remediation="Validate JSON structure depth and reject prototype-polluting keys.",
-                        cwe="CWE-1321",
-                        owasp="A03:2021 - Injection",
-                        scanner="fuzz",
-                        tags=["fuzzing", "prototype-pollution"],
-                    ))
+                    findings.append(
+                        Finding(
+                            title="Potential prototype pollution or nested JSON issue",
+                            severity=Severity.MEDIUM,
+                            evidence=evidence,
+                            description="Deeply nested or prototype-polluting JSON payload caused an unexpected response.",
+                            remediation="Validate JSON structure depth and reject prototype-polluting keys.",
+                            cwe="CWE-1321",
+                            owasp="A03:2021 - Injection",
+                            scanner="fuzz",
+                            tags=["fuzzing", "prototype-pollution"],
+                        )
+                    )
                     break
             except Exception:
                 continue
 
         return findings
 
-    def _detect_fuzz_issue(
-        self, response: Any, payload: str, evidence: Evidence
-    ) -> bool:
+    def _detect_fuzz_issue(self, response: Any, payload: str, evidence: Evidence) -> bool:
         """Detect if a fuzzing payload caused an issue."""
         status = response.status_code
         body = response.text.lower() if hasattr(response, "text") else ""
 
         # Error indicators
         error_patterns = [
-            "traceback", "exception", "error",
-            "internal server error", "500",
-            "stack trace", "debug",
-            "unhandled", "panic",
+            "traceback",
+            "exception",
+            "error",
+            "internal server error",
+            "500",
+            "stack trace",
+            "debug",
+            "unhandled",
+            "panic",
         ]
 
         if status >= 500:
@@ -218,10 +264,18 @@ class FuzzScanner:
 
         # Headers to fuzz
         fuzz_headers = [
-            "User-Agent", "X-Forwarded-For", "X-Real-IP",
-            "X-Original-URL", "X-Rewrite-URL", "X-Custom-IP-Authorization",
-            "X-Forwarded-Host", "X-Host", "X-Remote-Addr",
-            "Content-Type", "Accept", "Authorization",
+            "User-Agent",
+            "X-Forwarded-For",
+            "X-Real-IP",
+            "X-Original-URL",
+            "X-Rewrite-URL",
+            "X-Custom-IP-Authorization",
+            "X-Forwarded-Host",
+            "X-Host",
+            "X-Remote-Addr",
+            "Content-Type",
+            "Accept",
+            "Authorization",
         ]
 
         # Payloads for header fuzzing
@@ -245,20 +299,21 @@ class FuzzScanner:
                     if self._detect_fuzz_issue(response, payload, evidence):
                         evidence.confidence = 0.6
                         evidence.payload = payload
-                        findings.append(Finding(
-                            title=f"Fuzzing issue in header '{header_name}'",
-                            severity=Severity.MEDIUM,
-                            evidence=evidence,
-                            description=(
-                                f"Fuzzing header '{header_name}' with payload "
-                                f"caused an unexpected response."
-                            ),
-                            remediation="Validate and sanitize all header values.",
-                            cwe="CWE-20",
-                            owasp="A03:2021 - Injection",
-                            scanner="fuzz",
-                            tags=["fuzzing", "header-injection"],
-                        ))
+                        findings.append(
+                            Finding(
+                                title=f"Fuzzing issue in header '{header_name}'",
+                                severity=Severity.MEDIUM,
+                                evidence=evidence,
+                                description=(
+                                    f"Fuzzing header '{header_name}' with payload " f"caused an unexpected response."
+                                ),
+                                remediation="Validate and sanitize all header values.",
+                                cwe="CWE-20",
+                                owasp="A03:2021 - Injection",
+                                scanner="fuzz",
+                                tags=["fuzzing", "header-injection"],
+                            )
+                        )
                         break  # One finding per header
                 except Exception:
                     continue
@@ -271,8 +326,15 @@ class FuzzScanner:
 
         # Cookie names to fuzz
         cookie_names = [
-            "session_id", "token", "user_id", "role", "admin",
-            "debug", "test", "language", "theme",
+            "session_id",
+            "token",
+            "user_id",
+            "role",
+            "admin",
+            "debug",
+            "test",
+            "language",
+            "theme",
         ]
 
         # Payloads for cookie fuzzing
@@ -297,20 +359,21 @@ class FuzzScanner:
                     if self._detect_fuzz_issue(response, payload, evidence):
                         evidence.confidence = 0.6
                         evidence.payload = f"{cookie_name}={payload}"
-                        findings.append(Finding(
-                            title=f"Fuzzing issue in cookie '{cookie_name}'",
-                            severity=Severity.MEDIUM,
-                            evidence=evidence,
-                            description=(
-                                f"Fuzzing cookie '{cookie_name}' with payload "
-                                f"caused an unexpected response."
-                            ),
-                            remediation="Validate and sanitize all cookie values.",
-                            cwe="CWE-20",
-                            owasp="A03:2021 - Injection",
-                            scanner="fuzz",
-                            tags=["fuzzing", "cookie-injection"],
-                        ))
+                        findings.append(
+                            Finding(
+                                title=f"Fuzzing issue in cookie '{cookie_name}'",
+                                severity=Severity.MEDIUM,
+                                evidence=evidence,
+                                description=(
+                                    f"Fuzzing cookie '{cookie_name}' with payload " f"caused an unexpected response."
+                                ),
+                                remediation="Validate and sanitize all cookie values.",
+                                cwe="CWE-20",
+                                owasp="A03:2021 - Injection",
+                                scanner="fuzz",
+                                tags=["fuzzing", "cookie-injection"],
+                            )
+                        )
                         break  # One finding per cookie
                 except Exception:
                     continue
@@ -341,10 +404,14 @@ class FuzzScanner:
             try:
                 # Build multipart form-data manually
                 body = (
-                    f"------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n"
-                    f'Content-Disposition: form-data; name="file"; filename="{filename}"\r\n'
-                    f"Content-Type: application/octet-stream\r\n\r\n"
-                ).encode() + content + b"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n"
+                    (
+                        f"------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n"
+                        f'Content-Disposition: form-data; name="file"; filename="{filename}"\r\n'
+                        f"Content-Type: application/octet-stream\r\n\r\n"
+                    ).encode()
+                    + content
+                    + b"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n"
+                )
 
                 response, evidence = await self.client.post(
                     endpoint,
@@ -356,20 +423,21 @@ class FuzzScanner:
                 if self._detect_fuzz_issue(response, filename, evidence):
                     evidence.confidence = 0.5
                     evidence.payload = f"filename={filename}"
-                    findings.append(Finding(
-                        title=f"Fuzzing issue in multipart upload: {filename}",
-                        severity=Severity.MEDIUM,
-                        evidence=evidence,
-                        description=(
-                            f"Multipart upload with filename '{filename}' "
-                            f"caused an unexpected response."
-                        ),
-                        remediation="Validate and sanitize file uploads.",
-                        cwe="CWE-20",
-                        owasp="A03:2021 - Injection",
-                        scanner="fuzz",
-                        tags=["fuzzing", "multipart", "file-upload"],
-                    ))
+                    findings.append(
+                        Finding(
+                            title=f"Fuzzing issue in multipart upload: {filename}",
+                            severity=Severity.MEDIUM,
+                            evidence=evidence,
+                            description=(
+                                f"Multipart upload with filename '{filename}' " f"caused an unexpected response."
+                            ),
+                            remediation="Validate and sanitize file uploads.",
+                            cwe="CWE-20",
+                            owasp="A03:2021 - Injection",
+                            scanner="fuzz",
+                            tags=["fuzzing", "multipart", "file-upload"],
+                        )
+                    )
                     break  # One finding for multipart
             except Exception:
                 continue

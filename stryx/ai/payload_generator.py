@@ -122,9 +122,7 @@ class PayloadGenerator:
         # Try AI generation
         if self.ai_provider:
             try:
-                payloads = await self._generate_with_ai(
-                    category, framework, endpoint, waf, previous_payload, count
-                )
+                payloads = await self._generate_with_ai(category, framework, endpoint, waf, previous_payload, count)
                 if payloads:
                     self._cache[cache_key] = payloads
                     return payloads

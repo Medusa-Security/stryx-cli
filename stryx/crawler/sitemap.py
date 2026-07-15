@@ -24,19 +24,21 @@ async def discover_sitemap(target_url: str) -> list[Endpoint]:
         if response.status_code == 200:
             text = response.text
             # Extract paths from Disallow and Allow directives
-            paths = re.findall(r'(?:Disallow|Allow):\s*(.+)', text)
+            paths = re.findall(r"(?:Disallow|Allow):\s*(.+)", text)
             for path in paths:
                 path = path.strip()
                 if path and path != "/":
-                    endpoints.append(Endpoint(
-                        path=f"{target_url}{path}",
-                        method="GET",
-                        source="robots.txt",
-                        confidence=0.8,
-                    ))
+                    endpoints.append(
+                        Endpoint(
+                            path=f"{target_url}{path}",
+                            method="GET",
+                            source="robots.txt",
+                            confidence=0.8,
+                        )
+                    )
 
             # Extract sitemap URLs
-            sitemap_urls = re.findall(r'Sitemap:\s*(.+)', text)
+            sitemap_urls = re.findall(r"Sitemap:\s*(.+)", text)
             for sitemap_url in sitemap_urls:
                 sitemap_url = sitemap_url.strip()
                 sitemap_endpoints = await _parse_sitemap(client, sitemap_url)
@@ -70,25 +72,25 @@ async def _parse_sitemap(client: HttpClient, sitemap_url: str) -> list[Endpoint]
     return []
 
 
-async def _parse_sitemap_content(
-    client: HttpClient, content: str, source_url: str
-) -> list[Endpoint]:
+async def _parse_sitemap_content(client: HttpClient, content: str, source_url: str) -> list[Endpoint]:
     """Parse sitemap XML content for URLs."""
     endpoints: list[Endpoint] = []
 
     # Simple XML URL extraction
-    urls = re.findall(r'<loc>(.*?)</loc>', content)
+    urls = re.findall(r"<loc>(.*?)</loc>", content)
     target_host = urlparse(source_url).hostname
 
     for url in urls:
         parsed = urlparse(url)
         if parsed.hostname == target_host or not parsed.hostname:
             path = parsed.path or "/"
-            endpoints.append(Endpoint(
-                path=f"{parsed.scheme}://{parsed.netloc}{path}",
-                method="GET",
-                source="sitemap",
-                confidence=0.7,
-            ))
+            endpoints.append(
+                Endpoint(
+                    path=f"{parsed.scheme}://{parsed.netloc}{path}",
+                    method="GET",
+                    source="sitemap",
+                    confidence=0.7,
+                )
+            )
 
     return endpoints

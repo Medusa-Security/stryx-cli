@@ -33,15 +33,9 @@ _LINK_PATTERNS = [
 ]
 
 # Patterns to extract form inputs
-_FORM_INPUT_PATTERN = re.compile(
-    r'<input\s+[^>]*name=["\']([^"\']+)["\']', re.I
-)
-_FORM_SELECT_PATTERN = re.compile(
-    r'<select\s+[^>]*name=["\']([^"\']+)["\']', re.I
-)
-_FORM_TEXTAREA_PATTERN = re.compile(
-    r'<textarea\s+[^>]*name=["\']([^"\']+)["\']', re.I
-)
+_FORM_INPUT_PATTERN = re.compile(r'<input\s+[^>]*name=["\']([^"\']+)["\']', re.I)
+_FORM_SELECT_PATTERN = re.compile(r'<select\s+[^>]*name=["\']([^"\']+)["\']', re.I)
+_FORM_TEXTAREA_PATTERN = re.compile(r'<textarea\s+[^>]*name=["\']([^"\']+)["\']', re.I)
 
 # Patterns to extract API-like paths from JavaScript
 _JS_API_PATTERNS = [
@@ -53,15 +47,34 @@ _JS_API_PATTERNS = [
 
 # File extensions to skip (not HTML)
 _SKIP_EXTENSIONS = {
-    '.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico',
-    '.woff', '.woff2', '.ttf', '.eot', '.map', '.mp4', '.webm',
-    '.pdf', '.zip', '.tar', '.gz',
+    ".css",
+    ".js",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".svg",
+    ".ico",
+    ".woff",
+    ".woff2",
+    ".ttf",
+    ".eot",
+    ".map",
+    ".mp4",
+    ".webm",
+    ".pdf",
+    ".zip",
+    ".tar",
+    ".gz",
 }
 
 # Common ignored paths
 _IGNORED_PATHS = {
-    '/favicon.ico', '/robots.txt', '/sitemap.xml',
-    '/apple-touch-icon.png', '/manifest.json',
+    "/favicon.ico",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/apple-touch-icon.png",
+    "/manifest.json",
 }
 
 
@@ -142,12 +155,14 @@ class HTMLCrawler:
             body = response.text
 
             # Register this URL as an endpoint
-            self.endpoints.append(Endpoint(
-                path=url,
-                method="GET",
-                source="html_crawler",
-                confidence=0.9,
-            ))
+            self.endpoints.append(
+                Endpoint(
+                    path=url,
+                    method="GET",
+                    source="html_crawler",
+                    confidence=0.9,
+                )
+            )
 
             # Extract and follow links
             links = self._extract_links(body, url)
@@ -157,23 +172,27 @@ class HTMLCrawler:
             # Extract form actions and inputs
             forms = self._extract_forms(body, url)
             for form_url, params in forms:
-                self.endpoints.append(Endpoint(
-                    path=form_url,
-                    method="POST",
-                    source="html_form",
-                    confidence=0.85,
-                    params=params,
-                ))
+                self.endpoints.append(
+                    Endpoint(
+                        path=form_url,
+                        method="POST",
+                        source="html_form",
+                        confidence=0.85,
+                        params=params,
+                    )
+                )
 
             # Extract API endpoints from inline JavaScript
             js_endpoints = self._extract_js_endpoints(body, url)
             for js_url in js_endpoints:
-                self.endpoints.append(Endpoint(
-                    path=js_url,
-                    method="GET",
-                    source="html_js_inline",
-                    confidence=0.7,
-                ))
+                self.endpoints.append(
+                    Endpoint(
+                        path=js_url,
+                        method="GET",
+                        source="html_js_inline",
+                        confidence=0.7,
+                    )
+                )
 
         except Exception as e:
             logger.debug(f"Failed to crawl {url}: {e}")
@@ -220,7 +239,7 @@ class HTMLCrawler:
         """Extract API endpoints from inline JavaScript."""
         endpoints = set()
         # Find <script> blocks with inline code
-        script_pattern = re.compile(r'<script[^>]*>(.*?)</script>', re.I | re.S)
+        script_pattern = re.compile(r"<script[^>]*>(.*?)</script>", re.I | re.S)
         for match in script_pattern.finditer(html):
             script_content = match.group(1)
             if not script_content.strip():

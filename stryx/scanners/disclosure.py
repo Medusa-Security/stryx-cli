@@ -74,25 +74,28 @@ SECRET_PATTERNS = [
     (re.compile(r'(?i)(?:secret[_-]?key|secretkey)\s*[=:]\s*["\']?([a-zA-Z0-9_\-]{20,})'), "Secret key detected"),
     (re.compile(r'(?i)(?:password|passwd|pwd)\s*[=:]\s*["\']([^"\']{8,})'), "Password detected"),
     (re.compile(r'(?i)(?:aws[_-]?access[_-]?key[_-]?id)\s*[=:]\s*["\']?(AKIA[0-9A-Z]{16})'), "AWS access key detected"),
-    (re.compile(r'(?i)(?:aws[_-]?secret[_-]?access[_-]?key)\s*[=:]\s*["\']?([a-zA-Z0-9/+=]{40})'), "AWS secret key detected"),
-    (re.compile(r'(?i)(?:ghp|gho|ghu|ghs|ghr)_[a-zA-Z0-9]{36}'), "GitHub token detected"),
-    (re.compile(r'(?i)sk-[a-zA-Z0-9]{20,}'), "OpenAI/Stripe API key detected"),
-    (re.compile(r'(?i)sk_live_[a-zA-Z0-9]{20,}'), "Stripe live key detected"),
-    (re.compile(r'(?i)sk_test_[a-zA-Z0-9]{20,}'), "Stripe test key detected"),
+    (
+        re.compile(r'(?i)(?:aws[_-]?secret[_-]?access[_-]?key)\s*[=:]\s*["\']?([a-zA-Z0-9/+=]{40})'),
+        "AWS secret key detected",
+    ),
+    (re.compile(r"(?i)(?:ghp|gho|ghu|ghs|ghr)_[a-zA-Z0-9]{36}"), "GitHub token detected"),
+    (re.compile(r"(?i)sk-[a-zA-Z0-9]{20,}"), "OpenAI/Stripe API key detected"),
+    (re.compile(r"(?i)sk_live_[a-zA-Z0-9]{20,}"), "Stripe live key detected"),
+    (re.compile(r"(?i)sk_test_[a-zA-Z0-9]{20,}"), "Stripe test key detected"),
     (re.compile(r'(?i)(?:jdbc|mysql|postgres|mongodb)://[^\s"\']+'), "Database connection string detected"),
-    (re.compile(r'(?i)-----BEGIN (?:RSA |EC )?PRIVATE KEY-----'), "Private key detected"),
+    (re.compile(r"(?i)-----BEGIN (?:RSA |EC )?PRIVATE KEY-----"), "Private key detected"),
     (re.compile(r'(?i)(?:jwt[_-]?secret)\s*[=:]\s*["\']?([a-zA-Z0-9_\-]{16,})'), "JWT secret detected"),
 ]
 
 # Stack trace indicators
 STACK_TRACE_PATTERNS = [
-    re.compile(r'(?i)traceback \(most recent call last\)', re.MULTILINE),
-    re.compile(r'(?i)at\s+[\w.$]+\([\w.]+:\d+\)', re.MULTILINE),  # Java/.NET stack traces
+    re.compile(r"(?i)traceback \(most recent call last\)", re.MULTILINE),
+    re.compile(r"(?i)at\s+[\w.$]+\([\w.]+:\d+\)", re.MULTILINE),  # Java/.NET stack traces
     re.compile(r'(?i)File "[^"]+", line \d+', re.MULTILINE),  # Python stack traces
-    re.compile(r'(?i)Exception in thread', re.MULTILINE),
-    re.compile(r'(?i)Uncaught exception', re.MULTILINE),
-    re.compile(r'(?i)Stack Trace:', re.MULTILINE),
-    re.compile(r'(?i)Internal Server Error.*<pre.*>', re.DOTALL),
+    re.compile(r"(?i)Exception in thread", re.MULTILINE),
+    re.compile(r"(?i)Uncaught exception", re.MULTILINE),
+    re.compile(r"(?i)Stack Trace:", re.MULTILINE),
+    re.compile(r"(?i)Internal Server Error.*<pre.*>", re.DOTALL),
 ]
 
 
@@ -147,29 +150,51 @@ class DisclosureScanner:
 
                     # Determine severity based on path
                     severity = Severity.MEDIUM
-                    if path in ("/.env", "/.git/HEAD", "/.git/config", "/backup.sql",
-                                "/dump.sql", "/db.sql", "/web.config", "/wp-config.php.bak"):
+                    if path in (
+                        "/.env",
+                        "/.git/HEAD",
+                        "/.git/config",
+                        "/backup.sql",
+                        "/dump.sql",
+                        "/db.sql",
+                        "/web.config",
+                        "/wp-config.php.bak",
+                    ):
                         severity = Severity.CRITICAL
-                    elif path in ("/actuator/env", "/actuator/configprops", "/phpinfo.php",
-                                  "/info.php", "/trace.axd", "/elmah.axd"):
+                    elif path in (
+                        "/actuator/env",
+                        "/actuator/configprops",
+                        "/phpinfo.php",
+                        "/info.php",
+                        "/trace.axd",
+                        "/elmah.axd",
+                    ):
                         severity = Severity.HIGH
-                    elif path in ("/server-info", "/server-status", "/debug",
-                                  "/swagger-ui.html", "/swagger.json", "/api-docs"):
+                    elif path in (
+                        "/server-info",
+                        "/server-status",
+                        "/debug",
+                        "/swagger-ui.html",
+                        "/swagger.json",
+                        "/api-docs",
+                    ):
                         severity = Severity.MEDIUM
 
                     evidence.confidence = 0.9
-                    findings.append(Finding(
-                        title=f"Sensitive path exposed: {path}",
-                        severity=severity,
-                        evidence=evidence,
-                        description=f"{description}. The path {path} is accessible and returns data.",
-                        remediation=f"Restrict access to {path} or remove it from production.",
-                        cwe="CWE-200",
-                        owasp="A01:2021 - Broken Access Control",
-                        endpoint=url,
-                        scanner="disclosure",
-                        tags=["information-disclosure", "sensitive-path"],
-                    ))
+                    findings.append(
+                        Finding(
+                            title=f"Sensitive path exposed: {path}",
+                            severity=severity,
+                            evidence=evidence,
+                            description=f"{description}. The path {path} is accessible and returns data.",
+                            remediation=f"Restrict access to {path} or remove it from production.",
+                            cwe="CWE-200",
+                            owasp="A01:2021 - Broken Access Control",
+                            endpoint=url,
+                            scanner="disclosure",
+                            tags=["information-disclosure", "sensitive-path"],
+                        )
+                    )
 
             except Exception:
                 continue
@@ -197,25 +222,27 @@ class DisclosureScanner:
                         elif header_name in ("Server", "X-Powered-By"):
                             severity = Severity.INFO
 
-                        findings.append(Finding(
-                            title=f"Information leak via {header_name} header",
-                            severity=severity,
-                            evidence=Evidence(
-                                request_method="GET",
-                                request_url=endpoint,
-                                response_status=response.status_code,
-                                response_headers=dict(response.headers),
-                                response_body=f"{header_name}: {value}",
-                                confidence=0.95,
-                            ),
-                            description=f"{description}: {header_name}: {value}",
-                            remediation=f"Remove or obfuscate the {header_name} header.",
-                            cwe="CWE-200",
-                            owasp="A05:2021 - Security Misconfiguration",
-                            endpoint=endpoint,
-                            scanner="disclosure",
-                            tags=["information-disclosure", "header-leak"],
-                        ))
+                        findings.append(
+                            Finding(
+                                title=f"Information leak via {header_name} header",
+                                severity=severity,
+                                evidence=Evidence(
+                                    request_method="GET",
+                                    request_url=endpoint,
+                                    response_status=response.status_code,
+                                    response_headers=dict(response.headers),
+                                    response_body=f"{header_name}: {value}",
+                                    confidence=0.95,
+                                ),
+                                description=f"{description}: {header_name}: {value}",
+                                remediation=f"Remove or obfuscate the {header_name} header.",
+                                cwe="CWE-200",
+                                owasp="A05:2021 - Security Misconfiguration",
+                                endpoint=endpoint,
+                                scanner="disclosure",
+                                tags=["information-disclosure", "header-leak"],
+                            )
+                        )
 
             except Exception:
                 continue
@@ -252,32 +279,34 @@ class DisclosureScanner:
                     # Check for stack traces
                     for pattern in STACK_TRACE_PATTERNS:
                         if pattern.search(response.text):
-                            findings.append(Finding(
-                                title="Stack trace / error disclosure",
-                                severity=Severity.MEDIUM,
-                                evidence=Evidence(
-                                    request_method="GET",
-                                    request_url=test_url,
-                                    response_status=response.status_code,
-                                    response_body=response.text[:1000],
-                                    response_snippet=response.text[:500],
-                                    payload=trigger,
-                                    confidence=0.85,
-                                ),
-                                description=(
-                                    "The application returns stack traces or detailed error messages "
-                                    "when triggered with malicious input. This leaks internal implementation details."
-                                ),
-                                remediation=(
-                                    "Implement custom error pages. Disable debug mode in production. "
-                                    "Use structured logging instead of exposing errors to users."
-                                ),
-                                cwe="CWE-209",
-                                owasp="A05:2021 - Security Misconfiguration",
-                                endpoint=endpoint,
-                                scanner="disclosure",
-                                tags=["information-disclosure", "stack-trace"],
-                            ))
+                            findings.append(
+                                Finding(
+                                    title="Stack trace / error disclosure",
+                                    severity=Severity.MEDIUM,
+                                    evidence=Evidence(
+                                        request_method="GET",
+                                        request_url=test_url,
+                                        response_status=response.status_code,
+                                        response_body=response.text[:1000],
+                                        response_snippet=response.text[:500],
+                                        payload=trigger,
+                                        confidence=0.85,
+                                    ),
+                                    description=(
+                                        "The application returns stack traces or detailed error messages "
+                                        "when triggered with malicious input. This leaks internal implementation details."
+                                    ),
+                                    remediation=(
+                                        "Implement custom error pages. Disable debug mode in production. "
+                                        "Use structured logging instead of exposing errors to users."
+                                    ),
+                                    cwe="CWE-209",
+                                    owasp="A05:2021 - Security Misconfiguration",
+                                    endpoint=endpoint,
+                                    scanner="disclosure",
+                                    tags=["information-disclosure", "stack-trace"],
+                                )
+                            )
                             break  # One finding per endpoint
 
                 except Exception:
@@ -306,32 +335,33 @@ class DisclosureScanner:
                         # Mask the secret in evidence
                         masked = match[:4] + "*" * (len(match) - 8) + match[-4:] if len(match) > 8 else "****"
 
-                        findings.append(Finding(
-                            title=f"Secret/credential exposed: {description}",
-                            severity=Severity.HIGH,
-                            evidence=Evidence(
-                                request_method="GET",
-                                request_url=endpoint,
-                                response_status=response.status_code,
-                                response_body=response.text[:500],
-                                response_snippet=f"Pattern matched: {masked}",
-                                confidence=0.8,
-                            ),
-                            description=(
-                                f"{description} found in HTTP response. "
-                                f"The value appears to be: {masked}"
-                            ),
-                            remediation=(
-                                "Remove secrets from code and responses. "
-                                "Use environment variables or secret management services. "
-                                "Rotate the exposed credentials immediately."
-                            ),
-                            cwe="CWE-798",
-                            owasp="A07:2021 - Identification and Authentication Failures",
-                            endpoint=endpoint,
-                            scanner="disclosure",
-                            tags=["information-disclosure", "secret-leak"],
-                        ))
+                        findings.append(
+                            Finding(
+                                title=f"Secret/credential exposed: {description}",
+                                severity=Severity.HIGH,
+                                evidence=Evidence(
+                                    request_method="GET",
+                                    request_url=endpoint,
+                                    response_status=response.status_code,
+                                    response_body=response.text[:500],
+                                    response_snippet=f"Pattern matched: {masked}",
+                                    confidence=0.8,
+                                ),
+                                description=(
+                                    f"{description} found in HTTP response. " f"The value appears to be: {masked}"
+                                ),
+                                remediation=(
+                                    "Remove secrets from code and responses. "
+                                    "Use environment variables or secret management services. "
+                                    "Rotate the exposed credentials immediately."
+                                ),
+                                cwe="CWE-798",
+                                owasp="A07:2021 - Identification and Authentication Failures",
+                                endpoint=endpoint,
+                                scanner="disclosure",
+                                tags=["information-disclosure", "secret-leak"],
+                            )
+                        )
 
             except Exception:
                 continue

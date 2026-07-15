@@ -212,9 +212,7 @@ class InjectionScanner:
 
             for endpoint in endpoints:
                 try:
-                    result = await self._test_injection(
-                        endpoint, category, name, payloads
-                    )
+                    result = await self._test_injection(endpoint, category, name, payloads)
                     if result:
                         findings.append(result)
                 except Exception as e:
@@ -251,8 +249,7 @@ class InjectionScanner:
                         test_params = dict(params)
                         test_params[param_name] = [payload]
                         test_url = (
-                            f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
-                            f"?{urlencode(test_params, doseq=True)}"
+                            f"{parsed.scheme}://{parsed.netloc}{parsed.path}" f"?{urlencode(test_params, doseq=True)}"
                         )
 
                         response, evidence = await self.client.get(test_url)
@@ -270,9 +267,8 @@ class InjectionScanner:
                                     f"caused a detectable response indicating {name}."
                                 ),
                                 remediation=(
-                                f"Sanitize and validate '{param_name}' parameter. "
-                                f"Use parameterized queries."
-                            ),
+                                    f"Sanitize and validate '{param_name}' parameter. " f"Use parameterized queries."
+                                ),
                                 cwe=self._get_cwe(category),
                                 owasp="A03:2021 - Injection",
                                 scanner="injection",
@@ -312,9 +308,7 @@ class InjectionScanner:
 
         return None
 
-    async def _test_header_injection(
-        self, endpoint: str, name: str, payloads: list[str]
-    ) -> Finding | None:
+    async def _test_header_injection(self, endpoint: str, name: str, payloads: list[str]) -> Finding | None:
         """Test for HTTP header injection."""
         # Header injection payloads are typically CRLF sequences
         for payload in payloads[:10]:
@@ -351,9 +345,7 @@ class InjectionScanner:
 
         return None
 
-    async def _test_open_redirect(
-        self, endpoint: str, name: str, payloads: list[str]
-    ) -> Finding | None:
+    async def _test_open_redirect(self, endpoint: str, name: str, payloads: list[str]) -> Finding | None:
         """Test for open redirect vulnerabilities."""
         parsed = urlparse(endpoint)
         base = f"{parsed.scheme}://{parsed.netloc}"
@@ -409,81 +401,105 @@ class InjectionScanner:
         # Add dialect-specific SQL injection payloads
         if category == "sqli":
             if sql_dialect == "postgres":
-                adapted.extend([
-                    "1; SELECT pg_sleep(5)--",
-                    "1' AND pg_sleep(5)--",
-                    "1; WAITFOR DELAY '0:0:5'--",
-                ])
+                adapted.extend(
+                    [
+                        "1; SELECT pg_sleep(5)--",
+                        "1' AND pg_sleep(5)--",
+                        "1; WAITFOR DELAY '0:0:5'--",
+                    ]
+                )
             elif sql_dialect == "mysql":
-                adapted.extend([
-                    "1; SLEEP(5)--",
-                    "1' AND SLEEP(5)--",
-                    "1; SELECT BENCHMARK(10000000,SHA1('test'))--",
-                ])
+                adapted.extend(
+                    [
+                        "1; SLEEP(5)--",
+                        "1' AND SLEEP(5)--",
+                        "1; SELECT BENCHMARK(10000000,SHA1('test'))--",
+                    ]
+                )
             elif sql_dialect == "mssql":
-                adapted.extend([
-                    "1; WAITFOR DELAY '0:0:5'--",
-                    "1'; WAITFOR DELAY '0:0:5'--",
-                ])
+                adapted.extend(
+                    [
+                        "1; WAITFOR DELAY '0:0:5'--",
+                        "1'; WAITFOR DELAY '0:0:5'--",
+                    ]
+                )
 
         # Add framework-specific SSTI payloads
         if category == "ssti":
             fw_name = fw_data.get("name", "").lower()
             if "flask" in fw_name or "django" in fw_name:
-                adapted.extend([
-                    "{{config.__class__.__init__.__globals__['os'].popen('id').read()}}",
-                    "{{request.application.__self__._get_data_for_json.__globals__['os'].popen('id').read()}}",
-                ])
+                adapted.extend(
+                    [
+                        "{{config.__class__.__init__.__globals__['os'].popen('id').read()}}",
+                        "{{request.application.__self__._get_data_for_json.__globals__['os'].popen('id').read()}}",
+                    ]
+                )
             elif "express" in fw_name or "node" in fw_name:
-                adapted.extend([
-                    "${7*7}",
-                    "#{7*7}",
-                ])
+                adapted.extend(
+                    [
+                        "${7*7}",
+                        "#{7*7}",
+                    ]
+                )
             elif "spring" in fw_name or "java" in fw_name:
-                adapted.extend([
-                    "${7*7}",
-                    "<%= 7*7 %>",
-                ])
+                adapted.extend(
+                    [
+                        "${7*7}",
+                        "<%= 7*7 %>",
+                    ]
+                )
             elif "laravel" in fw_name or "php" in fw_name:
-                adapted.extend([
-                    "{{7*7}}",
-                    "${7*7}",
-                ])
+                adapted.extend(
+                    [
+                        "{{7*7}}",
+                        "${7*7}",
+                    ]
+                )
 
         # Add framework-specific XSS payloads (Jinja2/Twig/Django templates)
         if category == "xss":
             fw_name = fw_data.get("name", "").lower()
             if "flask" in fw_name:
-                adapted.extend([
-                    "{{ '<script>alert(1)</script>' }}",
-                    "{{ '<img src=x onerror=alert(1)>' }}",
-                ])
+                adapted.extend(
+                    [
+                        "{{ '<script>alert(1)</script>' }}",
+                        "{{ '<img src=x onerror=alert(1)>' }}",
+                    ]
+                )
             elif "django" in fw_name:
-                adapted.extend([
-                    "{{ '<script>alert(1)</script>'|safe }}",
-                ])
+                adapted.extend(
+                    [
+                        "{{ '<script>alert(1)</script>'|safe }}",
+                    ]
+                )
             elif "express" in fw_name:
-                adapted.extend([
-                    "<%= '<script>alert(1)</script>' %>",
-                    "<%- '<script>alert(1)</script>' %>",
-                ])
+                adapted.extend(
+                    [
+                        "<%= '<script>alert(1)</script>' %>",
+                        "<%- '<script>alert(1)</script>' %>",
+                    ]
+                )
 
         # Add framework-specific command injection payloads
         if category == "cmdi":
             fw_name = fw_data.get("name", "").lower()
             if "linux" in fw_name or "python" in fw_name or "ruby" in fw_name:
-                adapted.extend([
-                    "`id`",
-                    "$(id)",
-                    "; id",
-                    "| id",
-                ])
+                adapted.extend(
+                    [
+                        "`id`",
+                        "$(id)",
+                        "; id",
+                        "| id",
+                    ]
+                )
             elif "windows" in fw_name or ".net" in fw_name:
-                adapted.extend([
-                    "& whoami",
-                    "| whoami",
-                    "&& whoami",
-                ])
+                adapted.extend(
+                    [
+                        "& whoami",
+                        "| whoami",
+                        "&& whoami",
+                    ]
+                )
 
         return adapted
 

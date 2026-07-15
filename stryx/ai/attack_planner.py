@@ -82,16 +82,14 @@ class AttackPlanner:
 
         return chains
 
-    async def _generate_remediation(
-        self, findings: list[Finding], provider: AIProvider
-    ) -> None:
+    async def _generate_remediation(self, findings: list[Finding], provider: AIProvider) -> None:
         """Generate AI-powered remediation for each finding."""
         logger.info(f"Generating remediation for {len(findings)} findings")
 
         # Process findings in batches to avoid token limits
         batch_size = 10
         for i in range(0, len(findings), batch_size):
-            batch = findings[i:i + batch_size]
+            batch = findings[i : i + batch_size]
 
             for finding in batch:
                 if finding.remediation:
@@ -128,9 +126,7 @@ class AttackPlanner:
                     logger.debug(f"Failed to generate remediation for {finding.title}: {e}")
                     continue
 
-    async def _ai_plan_chains(
-        self, findings: list[Finding], provider: AIProvider
-    ) -> list[AttackChain]:
+    async def _ai_plan_chains(self, findings: list[Finding], provider: AIProvider) -> list[AttackChain]:
         """Use AI to generate attack chains."""
         findings_data = [f.to_dict() for f in findings]
         findings_text = format_findings_for_prompt(findings_data)
@@ -168,9 +164,7 @@ class AttackPlanner:
                 for step_data in chain_data.get("steps", []):
                     if isinstance(step_data, dict):
                         # Find matching finding
-                        matching_finding = self._find_matching_finding(
-                            findings, step_data.get("title", "")
-                        )
+                        matching_finding = self._find_matching_finding(findings, step_data.get("title", ""))
                         if matching_finding:
                             chain.add_step(
                                 matching_finding,
@@ -187,9 +181,7 @@ class AttackPlanner:
             logger.warning(f"Failed to parse AI response: {e}")
             return []
 
-    def _find_matching_finding(
-        self, findings: list[Finding], title: str
-    ) -> Finding | None:
+    def _find_matching_finding(self, findings: list[Finding], title: str) -> Finding | None:
         """Find a finding matching the given title."""
         title_lower = title.lower()
         for f in findings:

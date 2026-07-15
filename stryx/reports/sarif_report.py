@@ -107,6 +107,7 @@ class SarifReport:
 
         # Use scanner + title hash
         import hashlib
+
         title_hash = hashlib.md5(finding.title.encode()).hexdigest()[:8]
         return f"stryx-{finding.scanner}-{title_hash}"
 
@@ -123,7 +124,7 @@ class SarifReport:
             },
             "helpUri": "",
             "properties": {
-                "tags": finding.tags if hasattr(finding, 'tags') and finding.tags else [],
+                "tags": finding.tags if hasattr(finding, "tags") and finding.tags else [],
             },
         }
 
