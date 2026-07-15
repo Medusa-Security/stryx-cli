@@ -36,9 +36,11 @@ def mock_server():
             "127.0.0.1",
             "--port",
             str(port),
+            "--log-level",
+            "warning",
         ],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
     )
     # Wait for server to start
     time.sleep(2)
