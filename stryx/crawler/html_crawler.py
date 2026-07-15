@@ -8,7 +8,7 @@ Respects crawl_depth and deduplicates URLs.
 from __future__ import annotations
 
 import re
-from urllib.parse import urljoin, urlparse, urldefrag
+from urllib.parse import urldefrag, urljoin, urlparse
 
 from stryx.crawler.discovery import Endpoint
 from stryx.utils.http_client import HttpClient

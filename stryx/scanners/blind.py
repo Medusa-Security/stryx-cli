@@ -6,7 +6,6 @@ and blind SSRF through response timing analysis and content comparison.
 
 from __future__ import annotations
 
-import asyncio
 import time
 from dataclasses import dataclass
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
