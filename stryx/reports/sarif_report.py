@@ -7,10 +7,10 @@ compatible with GitHub Security tab, Azure DevOps, and other SARIF consumers.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any
 
-from stryx.utils.evidence import Finding, Severity
+from stryx.utils.evidence import Finding
 from stryx.utils.logging import get_logger
 
 logger = get_logger("reports.sarif")
@@ -36,7 +36,7 @@ class SarifReport:
     ):
         self.target_url = target_url
         self.findings = findings
-        self.scan_time = scan_time or datetime.now(timezone.utc).isoformat()
+        self.scan_time = scan_time or datetime.now(datetime.UTC).isoformat()
 
     def generate(self) -> dict[str, Any]:
         """Generate SARIF report as a dictionary."""
@@ -132,7 +132,7 @@ class SarifReport:
         if finding.cwe:
             cwe_num = finding.cwe.replace("CWE-", "")
             rule["helpUri"] = f"https://cwe.mitre.org/data/definitions/{cwe_num}.html"
-            rule["properties"]["tags"].append(f"security")
+            rule["properties"]["tags"].append("security")
             rule["properties"]["tags"].append(f"external/cwe/cwe-{cwe_num}")
 
         # Add OWASP reference

@@ -7,12 +7,11 @@ that scan results must satisfy.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any
 
 import yaml
 
-from stryx.utils.evidence import Finding, Severity
+from stryx.utils.evidence import Finding
 from stryx.utils.logging import get_logger
 
 logger = get_logger("policy.engine")

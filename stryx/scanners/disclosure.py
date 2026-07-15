@@ -294,7 +294,8 @@ class DisclosureScanner:
                                     ),
                                     description=(
                                         "The application returns stack traces or detailed error messages "
-                                        "when triggered with malicious input. This leaks internal implementation details."
+                                        "when triggered with malicious input. "
+                                        "This leaks internal implementation details."
                                     ),
                                     remediation=(
                                         "Implement custom error pages. Disable debug mode in production. "

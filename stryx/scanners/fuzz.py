@@ -221,7 +221,10 @@ class FuzzScanner:
                             title="Potential prototype pollution or nested JSON issue",
                             severity=Severity.MEDIUM,
                             evidence=evidence,
-                            description="Deeply nested or prototype-polluting JSON payload caused an unexpected response.",
+                            description=(
+                                "Deeply nested or prototype-polluting JSON payload caused an "
+                                "unexpected response."
+                            ),
                             remediation="Validate JSON structure depth and reject prototype-polluting keys.",
                             cwe="CWE-1321",
                             owasp="A03:2021 - Injection",

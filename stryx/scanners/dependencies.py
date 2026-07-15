@@ -167,7 +167,9 @@ class DependencyScanner:
                                         request_url=js_url,
                                         response_status=200,
                                         response_body=f"Library: {lib_name}, Version: {version}",
-                                        response_snippet=f"CVE: {vuln['cve']}, Description: {vuln.get('description', 'N/A')}",
+                                        response_snippet=(
+                                            f"CVE: {vuln['cve']}, Description: {vuln.get('description', 'N/A')}"
+                                        ),
                                         confidence=0.9,
                                     ),
                                     description=(

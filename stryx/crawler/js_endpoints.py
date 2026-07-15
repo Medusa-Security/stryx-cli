@@ -7,7 +7,7 @@ HTTP methods, and URL patterns. Handles bundled/minified JS.
 from __future__ import annotations
 
 import re
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin
 
 from stryx.crawler.discovery import Endpoint
 from stryx.utils.http_client import HttpClient

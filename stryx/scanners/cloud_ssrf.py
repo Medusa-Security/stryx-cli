@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
-from stryx.utils.evidence import Evidence, Finding, Severity
+from stryx.utils.evidence import Finding, Severity
 from stryx.utils.http_client import HttpClient
 from stryx.utils.logging import get_logger
 

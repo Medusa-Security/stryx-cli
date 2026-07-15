@@ -61,11 +61,12 @@ FALLBACK_PAYLOADS: dict[str, list[str]] = {
 }
 
 
-PAYLOAD_GENERATION_PROMPT = """You are an expert penetration tester. Generate {count} security testing payloads for the following scenario:
+PAYLOAD_GENERATION_PROMPT = """You are an expert penetration tester.
+Generate {count} security testing payloads for the following scenario:
 
 Category: {category}
 Framework: {framework}
-Target endpoint: {endpoint}
+Target endpoint: {endpoint}""
 WAF detected: {waf}
 Previous payload that worked: {previous_payload}
 

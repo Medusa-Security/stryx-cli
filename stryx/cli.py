@@ -13,7 +13,13 @@ import yaml
 from rich.console import Console
 from rich.panel import Panel
 
-from stryx.config.loader import get_effective_config, load_config, save_config
+from stryx.config.loader import (
+    _LOCAL_CONFIG_PATH,
+    _USER_CONFIG_PATH,
+    get_effective_config,
+    load_config,
+    save_config,
+)
 from stryx.config.schema import StryxConfig
 from stryx.orchestrator import Orchestrator
 from stryx.utils.http_client import HttpClient
@@ -546,8 +552,6 @@ def config_show() -> None:
 
     console.print("\n[bold]Current configuration:[/]\n")
     console.print(json.dumps(effective, indent=2))
-
-    from stryx.config.loader import _USER_CONFIG_PATH, _LOCAL_CONFIG_PATH
 
     console.print(f"\n[dim]User config: {_USER_CONFIG_PATH}[/]")
     console.print(f"[dim]Project config: {_LOCAL_CONFIG_PATH}[/]")

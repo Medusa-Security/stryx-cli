@@ -116,7 +116,6 @@ class BlindScanner:
             baseline_response, _ = await self.client.get(endpoint)
             baseline_status = baseline_response.status_code
             baseline_length = len(baseline_response.text)
-            baseline_body = baseline_response.text
         except Exception:
             return findings
 
@@ -218,7 +217,10 @@ class BlindScanner:
                                     request_url=test_url,
                                     response_status=test_response.status_code,
                                     response_body=test_response.text[:500],
-                                    response_snippet=f"Baseline: {baseline_time:.2f}s, Test: {test_time:.2f}s, Delay: {delay:.2f}s",
+                                    response_snippet=(
+                                        f"Baseline: {baseline_time:.2f}s, Test: {test_time:.2f}s, "
+                                        f"Delay: {delay:.2f}s"
+                                    ),
                                     payload=payload.strip(),
                                     confidence=confidence,
                                 ),
@@ -235,7 +237,7 @@ class BlindScanner:
                         )
                         break  # One finding per parameter
 
-                except asyncio.TimeoutError:
+                except TimeoutError:
                     # Timeout itself may indicate successful blind injection
                     findings.append(
                         Finding(

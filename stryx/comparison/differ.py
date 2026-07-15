@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -54,7 +54,7 @@ class ScanDiff:
     def summary(self) -> str:
         """Generate a human-readable summary."""
         lines = [
-            f"📊 Scan Comparison",
+            "📊 Scan Comparison",
             f"Baseline: {self.baseline_file} ({self.baseline_time})",
             f"Current:  {self.current_file} ({self.current_time})",
             "",
@@ -238,7 +238,7 @@ def save_scan_metadata(
     """Save scan metadata alongside the JSON report for future comparison."""
     meta_path = Path(path).with_suffix(".meta.json")
     meta = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(datetime.UTC).isoformat(),
         "target_url": target_url,
         "findings_count": findings_count,
         "tool_version": "0.1.0",
